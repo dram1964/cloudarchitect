@@ -1,1 +1,5 @@
-site_name: My Docs
+site_name: Cloud Architecture notes
+site_url: https://dram1964.github.com/cloudarchitect
+nav: 
+  - Home: index.md
+  - CLI Commands: cli_commands.md
