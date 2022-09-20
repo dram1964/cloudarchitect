@@ -1,5 +1,20 @@
 site_name: Cloud Architecture notes
 site_url: https://dram1964.github.com/cloudarchitect
 nav: 
-  - Home: index.md
-  - CLI Commands: cli_commands.md
+  - 'Home': 'index.md'
+  - 'Azure': 
+    - 'CLI Commands': 'azure/cli_commands.md'
+    - 'Azure AD': 'azure/aad.md'
+    - 'Azure Fundamentals': 'azure/afc.md'
+    - 'App Service': 'azure/app_service.md'
+    - 'App Service Example': 'azure/flask_app_service.md'
+    - 'KQL': 'azure/kusto.md'
+    - 'PostgreSQL': 'azure/postgresql.md'
+    - 'Terraform': 'azure/terraform.md'
+  - 'Devops': 'devops/devops.md'
+  - 'Linux':
+    - 'Commands': 'linux/commands.md'
+  - 'Git':
+    - 'Git Client': 'git/git_commands.md'
+    - 'Github Actions': 'git/github_actions.md'
+  - 'Porter': 'porter.md'
