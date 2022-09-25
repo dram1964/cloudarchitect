@@ -1,0 +1,75 @@
+# Cost Management and SLAs
+
+## Cost Management
+- <a href="https://azure.microsoft.com/pricing/tco/calculator" target="#">TCO Calculator</a>
+    - Define workloads - on-prem infrastructure
+    - Adjust Assumptions - Software Assurance discounts, estimated on-prem costs
+    - View the Report
+- Purchase Azure Services
+    - Enterprise Agreement - commitment to spend a pre-determined amount over a 3 year period
+    - Web Direct - monthly billing by credit card or invoice
+    - Cloud Solution Provider - bills come from CSP
+- Cost Factors
+    - Resource Type - each resource has a billing meter and unit cost. The unit cost multiplied by the usage quantity will give the resource cost. The unit of measure multiplied by the usage quantity will give the actual usage.
+    - Resource Usage - deallocating versus deleting
+    - Subscription Type
+    - Marketplace Resources - prices set by vendor
+    - Location - resources may have different prices in different regions. Network traffic can be reduced by choosing the closest region to your users
+    - Zones - outbound data-transfer pricing based on zones
+    - Dev/Test subscriptions - subscription with special pricing for Dev/Test workloads
+    - Some resources are free - have no billing meter or unit cost:
+        - User account and groups
+        - Resource groups
+        - Virtual Networks
+        - Virtual Network Peering
+        - Network Interfaces
+        - Network Security groups
+        - Availability Sets
+- <a href="https://azure.microsoft.com/pricing/calculator/" target="#">Azure Pricing Calculator</a> allows you to calculate the cost of a solution based on the resources and usage
+- Azure Advisor - identifies unused or underutilised resources
+- Spending Limits
+- Azure Reservations - pre-pay for a resource for discounted pricing
+- Offers - monitor and switch to latest Azure customer and subscription offers
+- Cost Management and Billing - Free service to manage costs and billing
+    - view and download invoices
+    - view payment methods
+    - make payments
+    - perform cost analysis
+    - set alerts
+    - create budgets
+    - receive recommendations
+- Tags - can be used to organise billing data
+- Resize VMs
+- Deallocate VMs out of hours
+- Delete unused resources
+- Prefer PaaS to IaaS services - usually cheaper
+- Azure Hybrid Benefit - Windows Server and SQL Server licences purchased with Software Assurance can be re-used on VMs in Azure
+- a billing zone is a geographical grouping of Azure Regions used to determine billing based on data transfers. Billing applies to both incoming and outgoing data and varies by billing zone. Data transfers between billing zones and regions are billed
+
+## Service Level Agreements
+- Formal agreement between service provider and customer
+- Accessible at <a href="https://azure.microsoft.com/support/legal/sla/" target="#">Service Level Agreements</a>
+- SLA details focus on uptime, but can also include latency
+- Service credits are available if SLAs are not met
+- Claims for service credits must be submitted by the end of the month following the outtage
+- No SLAs for free services
+- SLAs and Downtime:
+    - 99.9% == 43 minutes and 49 seconds
+    - 99.95% == 21 minutes and 54 seconds
+    - 99.99% == 4 minutes and 22 seconds
+    - 99.999% == 26 seconds
+- Multiply the SLAs for each service in your application to calculate the application SLA value
+- Improve SLAs by:
+    - Using services that have an SLA or improve the existing SLA
+    - Adding redundant resources - duplication across regions to create redundancy and reduce overall downtime
+    - Adding availability solutions - availability zones have different schedules for maintenance, and therefore overall downtime decreases
+
+## Preview Features
+- Preview features in Azure do not come with a warranty or SLA
+- Service Lifecycle stages are:
+    - Development - not available to the public
+    - Private Preview - available to selected audience
+    - Public Preview - available to all customers
+    - General Availability - available to all customers
+- <a href="https://preview.portal.azure.com/" target="#">Azure Portal Previewi</a>
+- <a href="https://azure.microsoft.com/updates" target="#">Azure Updates</a>

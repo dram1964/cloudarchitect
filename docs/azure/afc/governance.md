@@ -1,0 +1,232 @@
+# Identity and Governance
+
+## Azure AD
+With Cloud Computing and BYOD, identity is now the primary security boundary. Identity is 
+establish by the exchange of credentials to establish the identity of an agent 
+(authentication). Authorisation is about establishing the levels of access to be granted
+to an authenticated agent.
+
+- Azure AD is a cloud-based identity and access management service (SaaS)
+- AAD can be used to grant access to Azure Portal, Microsoft 365 and thousands of other SaaS applications
+- A Tenant is a representation of an organisation. Each Microsoft 365, Office 365, Azure and Dynamics CRM tenant is automatically an Azure tenant
+- An instance of Azure AD is created for each tenant
+- Additional tenants can be created from the AAD Overview page
+- Custom domain names can be added in addtion to the default <code>$ORG_NAME.onmicrosoft.com</code>. The custom domain should be registered with a domain name registrar
+- Azure AD is available with different licences:
+    - AAD Free
+        - user and group management
+        - on-prem directory synchronisation
+        - basic reports
+        - self-service password change for cloud users
+        - SSO across Azure, M365 and many popular SaaS apps
+        - Included with any Microsoft Online business service
+    - AAD Premium P1
+        - paid licence built on top of existing free directory
+        - create custom RBAC roles
+        - grant hybrid users access to both on-prem and cloud resources
+        - dynamic groups
+        - self-service group management
+        - Microsoft Identity Manager
+        - Cloud write-back capabilities allows self-service password reset for your on-prem users
+    - AAD Premium P2
+        - paid licence built on top of AAD P1
+        - AAD Identity Protection:
+            - risk-based Conditional Access
+            - Privileged Identity Management
+            - Just-In-Time access
+    - "Pay as you go" feature licences. Additional features such as Business-to-Customer (B2C) provide IAM for customer-facing apps
+  
+- The AAD Architecture consists of 
+    - A primary replica that receives all write operations for the partition it belongs to. The write operation is immeadiately replicated to a secondary replica in a different data centre before returning success to the caller
+    - Secondary replicas are used to service all directory reads. Secondary replicas are distributed across different geographies. Data is replicated asynchronously. Directory reads are serviced from data centres that are closest to the customer
+- Write scalability is achieved by partitioning the data. Read scalability is achieved by having multiple secondary replicas
+- High availability is guaranteed by the services ability to shift traffic across multiple geographically distributed data centres
+- If a failure occurs on a primary replica, writes are immeadiately shifted to another replica. This can result in a 1-2 minute loss of write availability.
+- Azure AD holds objects known as security principles. These can be one of the following types:
+    - Users: can be a member of the tenants Azure AD or a guest. Guests can be B2B (business-to-business) or B2C (third-party identity provider)
+    - Application Service Principal: represents the identity of a service or application in Azure
+    - Managed Identity Service Principal: used by services or applications in place of a user identity. Can be either system-assigned or user-assigned
+    - Device: a device identity
+  
+- Azure AD provides:
+    - Authentication: includes self-service password resets, MFA, smart-lockout, password blacklist
+    - SSO
+    - Application Management
+    - Device Management
+  
+- Conditional access allows or denies access to resources based on <i>signals</i>: identity, location, service requested, device, device security status. Conditional Access requires an Azure AD Premium P1 or P2 licence. Signals could result in the logon attempt requiring MFA
+  
+- Azure AD Connect
+    - Free download tool used to synchronise user identities between on-prem Active Directory and Azure AD
+  
+
+## Governance
+Governance is the process of establishing and enforcing rules and policies
+
+- Azure RBAC
+    - Role-Based Access Control
+    - Pre-defined roles defining access-levels to resources
+    - Uses an allow model: roles define what is <strong>allowed</strong>
+    - Roles assigned to principals within a scope:
+        - management group
+        - subscription
+        - resource group
+        - resource
+    - Enforced against any action on a resource that is initiated through Resource Manager
+    - Does not apply at the application or data levels
+    - It is good practice to assign users to groups and then assign RBAC roles to the group, rather than assign roles directly to user accounts
+- Resource Locks
+    - Prevents resources being accidentally deleted or modified
+    - Accessible from the 'Locks' pane in the Azure Portal
+    - Resource locks are inherited by child objects if these exist
+    - Two lock-types available
+        - CanNotDelete - prevents deletion
+        - Read - prevents deletion or modification
+    - Read locks can be used on resource groups to prevent additional resources being deployed
+- Resource Tags
+    - Provide Metadata about a resource
+    - Up to 15 tags allowed per resource
+    - Tags can be used for:
+        - Resource Management
+        - Billing and Cost Management
+        - Operations Management (SLAs)
+        - Security level
+        - Governance and Compliance
+        - Visualise complex workloads
+    - Azure Policy can be used to force resources to inherit tags from their resource group
+- Azure Policy
+    - Used to define policies that control or audit your resources
+    - Groups of policies are called <strong>initiatives</strong>
+    - Policy definitions are assigned to a scope:
+        - management group
+        - subscription
+        - resource group
+    - Policy assignments are inherited by all child resources in the assignment scope
+    - Initiatives can be defined in Azure Portal or via command-line tools
+    - New policies can be added to an initiative, and these will be applied without the need to re-assign the initiative
+- Azure Blueprints
+    - Azure Blueprints allow for the definition of controls at the organisational level
+    - Each component in a blueprint is termed an <strong>artifact</strong>
+    - Blueprints ochestrate deployments and can include the following types of artifacts:
+        - Role assignments
+        - Policy assignments
+        - ARM templates
+        - Resource groups
+    - Artifacts can have zero or more parameters
+    - Parameter values can be set in the definition or during assignment
+    - Several Blueprints exist for ISO 27001
+    - Blueprints are backed by the globally available Cosmos DB
+    - Unlike ARM templates, Blueprint definitions exist natively in Azure. The relationship between the definition and the assignment is preserved
+    - When defining a Blueprint, you will also specify the location to save it to: either a Management Group or Subscription
+    - Blueprint definitions begin in draft mode. Before they can be assigned they need to be published
+    - Publishing involves assigning a Version string (up to 20 characters)
+    - Each version of a single Blueprint can be assigned and different versions of the same Blueprint can be assigned to a subscription
+    - When a published Blueprint is altered the original version is retained, along with unpublished changes. When the changes are published a new Version is assigned to the Blueprint definition
+    - Blueprints can be assigned at the Management Group level but this needs to be done using the <a href="https://docs.microsoft.com/en-us/rest/api/blueprints/assignments/create-or-update?tabs=HTTP" target="#">REST API</a>
+    - Blueprint creation requires the following roles:
+        - Microsoft.Blueprint/blueprints/write - Create a blueprint definition
+        - Microsoft.Blueprint/blueprints/artifacts/write - Create artifacts on a blueprint definition
+        - Microsoft.Blueprint/blueprints/versions/write - Publish a blueprint
+    - Blueprint deletion requires the following roles:
+        - Microsoft.Blueprint/blueprints/delete
+        - Microsoft.Blueprint/blueprints/artifacts/delete
+        - Microsoft.Blueprint/blueprints/versions/delete
+    - Blueprint assignment requires the following roles:
+        - Microsoft.Blueprint/blueprintAssignments/write - Assign a blueprint
+        - Microsoft.Blueprint/blueprintAssignments/delete - Unassign a blueprint
+    - Built-in Roles also have Blueprint permissions:
+        - Owner - all Blueprint related permissions
+        - Contributor - can create and delete Blueprint defintions. No assignment permissions
+        - Blueprint Contributor - can manage Blueprint definitions. No assignment permissions
+        - Blueprint Operator - can assign published blueprints using a user-assigned managed identity. No permissions to create new Blueprint definitions
+    - Rules for Updating Assignments:
+        - Role Assignments - if the role or assignee has changed, an new role assignment is created. Previously deployed roles are retained
+        - Policy Assignments - assignment is updated if the parameters are changed. If the definition is changed a new policy assigment is created and the previous assignment is retained. If the policy assignment is removed from the blueprint, the previous assignment is retained
+        - ARM Templates are deployed using a PUT request. Different resources will respond differently (update, replace) to this request
+    - Resource Locking in Blueprint Assignments
+        - Resource locks applied by a Blueprint assignment are only applied to non-extension resources deployed by the blueprint. Existing resources do not have locks added to them
+        - There are three locking modes available:
+            - Don't Lock
+            - Read Only
+            - Do Not Delete
+        - Locking mode is applied during artifact deployment resulting from the assignment. A different locking mode can be set by updating the assignment or removed by deleting the assignment. The locking mode cannot be changed outside of Azure Blueprints
+        - To prevent a subscription owner from changing the locking mode of a resource deployed during BP assignment, the assigment can be made at the Management Group level. Then only Owners of the management group can change the assignment. Blueprints assigned to a management group must still specify the subscription that the assignment targets and so is still applied at the subscription level
+        - The locking mode will result in resources having one of four states depending on where the locking mode is assigned:
+            - Not Locked - where 'Don't Lock' mode is selected in BP assignment
+            - Cannot Edit/Delete - where 'Read Only' mode is set on the resource group. The resource group is Read Only, but Not Locked resources can be added, changed or deleted from the resource group
+            - Read Only - where 'Read Only' mode is set on a resource deployed during the assignment
+            - Cannot Delete - where 'Do Not Delete' is set on a resource deployed during the assignment. 'Not Locked' resources can be added, moved, changed or deleted from a resource group in 'Cannot Delete' state
+        - Read Only and Delete locks are implemented by Blueprints as RBAC 'deny' assignments. The deny assigments are added by the managed identity of the BP assignment, and can only be removed from the artifact resources by the same managed identity. Therefore the locks can only be removed from within Blueprints. During the assignment, specific principals can be excluded from the 'deny' assignments. Similarly, specific actions (read, write, etc) on specified resources can be excluded from the deny assignment
+    - <a href="https://docs.microsoft.com/en-gb/azure/governance/blueprints/samples/caf-foundation/" target="#">CAF Foundation</a>
+        - Deploys an Azure Key Vault to host secrets for VMs deployed in the shared services environment
+        - Log Analytics is deployed to ensure all actions and services log to a central location
+        - Defender Standard deployed
+        - Policies
+            - CostCenter Tag applied to Resource Groups
+            - Append CostCenter Tag to Resources in Resource Groups
+            - Allowed Region for Resources and Resource Groups
+            - Allowed Storage Account and VM SKUs
+            - Require Network Watcher to be Deployed
+            - Require secure transfer encryption on Storage Accounts
+            - Deny Resource Types
+        - Policy Initiatives
+            - Enable Monitoring in Microsoft Defender for Cloud (100+ policy definitions)
+- Cloud Adoption Framework
+    - Consists of tools, documentation and proven practice to drive success during adoption of cloud computing on Azure
+    - The following steps are included:
+        - Define Your Strategy
+            - Define and Document your Motivations - meet stakeholders and leadership
+            - Document Business Outcomes - document your goals
+            - Evaluate Financial Considerations - identify the return expected from the investment
+            - Understand Technical Considerations
+        - Make a Plan
+            - Digital Estate - inventory of existing assets
+            - Initial Organisational Alignment - involve the right people
+            - Skills Readiness Plan
+            - Cloud Adoption Plan - shared cloud adoption goal
+        - Ready your Organisation
+            - Azure Setup Guide
+            - Azure Landing Zone - build subscriptions to support each major area of your business
+            - Expand the Landing Zone
+            - Best Practices
+        - Adopt the Cloud
+            - Migrate
+                - Migrate your First Workload
+                - Migration Scenarios
+                - Best Practices
+                - Process Improvements
+            - Innovate
+                - Business Value Consensus - ensure innovations add value
+                - Azure Innovation Guide - build an MVP (Minimum Viable Product)
+                - Best Practices
+                - Feedback Loops
+        - Govern and Manage your Cloud Environments
+            - Govern
+                - Methodology - consider end-state solution 
+                - Benchmark
+                - Initial Governance Foundation - MVP
+                - Improve the Initial Governance Foundation - iteratively add governance controls
+            - Manage
+                - Establish a Managment Baseline - minimum commitment to operations management
+                - Define Business Commitments - document supported workloads and required management investments for each
+                - Expand the Management Baseline
+                - Advanced Operations and Design Principles
+- Create a Subscription Governance Strategy
+    - Teams often start their governance strategy at the subscription level
+    - Three main aspects to consider:
+        - Billing - take account of billing requirements when planning subscriptions. Use Tags if needed to identify billing department
+        - Access Control - isolation of environments based on subscriptions
+        - Subscription Limits - subscriptions have resource limitations: e.g. number of ExpressRoute connections
+        - Quotas for resources in resource groups are per region rather than per subscription
+- Microsoft Trusted Cloud Principles
+    - The shared responsibility model means that depending on the service, some responsibilities will transfer to the service provider
+    - Microsofts Trusted Cloud Principles means that Microsoft will provides contractual agreements to ensure:
+        - Data residency
+        - Data security
+        - Data privacy
+        - Data compliance
+    - The <a href="https://www.microsoft.com/trust-center" target="#">Microsoft Trust Center</a> can be used to access detailed statements from Microsoft on their security, privacy and compliance standards
+        - The <a href="https://privacy.microsoft.com/privacystatement" target="#">privacy statement</a> details how each Microsoft service interacts with your data
+        - The <a href="https://www.microsoft.com/licensing/terms" target="#">Product Terms</a> site lists the terms and conditions of Microsoft product licences. The Data Protection Addendum lists the data processing conditions associated with these licences
+        - Legal and Regulatory compliance documentation can be found at https://docs.microsoft.com/azure/compliance
+
