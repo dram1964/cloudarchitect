@@ -1,10 +1,13 @@
-# Deploy a Flask App to Azure
+# Deploy a Flask App to Azure: Part 1
 
 ##  Intro
 
-On this page we're going to build a Flask App connected to a backend PostgreSQL database. We'll 
-develop the application and database locally using Docker, then we'll install a production version
-on Azure using Azure App Service and Azure Database for PostgreSQL
+In this series of articles, we're going to build a Flask App connected to a backend PostgreSQL 
+database. We'll develop the application and database locally using Docker, 
+then we'll install a production version on Azure using Azure App Service and 
+Azure Database for PostgreSQL
+
+On this page we'll focus on developing the Flask application locally. 
 
 ## References
 
