@@ -108,6 +108,19 @@ Generate and capture SAS keys to access a storage container:
     --https-only \
     --permissions dlrw \
     --expiry $END_DATE -o tsv)
+
+The 'azcopy' command can also be used to move data quickly into and out of Azure 
+Storage Accounts. Logon to Azure:
+
+    azcopy login
+
+Create a container:
+
+    azcopy make 'https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}'
+
+Copy a folder to the container (creates the *data_folder* folder in the target container):
+
+    azcopy copy '/data/data_folder' 'https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}'
 	
 
 # Deploying ARM Templates
