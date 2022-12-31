@@ -51,6 +51,17 @@ If the query returns a single row, you can use the tsv output format to assign t
     `az account set --subscription $SUB`
 
     az account set --subscription $(az account list --query "[?contains(name, 'research')].[id]" -o tsv)`
+
+For multiple rows of single values, you can pipe the output to xargs, to perform the same 
+command multiple times:
+
+    az group list --query "[?starts_with(name,'az104-03')].[name]" --output tsv | \
+    xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+
+You can capture multiple values in an ENV variable and use a foreach loop to iterate:
+
+    VM_NAMES=$(az vm list --query [].[name] -o tsv)
+    for n in $VM_NAMES; do echo "on $n now"; done
 	
 
 # Storage
@@ -134,6 +145,8 @@ Deploy infrastructure from an ARM Template:
     --resource-group $RESOURCE_GROUP \
     --template-file $TEMPLATE_FILE
 	
+
+Sample Templates are available from the [Azure Quickstart Repo](https://github.com/Azure/azure-quickstart-templates)
 
 You can start with a blank template:
 	

@@ -5,6 +5,7 @@ nav:
   - 'Azure': 
     - 'CLI Commands': 'azure/cli_commands.md'
     - 'Azure AD': 'azure/aad.md'
+    - 'Azure Key Vault': 'azure/keyvault.md'
     - 'Azure Fundamentals': 
         - 'Core Concepts': 'azure/afc/core_concepts.md'
         - 'Core Services': 'azure/afc/core_services.md'
@@ -16,6 +17,8 @@ nav:
         - 'App Service Overview': 'azure/app_service/app_service.md'
         - 'App Service Deplyment: Part 1': 'azure/app_service/flask_app_service_part_one.md'
     - 'KQL': 'azure/kusto.md'
+    - 'Azure Monitor' : 'azure/monitor.md'
+    - 'Azure Networking': 'azure/networking.md'
     - 'PostgreSQL': 'azure/postgresql.md'
     - 'Terraform': 'azure/terraform.md'
   - 'Devops': 'devops/devops.md'

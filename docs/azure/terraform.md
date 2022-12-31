@@ -1,4 +1,5 @@
 # Terraform Architecture
+
 Terraform is a tool to consume upstream APIs. The Azure REST API exposes a client library that 
 encapsulates the request-response objects of the API. The Terraform Azure provider uses this 
 client library to connect and invoke remote API endpoints for Azure. Each provider is a plugin
@@ -13,19 +14,20 @@ infrastructure when Terraform commands are run.
 HCL scripts are used to declare the desired state using a series of code blocks. Each block has a type and serves a specific purpose:
 
 ## terraform
-The terraform block is used to configure the terraform version, which providers will be used and the backend for the configuration
-```
-terraform {
-  required_providers {
-    azurerm = {
-      version = "=2.86"
-      source = "hashicorp/azurerm"
-    }
-  }
 
-  backend azurerm {}
-}
-```
+The terraform block is used to configure the terraform version, which providers will be used and the backend for the configuration
+
+    terraform {
+    required_providers {
+        azurerm = {
+        version = "=2.86"
+        source = "hashicorp/azurerm"
+        }
+    }
+
+    backend azurerm {}
+    }
+
 
 ## provider
 Used to configure provider plugins:
@@ -251,7 +253,7 @@ Note that the string directive will output everything between the '%{}' blocks:
 so that the space after '${val}' is also part of the output in the above example
 String directives also support 'if' statements and HEREDOCS:
 ```
-enable_public_ip = << EOT
+enable_public_ip = <<EOT
 %{ if var.location == "UK South" }
 true
 %{ else }
