@@ -24,8 +24,12 @@ internet and with public-facing Azure resources). Public IP addresses can be ass
 - Application Gateways
 
 Public IPs come in two SKUs. The Standard SKU only supports static assignment, is only available
-for network interfaces and load balancers, provides zone-redundancy and is closed to inbound
-traffic by default. 
+for network interfaces, load balancers, application gateways and VPN gateways. Standard SKU provides 
+zone-redundancy and is closed to inbound traffic by default (an NSG must be configured to allow
+inbound traffic). 
+
+Public IP Address prefixes are a reserved, static range of public IP addresses. Address prefixes
+are region-dependant and can be associated to availability zones within the region. 
 
 Private IPs are assigned from the subnet range that the resource is deployed to. Private IPs
 support static or dynamic assignment to:
@@ -133,6 +137,8 @@ Additional Routes are added when specific Azure features are used:
 
 ## Custom Routes
 
+Custom routes can be created to change the default behaviour provided by System Routes. For
+instance, when you want to direct traffic to a Virtual Network Applicance such as a Firewall. 
 Custom routes can be created in a route table or by exchanging BGP routes with on-prem gateways.
 Route Tables can be associated to zero or more VNet subnets. Each subnet can have no more than 
 one route table associated. User-defined routes are combined with the default routes, and the 
@@ -197,14 +203,28 @@ will prevent the VPN-gateway from working.
 ## VNet [Service Endpoints](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview)
 
 Service Endpoints allow you to secure Azure service resources to only your VNets by 
-enabling only Private IP addresses in the VNet to reach the endpoint of a service, without requiring
-a Public IP address on the VNet. The endpoint extends the VNet identity to the service resource. 
-Connections are still made through the services public endpoint (over the internet). 
+enabling only Private IP addresses in the VNet to reach the endpoint of a service. 
+The endpoint extends the VNet identity to the service resource. Endpoints provide access
+to services in the same region. 
+
+Service Endpoints are available for:
+
+- AAD
+- CosmosDB
+- Cognitive Services
+- Container Registry
+- EventHub
+- KeyVault
+- ServiceBus
+- SQL
+- Storage
+- Web
 
 Endpoints are enabled on subnets configured in the VNet. For Azure SQL and Data Lake Storage, 
 the endpoint only applies to traffic within the same region. Once you enable a service endpoint
 in your subnet, you can add a Virtual Network rule to secure the service resources to your VNet 
-and deny traffic to the service via the internet.
+and deny traffic to the service via the internet. Service Endpoints ensure that traffic from 
+the VNet to the service travels on the Azure Backbone only.
 
 By default, Azure services secured by service endpoints will not be reachable from on-premises
 devices. You can allow access to the service from Public IPs using the firewall configuration 
@@ -223,7 +243,13 @@ of service endpoints in a virtual network.
 
 ## [Private Link](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview?toc=%2Fazure%2Fvirtual-network%2Ftoc.json)
 
-Private Link provides a method to access Azure services privately without using the Internet. 
+Private Link provides a method to access Azure PAAS, customer-owned or partner services privately 
+without using the public internet. Private Link allows private access to services in other Regions.
+Private endpoints are accessible using private peering or VPN tunnels from on-prem or peered 
+VNets. 
+
+Private Link is used to map the private endpoint to the PAAS service, thus bringing the 
+service into your private virtual network. 
 
 Azure PaaS services are normally deployed with a Public IP address. When you access these 
 services from an Azure VNet via a Public IP, traffic is routed over the internet.
@@ -294,6 +320,10 @@ of the VMs.
 For multiple VNets linked to a common private DNS zone, forward DNS lookups are resolved, but
 reverse DNS lookups are only resolved for addresses in the same VNet.
 
+Alias Records can be added to Azure DNS using Azure Resource Names (e.g. the resource 
+name of a Load Balancer public IP address). This way, when the resource IP address updates, the
+DNS record will also dynamically update. 
+
 ## VNet Peering
 
 VNet Peering allows you to connect two or more VNets so that they appear as
@@ -304,20 +334,23 @@ VNet Peering keeps traffic on the Azure Backbone and provides a low-latency,
 high-bandwidth connection between resources. 
 
 A VPN Gateway can be used in one of the peered VNets to enable the other peers
-to access resources outside the VNet by allowing Gateway Transit. This would
+to access resources outside the VNet. This would
 typically be used in the Hub VNet of a Hub-and-Spoke model to allow the spokes
-to communicate with on-prem networks via the Hub VPN Gateway. 
+to communicate with on-prem networks via the Hub VPN Gateway. This setup requires
+'Allow Gateway Transit' enabled in the hub VNet and 
+'Allow remote gateways' in the spoke VNets.
 
 VNet Peering is non-transitive, but you can configure user-defined routes and
 service chaining to provide transitivity. 
 
 ## [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/)
 
-A VPN Gateway can be used to connect Azure VNets and On-prem networks. Only one
-VPN Gateway can be deployed per VNet, but multiple connections can be made
+A VPN Gateway can be used to connect Azure VNets and On-prem networks and typically provides 
+<1 Gbps bandwidth. 
+Only one VPN Gateway can be deployed per VNet, but multiple connections can be made
 to the same VPN Gateway. Connections can be: 
 
-- Site to Site
+- Site to Site 
 - VNet to VNet
 - Point to Site (connects an individual device)
 
@@ -362,6 +395,45 @@ should occur in 10 to 15 seconds for planned maintainence or 60 to 90 seconds
 for unplanned outtages. If two on-site VPNs are available then the Azure VPN 
 Gateway can be configured in Active/Active mode. 
 
+## ExpressRoute and VWAN
+
+Use [Azure ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/) to 
+create private connections between Azure Data Centres and your
+on-prem network. ExpressRoute connections do not go over the public internet. 
+
+ExpressRoute connections can be made through an approved connectivity provider using:
+
+1. Colocation: using an Exchange with Azure co-location
+2. Point-to-Point Ethernet connection
+3. IPVPN Connection: connect your WAN directly using Multi-Protocol Label Switching (MPLS) VPN
+
+ExpressRoute provides bandwidth up to 100 Gbps and low latency and is a good option for 
+heavy-duty data transfers such as storage, backups and recovery. ExpressRoute can also be
+used for Hybrid applications such as a Web App in Azure that uses on-prem AD for authentication
+and authorisation. 
+
+ExpressRoute Features:
+
+1. Layer 3 connectivity - uses BGP to exchange routes with on-prem routers
+2. Redundancy - each ExpressRoute connection consists of two BGP connections to two 
+Microsoft Enterprise Edge (MSEE) routers. 
+3. Regional Connectivity - the peering location for the ExpressRoute connection grants access
+to resources in the same geopolitical region. 
+4. Global Connectivity - with ExpressRoute Premium add-on, the connection provides access to 
+resources from all regions, except national clouds
+5. On-Prem connectivity - on-prem datacenters in different locations can be connected together
+using ExpressRoute circuits if ExpressRoute Global Reach is enable. This way traffic between
+the two datacenters does not need to traverse the public internet.
+
+ExpressRoute can be used in addition to Site-to-Site VPN: you just need to configure two 
+VPN Gateways: one of type VPN and another of type ExpressRoute. 
+
+[Azure Virtual WAN](https://learn.microsoft.com/en-us/azure/virtual-wan/) 
+provides a cloud-hosted network hub that provides transitive network 
+connectivity to sites that are connected using combinations of Point-to-Site, Site-to-Site and
+ExpressRoute connections (spokes). Azure VWAN comes in two SKUs: Basic only supports the use
+of Site-to-Site VPN connections; Standard supports all types of VPN connections.
+
 ## Network Watcher
 
 Add the network watcher agent to a VM:
@@ -383,11 +455,45 @@ The load balancer distributes inbound flows that arrive
 at the front-end to the backend resources according to load-balancing rules and health probes. 
 The backend resources can be either VMs or instances in a VMSS. 
 
-Public load balancers are used to load balance internet
-traffic to your VMs. The load balancer can also be used to load balance outbound traffic from 
-VMs using SNAT (using the Public IP of the load balancer for outbound connections). 
+Public load balancers are used to load balance internet traffic to your VMs. 
+The Load Balancer maps public IP address and port of incoming traffic to private IP address and
+port of the VM. Mapping is also provided for the response traffic from the VM (SNAT).
 
-Internal load balancers are used to load balance traffic inside a VNet. 
+The default distribution mode for Azure Load Balancer is a five-tuple hash (source ip, source 
+port, destination IP, destination port and protocol). An alternate distribution mode, 
+source IP affinity, is available which uses a two-tuple hash (source IP and destination IP) 
+or a three-tuple hash (source IP, destination IP and protocol). 
+
+Internal load balancers are used to load balance traffic inside a VNet or to load balance traffic
+to Azure resources via a VPN connection. 
+
+Load Balancers aren't physical instances: Load Balancer objects are used to express how 
+Azure configures its infrastructure to meet your requirements.
+
+Availability Sets protect from hardware failures within a datacentre and provide a 99.95% SLA.
+Availability Zones protect from entire datacentre failure and provide a 99.99% SLA. Availability
+Zones provide redundancy across datacentres in the same Region. 
+
+Load Balancers come in two main SKUs:
+
+- Basic: supports 300 instances in backend pools, HTTP and TCP health probes, no zone redundancy,
+NSGs are optional, no SLA
+- Standard: supports 1000 instances in the backend pool, HTTPS, HTTP and TCP health probes, zone-redundant and zonal frontends for inbound and outbound traffic, inbound flows closed by default unless allowed via an NSG, 99.99% SLA
+
+For the Basic SKU, backend pool devices are limited to machines in a single availability set or VMSS.
+Standard SKU can use any VM in a single VNet, availability set or VMSS.
+
+Load balancer rules map a given frontend IP:Port to a set of backend IP:Port combinations: before
+configuring the rule, you should create the frontend, backend and health probe. Session
+persistence can be based on:
+
+- None: (default) any VM can handle the request
+- Client IP: successive requests from the same IP are handled by the same VM
+- Client IP and Protocol: successive requests from the same IP:Port combination are handled by the same VM
+
+HTTP health probes rely on a 200 Status response from the backend within 31 seconds. TCP probes
+expect a successful connection on a specified port: you can configure Port, Interval and Unhealthy
+Threshold. Guest agent probes can also be used, but only when HTTP/TCP probes are not possible.
 
 Traffic Manager is a DNS-based load balancer, that provides load-balancing at the Global 
 (cross-regional) level. 
@@ -395,7 +501,23 @@ Traffic Manager is a DNS-based load balancer, that provides load-balancing at th
 ## Application Gateway
 
 Azure Application Gateway implements load-balancing at Layer 7 (Application), and makes 
-decisions based on attributes of the HTTP request such as the URI path or request headers. 
+decisions based on attributes of the HTTP request such as the URI path (path-based routing) 
+or address (multi-site routing).
+The backend pool can include VMs, VMSS, App Service and even on-prem servers. Application 
+Gateway uses round-robin to load balance requests and provides the following features:
+
+- Support for HTTP, HTTP/2, HTTPS, and Websockets
+- Application firewall: checks requests for common security threats
+- End-to-end request encryption
+- Autoscaling
+- Redirection
+- Rewrite HTTP Headers
+- Custom Error Pages
+
+Application Gateway health probes can accept HTTP responses between 200 and 399 to indicate OK. If
+no health probe is configured, App Gateway configures a default the expects a response within 30
+seconds. 
+
 Application Gateway can load balance within a Region: for Global Load Balancing at the 
 Application Layer use Azure Front Door. 
 
