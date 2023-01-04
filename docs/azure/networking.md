@@ -4,9 +4,32 @@
 
 [Microsoft VNet Docs](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview)
 
-Azure Virtual Network is a logical isolation of the Azure Cloud dedicated to your subscription. 
-Each VNet has its own CIDR address block and can be linked to other VNets and on-prem networks
-as long as the CIDR blocks do not overlap. The virtual network can be segmented into subnets 
+Azure Virtual Network (VNet) is a logical isolation of the Azure Cloud dedicated to your 
+subscription. Azure VNet is an IaaS resource, providing a software-defined private network. 
+
+- VNets belong to a resource group and can only be part of one Region
+- Traffic entering VNet and region is not billed: only traffic leaving the VNet and Region is billed
+- External VNet routing is either:
+    - Hot-Potato routing: packet is passed to the internet as soon as possible
+    - Cold-Potato routing: packets stay on Microsoft network as long as possible. This means packet is handed to an Edge Point of Presence to be delivered to its final destination. Cold-Potato routing ensures the packets spends the least time on the internet, and results in fast delivery and lower latency
+- Internet communication - VMs can connect to the internet by default. To connect to the VM from the internet you can assign a Public IP address or put the VM behind a public load balancer
+- Communication between Azure resources - some services (VMs, App Services, AKS, VMSS) can communicate via the Virtual Network. Other services (CosmosDB, Service Bus, Key Vault, Storage Accounts, Azure SQL Db) require Service Endpoints
+- Address Space - the address space for each VNet needs to be unique in your subscription and for any other network that you wish to connect to
+- NAT Gateway - you can configure a subnet to use a static outbound IP address when accessing the internet
+- Bastion Host - can be enabled for the VNet
+- DDoS Protection - can be enabled for the VNet
+- Subnet Delegation - designate a subnet to be used for a dedicated service
+
+Each VNet has its own CIDR address block and can be either isoloted or linked to other 
+VNets and on-prem networks as long as the CIDR blocks do not overlap. 
+
+Control traffic into a VNet using a VPN Gateway, an NSG or a firewall
+
+- A firewall can control access to multiple VNets across multiple subscriptions
+- A VPN Gateway can only be applied to a single VNet
+- NSGs are applied at the Subnet or Device level
+
+The virtual network can be segmented into subnets 
 (**use ipcalc to help with subnet addressing**). Azure reserves the first 4 and the last IP 
 address from each subnet. For the 192.168.1.0/24 subnet, the reservations are:
 
@@ -50,17 +73,57 @@ The default rules in an NSG:
 - Deny all inbound traffic except from the VNet and Azure Load Balancers
 - Allow outbound traffic to the VNet and the Internet
 
+NSGs filter traffic to and from Azure resources within a VNet. Rules are defined by specifying:
+
+- Source of traffic
+- Source port of traffic
+- Destination of traffic
+- Destination port of traffic
+- Protocol used
+
+Rules are assigned an action (either allow or deny) and a priority to determine the order in 
+which they are processed. Higher priority rules override the lower priority rules. NSGs can be 
+associated with multiple Subnets and NICs, but a Subnet and NIC can only have one NSG associated.
+NSGs can only be associated to resources in the same region and subscription. Firewalls are 
+required to filter traffic across multiple subscriptions
+
+- Use <code>az network nsg list</code> command to list NSGs
+- Use <code>az network nsg rule list</code> to inspect NSG rules
+
+
 Application Security Groups logically group Virtual Machines by workload: NICs for 
 specific VMs can be assigned to the appropriate ASG. The ASGs can then 
 be used as source or destination in an NSG. This allows you 
 to control traffic to the servers without needing to specify specific IP addresses. For example, 
 an NSG can allow internet inbound to the Web Servers ASG, allow the Web Servers to communicate 
 with the Database servers, and deny other traffic to reach the Database servers. 
+Members of an ASG must be on the same VNet. When NSG rules refer to two ASGs, they must 
+both be on the same VNet. Only 3,000 ASGs allowed per subscription
+
 
 ## [Azure Firewall](https://learn.microsoft.com/en-us/azure/firewall/)
 
-Azure Firewall is a stateful firewall with high availability and unrestricted scalability. Used 
+- Uses a static, public IP for your virtual network resources
+- Integrated with Azure Monitor to enable logging and analytics
+- User-Defined Routing used to control traffic
+- Inbound and Outbound Filtering rules
+- Application rules - allowed FQDNs that can be accessed from a subnet
+- Inbound Destination Network Address Translation (DNAT)
+- Outbound Source Network Address Translation (SNAT)
+- Normally Deployed to a central VNet to control general network access
+- Premium SKU adds:
+    - TLS inspection
+    - Intrusion Detection Systems
+    - Intrusion Prevention Systems
+    - URL Filtering
+    - Web Categories
+    
+- Third-Party NVAs are available via the Azure Marketplace as an alternative to Azure Firewall
+
+Azure Firewall is a stateful firewall (analyses connections not just individual packets) 
+with high availability and unrestricted scalability. Used 
 to protect your VNets across subscriptions. Availability zones are configured during deployment. 
+
 Application rules allow you to restrict traffic using FQDNs. Filtering rules can be specified
 with IP addresses, ports and protocols. Threat-intelligence feed from Microsoft can be used
 to filter traffic from known malicious sources. By default, Azure Firewall blocks all traffic
@@ -95,7 +158,7 @@ If Threat Intelligence filtering is enabled, these rules are highest priority an
 before network and application rules. If IDPS is configured in *Alert and Deny* mode, these 
 rules are applied after the network and application rules have been processed. 
 
-## VNet Default Routing
+## VNet Routing
 
 Azure automatically creates system routes and assigns the routes to each subnet in a VNet.
 System routes cannot be created or deleted manually, but the can be over-ridden with 
@@ -135,8 +198,6 @@ Additional Routes are added when specific Azure features are used:
 
 3. Virtual Network Service Endpoint: the public IP addresses for certain services are added to the route table when you enable a service endpoint to a service. Service endpoints are enabled for individual subnets within a virtual network, so the route is only added to the subnet the service endpoint belongs to. The public IP addresses of Azure services change periodically and these are automatically updated in the route tables. 
 
-## Custom Routes
-
 Custom routes can be created to change the default behaviour provided by System Routes. For
 instance, when you want to direct traffic to a Virtual Network Applicance such as a Firewall. 
 Custom routes can be created in a route table or by exchanging BGP routes with on-prem gateways.
@@ -169,8 +230,6 @@ this order:
 3. AzureCloud Regional Tags
 4. AzureCloud Tags
 
-## Azure Routing Decisions
-
 Azure uses the most-specific route if two matching routes existing in the routing table. Otherwise
 custom routes are used before BGP routes and BGP routes are chosen before system routes. 
 
@@ -200,7 +259,7 @@ will prevent the VPN-gateway from working.
 
 [Routing Example](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#routing-example)
 
-## VNet [Service Endpoints](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview)
+## [Service Endpoints](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview)
 
 Service Endpoints allow you to secure Azure service resources to only your VNets by 
 enabling only Private IP addresses in the VNet to reach the endpoint of a service. 
@@ -345,17 +404,16 @@ service chaining to provide transitivity.
 
 ## [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/)
 
-A VPN Gateway can be used to connect Azure VNets and On-prem networks and typically provides 
-<1 Gbps bandwidth. 
+A VPN Gateway is used to connect two trusted private networks using an encrypted 
+tunnel over a public, untrusted network. A VPN Gateway can be used to connect 
+Azure VNets and On-prem networks and typically provides up to 1 Gbps bandwidth. 
+
 Only one VPN Gateway can be deployed per VNet, but multiple connections can be made
 to the same VPN Gateway. Connections can be: 
 
 - Site to Site 
 - VNet to VNet
 - Point to Site (connects an individual device)
-
-A VPN Gateway consists of two or more VMs deployed to a Gateway Subnet in the
-VNet. VPN Gateways support Availability Zones. 
 
 For a Site-to-Site connection, the following steps are required to configure
 a VPN connection:
@@ -388,19 +446,46 @@ a VPN connection:
 
     Uses the Local Network Gateway, Virtual Network Gateway and a Shared Key (PSK)
 
-Every Azure VPN Gateway consists of two instances. When connecting to a single 
+A VPN Gateway consists of two or more VMs deployed to a dedicated Gateway Subnet in the
+VNet. VPN Gateways support Availability Zones. When connecting to a single 
 on-site VPN, the VPN Gateway can be configured in Active/Standby mode, where only
 one instance connects to the on-site VPN device. Failover is automatic and 
 should occur in 10 to 15 seconds for planned maintainence or 60 to 90 seconds 
 for unplanned outtages. If two on-site VPNs are available then the Azure VPN 
 Gateway can be configured in Active/Active mode. 
 
+- A VNet can only have one VPN Gateway and the VPN Gateway can only be associated with one VNet.
+- VNet address spaces can not overlap with on-prem network address spaces. 
+- Use a pre-shared key for authentication
+- Internet Key Exchange (IKE) is used to set up a security association (an agreement of the encryption) between two endpoints
+- IPSec suite used to encrypt/decrypt data based on the security association
+- VPN is either:
+    1. Policy-based
+        - Specifies static IP address for encryption through the tunnel
+        - supports IKEv1 only
+        - relies on static route definitions
+        - primarily used where legacy on-prem VPN devices require them
+    2. Route-based
+        - IPSec tunnel modelled as a network interface or vitual tunnel interface
+        - IP routing decides whether to use IPSec tunnel
+        - supports IKEv2
+        - Can use dynamic routing protocols
+        - more resilient to creation of new subnets
+- Deploy VPN Gateway
+    - GatewaySubnet - add a subnet called <strong>GatewaySubnet</strong> to the VNet with a netmask of at least /27
+    - Public IP address - Basic SKU Public IP needed as target for on-prem VPN device
+    - Local Network Gateway: defines the on-prem network address spaces that will be connecting to Azure and the on-prem VPN used. The on-prem VPN appliance is defined either by IP Address or FQDN
+    - Virtual Network Gateway - routes traffic between the VNet and on-prem network
+    - Connection: creates a logical connection between the Local Network Gateway and the VPN Gateway
+- VPN gateways can also be used for ExpressRoute failover or in Zone-redundant configuration.
+
 ## ExpressRoute and VWAN
 
 Use [Azure ExpressRoute](https://learn.microsoft.com/en-us/azure/expressroute/) to 
 create private connections between Azure Data Centres and your
-on-prem network. ExpressRoute connections do not go over the public internet. 
-
+on-prem network: ExpressRoute connections do not go over the public internet. Connection is 
+private but not encrypted.
+      
 ExpressRoute connections can be made through an approved connectivity provider using:
 
 1. Colocation: using an Exchange with Azure co-location
@@ -521,6 +606,24 @@ seconds.
 Application Gateway can load balance within a Region: for Global Load Balancing at the 
 Application Layer use Azure Front Door. 
 
+## Azure Content Delivery Network
+- Includes Web Application Firewall (WAF) service
+  
+## Azure DDoS Protection
+
+- Discards DDoS traffic at the Azure network edge  
+- Protects against over-consumption of resources
+- A singel DDoS protection plan is enabled at the tenant level and used across multiple subscriptions
+- Default Basic plan is free
+- Standard SKU adds protection from:
+    - volumetric attacks
+    - protocol attacks
+    - resource layer (application) attacks
+
+## Azure Traffic Manager
+- a DNS-Based traffic load balancer
+- lets you distribute traffic across global Azure regions
+  
 ## CLI Commands
 
     az network route-table list -o table

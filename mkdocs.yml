@@ -19,6 +19,7 @@ nav:
     - 'KQL': 'azure/kusto.md'
     - 'Azure Monitor' : 'azure/monitor.md'
     - 'Azure Networking': 'azure/networking.md'
+    - 'Azure Storage': 'azure/storage.md'
     - 'PostgreSQL': 'azure/postgresql.md'
     - 'Terraform': 'azure/terraform.md'
   - 'Devops': 'devops/devops.md'
