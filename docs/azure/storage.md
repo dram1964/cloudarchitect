@@ -1,21 +1,22 @@
 # [Azure Storage](https://learn.microsoft.com/en-us/azure/storage/)
 
 Azure Storage is a cloud storage solution supporting blobs, files, disks, messages, tables and other
-types of data. 
+types of data. Combining data services into a single account allows you to manage them as a 
+group - the settings applied to the Storage Account apply to all services within the 
+account. Deleting a Storage Account also deletes all the data in it. 
 
-A Storage Account needs to be created to store data objects. The Storage Account can be used to:
+For each combination of settings that you require, you will need a corresponding Storage Account. An Azure Storage Account defines the following settings:
 
-- View Storage Objects
-- Configure Network and Security settings
-- Perform Data Management and Monitoring
-- Diagnose Problems
-- Move and Migrate data
-- Apply Governance controls
-- View activity logs
-- Control access
-
-There are two types of Storage Account: Standard and Premium. Premium is intended for low-latency data access and uses SSDs. You cannot convert between Standard and Premium storage: instead you will 
+- Subscription (for billing)
+- Location (where the data is stored)
+- Performance (Standard or Premium). Premium is intended for low-latency 
+data access and uses SSDs. You cannot convert between Standard and Premium storage: instead you will 
 need to create a new Storage Account and migrate the data from the original Account. 
+- Replication (LRS, ZRS, GRS)
+- Access Tier (Hot, Cold, Archive)
+- Secure Transfer Required
+- Virtual Networks. Use the 'Firewalls and virtual networks' settings on your storage accounts to restrict access to specifici virtual networks or public IPs. Subnets and Virtual networks must exist in the same Azure region or region pair as the storage account. 
+
 
 Azure storage provides a unique namespace for your data, accessible over HTTP or HTTPS. 
 Namespaces are formatted: <code>https://$STORAGE_ACCOUNT_NAME.$SERVICE_NAME.core.windows.net</code>. For example:
@@ -43,14 +44,18 @@ Ingress rates may be increased by raising a support request with Microsoft. Data
 secure, scalable, managed, accessible. Azure storage encryption is enabled by default and 
 cannot be disabled.
 
-Use the 'Firewalls and virtual networks' settings on your storage accounts to restrict access to 
-specifici virtual networks or public IPs. Subnets and Virtual networks must exist in the 
-same Azure region or region pair as the storage account. 
+Four options are available for accessing Blob Storage:
 
-Azure Storage access can be granted via AAD, Shared Keys for the Storage Account, SAS tokens or 
-read-only anonymous access. SAS tokens granted access for a specified period of time. Stored 
-access policies give you the option to revoke permissions without having to regenerate the 
-storage account keys. 
+- AAD
+- Shared Keys for the Storage Account. Two 512-bit keys are created with every Storage Account. These keys can be used to grant full access to the Storage Account. It is recommended that these keys are regularly rotated.
+- Shared Access Signature: SAS keys grant access for a specified period of time. Three types of SAS key:
+    - User delegation SAS - secured with AAD credentials - only available for Blob Storage access
+    - Service SAS - secured with the SA shared keys - grants access to one of the four storage services in an account. 
+    - Account SAS - secured with ths SA Shared keys - grants access to the services in the SA and also to service-level operations
+- Public: read-only anonymous access. To enable public access to containers or blobs, public access must also be enabled for the Storage Account. 
+
+Stored access policies can be associated to Service SAS keys, to give you the option to revoke permissions without having to regenerate the storage account keys. The only way to revoke permissions on 
+ad-hoc SAS keys is to regenerate the SA Shared Keys
 
 ## Azure Blob Storage
 
@@ -104,7 +109,7 @@ There are several options for uploading Blob Data:
 - Azure Storage Data Movement library (.Net)
 - blobfuse (linux filesytem support)
 - Azure Data Box Disk
-- Azure Import/Export
+- Azure Import/Export (using WAImport Tool to copy files to disk)
 
 ## Azure Disks
 
@@ -118,12 +123,58 @@ Azure Data Lake is the Hadoop Distributed Flie System (HDFS) as a service
 ## Azure File Storage
 
 Azure File Storage provides cloud-hosted file shares. Files can be accessed using SMB or NFS from 
-on-prem or VMs in Azure. Files are encrypted at rest, and SMB ensures that encryption in transit. 
+on-prem or VMs in Azure. Scripts to connect a file share to a local machine or VM can be
+downloaded using the 'Connect' link on the file share blade in the Azure Portal. 
+
+Files are encrypted at rest, and SMB ensures encryption in transit. 
 Files can be access using a URL or SAS URL token. 
 
 - Ideal for:
     - Applications that use file shares
     - Sharing files between VMs or Users
+
+File Shares are accessed on port 445 - so this needs to be enabled in your firewall. When
+creating the file share, the 'enable secure transfer' enforces encryption during data 
+transfers.
+
+Azure Files provides capablility to take snapshots of file shares to create a point-in-time, 
+read-only copy of the file share. Share snapshots are incremental, recording only changes
+that were made since the last snapshot. Although the snapshots are incremental, you only need
+the save the most recent snapshot to recover a file or share. To delete a share that has 
+snapshots, you must first delete all snapshots. 
+
+Azure File Sync enables you to cache several Azure Files shares on an on-prem Windows server or 
+cloud VM. You can then access the files via the server cache using the protocols supported on 
+the server. Azure File Sync allows you to cache the shares on an many servers as required. 
+Cloud tiering is a feature that allows you to define policies to control which files are
+stored locally and which are kept in Azure Files. Files that are not stored locally are 
+replaced with a pointer (URL to the file in Azure). Tiered files are retrieved on-demand
+from Azure as needed. Azure File Sync can be used to:
+
+- Provide write access to the same data across Windows Servers and Azure Files
+- Store backup files
+- Provide DR storage
+- Archiving files to Azure with Cloud Sync
+
+Azure File Sync comprises six main components:
+
+1. Storage Sync Service: forms sync relationships with Storage Accounts
+2. Sync Group: defines the endpoints (local:Azure) for the sync
+3. Registered Server: a local server that is trusted by the Sync Service
+4. Azure File Sync Agent: Package installed on the local server to enable synchronisation with Azure
+5. Server Endpoint: represents a particular location on the local server that is to be synchronised with Azure Files
+6. Cloud Endpoint: an Azure Files share that the server endpoint is to be synchronised to. 
+
+The Azure Files share can be a member of only one Sync Group and only one Cloud Endpoint. A server
+can be registered with only one Cloud Sync Service resource at a time.
+
+Deploy Azure File Sync
+
+1. Deploy the Storage Sync Service on Azure
+2. Install the Azure File Sync Agent on your local Windows Server
+3. Register the local server to the Storage Sync Service (establishes the trust relationship)
+
+
   
 ## Azure Queue Storage
 

@@ -5,6 +5,7 @@ nav:
   - 'Azure': 
     - 'CLI Commands': 'azure/cli_commands.md'
     - 'Azure AD': 'azure/aad.md'
+    - 'Azure Compute': 'azure/compute.md'
     - 'Azure Key Vault': 'azure/keyvault.md'
     - 'Azure Fundamentals': 
         - 'Core Concepts': 'azure/afc/core_concepts.md'
