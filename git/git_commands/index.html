@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/git/git_commands/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Git Client - Cloud Architecture notes</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../azure/cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../../azure/app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../azure/kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/terraform/" class="dropdown-item">Terraform</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../devops/devops/" class="nav-link">Devops</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Git <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../porter/" class="nav-link">Porter</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../linux/commands/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../github_actions/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#getting-a-repository" class="nav-link">Getting a Repository</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#recording-changes" class="nav-link">Recording Changes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#viewing-changes" class="nav-link">Viewing Changes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#working-with-remotes" class="nav-link">Working with Remotes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#tagging" class="nav-link">Tagging</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#branches" class="nav-link">Branches</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#rebasing" class="nav-link">Rebasing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#reversing-changes" class="nav-link">Reversing Changes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#cherry-picking" class="nav-link">Cherry Picking</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="getting-a-repository">Getting a Repository</h1>
+<p>Turn an existing local directory into a git repository:</p>
+<p><code>git init</code></p>
+<p>Add a <strong>.gitignore</strong> to exclude files from tracking by Git
+Clone a repository with:</p>
+<p><code>git clone &lt;repository_url&gt;</code></p>
+<p>Clone takes a full copy of all the data the remote repository has. 
+To see all the branches of the repository, use:</p>
+<p><code>git branch -a</code></p>
+<h1 id="recording-changes">Recording Changes</h1>
+<p>To start tracking changes to a file, use:</p>
+<p><code>git add &lt;filename&gt;</code></p>
+<p>To see what you've changed but not yet staged:</p>
+<p><code>git diff</code></p>
+<p>To see what you've staged but not yet committed:</p>
+<p><code>git diff --staged</code></p>
+<p>To unstage a file</p>
+<p><code>git reset HEAD &lt;filename&gt;</code></p>
+<p>Or</p>
+<p><code>git restore --staged &lt;filename&gt;</code></p>
+<p>Commit staged changes with a commit message:</p>
+<p><code>git commit -m "Commit message"</code></p>
+<p>To amend the previous commit, stage the additional files and then use:</p>
+<p><code>git commit --amend</code></p>
+<p>To discard changes to a file since the last commit:</p>
+<p><code>git checkout -- &lt;filename&gt;</code></p>
+<p>Newer version of above command</p>
+<p><code>git restore &lt;filename&gt;</code></p>
+<p>To remove a file from the staging area and your local directory:</p>
+<p><code>git rm &lt;filename&gt;</code></p>
+<p>To remove a file from the staging area but keep it in your local directory:</p>
+<p><code>git rm --cached &lt;filename&gt;</code></p>
+<p>To remove all files matching a pattern (the wildcard needs to be escaped with backslash):</p>
+<p><code>git rm data/\*.csv</code></p>
+<p>To rename a file:</p>
+<p><code>git mv &lt;filename.old&gt; &lt;filename.new&gt;</code></p>
+<h1 id="viewing-changes">Viewing Changes</h1>
+<p>To view the history of commits:</p>
+<p><code>git log</code></p>
+<p>To view the changes associated with the last two commits:</p>
+<p><code>git log -p -2</code></p>
+<p>To view changes for a particular file:</p>
+<p><code>git log -- &lt;path_to_file&gt;</code></p>
+<p>To view all commits for current branch with one line per commit:</p>
+<p><code>git log --oneline</code></p>
+<p>To view all commits for all branches with one line per commit:</p>
+<p><code>git log --oneline --all</code></p>
+<h1 id="working-with-remotes">Working with Remotes</h1>
+<p>You can query the remote servers configured for your local copy with:</p>
+<p><code>git remote -v</code></p>
+<p>For a single remote you will receive two URLs: one for <strong>fetch</strong> and one for <strong>push</strong>
+After cloning a repository the default remote is named <strong>origin</strong>. You can add additional
+remotes:</p>
+<p><code>git remote add &lt;abbreviaion&gt; &lt;URL&gt;</code></p>
+<p>You can then fetch from the new remote:</p>
+<p><code>git fetch &lt;abbreviaion&gt;</code></p>
+<p>You can then checkout the new remote or merge it into one of your branches</p>
+<p><code>git checkout abbreviation/master</code></p>
+<p>The fetch command pulls all the data from the specified remote. <code>git fetch origin</code>
+will pull any new data from the origin since you last cloned it. Fetch will not 
+automatically merge the data with your own work. If your current branch is set up to track a 
+remote branch <code>git pull</code> will fetch and merge that branch to your current branch
+To push your changes use</p>
+<p><code>git push origin master</code></p>
+<p>This will not work if someone else has pushed to origin/master since you cloned it. You will
+first need to fetch their work and merge this into yours before you can push successfully
+To inspect the remote branch, use:</p>
+<p><code>git remote show origin</code></p>
+<p>The output of this command will show you:</p>
+<ul>
+<li>which local branches are tracking which remote branches</li>
+<li>which remote branches you don't currently have</li>
+<li>which local branches no longer exist on the remote (stale branches)</li>
+</ul>
+<p>Running <code>git fetch origin</code> will collect the remote branches that you don't currently 
+have and <code>git remote prune</code> to remove stale branches</p>
+<h1 id="tagging">Tagging</h1>
+<p>To add a tag to the current commit:</p>
+<p><code>git tag -a v0.1 -m "Tag message"</code></p>
+<p>Add a tag to a specific commit</p>
+<p><code>git tag -a v0.2 &lt;commit checksum&gt;</code></p>
+<p>List tags</p>
+<p><code>git tag</code></p>
+<p>Tags are not automatically transferred to the remote. They need to be explicitly mentioned:</p>
+<p><code>git push origin v0.2</code></p>
+<p>To push all tags:</p>
+<p><code>git push origin --tags</code></p>
+<p>Tags can be removed using:</p>
+<p><code>git tag -d v0.2</code></p>
+<p>To delete the tag from a remote use:</p>
+<p><code>git push origin --delete &lt;tagname&gt;</code></p>
+<p>Show the commit annotated with a specific tag:</p>
+<p><code>git show v0.1</code></p>
+<h1 id="branches">Branches</h1>
+<p>Commits are pointers to the snapshots for the objects that had been staged. The commit also contains commit metatdata (author, email, committer) and a pointer to the previous commit. The pointer 
+points to the root tree for the commit, which contains pointers to the blobs stored with the commit. A branch in Git is simply a pointer to a commit. Each time you commit on a branch, the branch 
+pointer moves forward to the current commit. Creating a new branch, creates a new pointer to the 
+current commit. A special pointer called <strong>HEAD</strong> is maintained to represent the current 
+branch that you are on. 
+There are multiple ways to create and switch to a new branch. This can be done in two steps:</p>
+<pre><code>    git branch &lt;branchname&gt;
+    git checkout &lt;branchname&gt;
+</code></pre>
+<p>Or either of the following can be used:</p>
+<ul>
+<li><code>git checkout -b &lt;branchname&gt;</code></li>
+<li><code>git switch -c &lt;branchname&gt;</code></li>
+</ul>
+<p>To switch to an existing branch use either one of:</p>
+<ul>
+<li><code>git checkout &lt;branchname&gt;</code></li>
+<li><code>git switch &lt;branchname&gt;</code></li>
+</ul>
+<p>New branches will have their commit pointer pointing to the same commit as the branch it 
+was created from. When new commits are added to the branch, the pointer is moved on to a 
+new commit. To bring these commits into another branch you can use the merge subcommand</p>
+<pre><code>git switch -c feature123
+### edit and commit some files
+git switch main
+git merge feature123
+</code></pre>
+<p>Providing no changes have been made in <strong>main</strong> the git merge will create a fast-forward
+merge: where the commits from the merged branch are added to the commits on the <strong>main</strong>
+branch and the pointer from <strong>main</strong> is moved to the last commit from the merged branch.</p>
+<p>If the <strong>main</strong> branch has commits after the branch to be merged was created, the current
+branch of <strong>main</strong> is no longer a direct ancestor of the commits on the branch to be merged-in.
+In this case, Git creates a new snapshot that points to the latest commits on both branches and 
+incorporates the changes from both branches. This is known as a merge commit.</p>
+<p>Occaisionally, conflicts will occur during merge commits. This happens when both branches have
+made changes to the same file. In this case, <code>git merge</code> will report the conflict and
+the merge commit will be paused. Run <code>git status</code> to see which files need manual 
+attention. The file will contain the conflicting lines from both files. After the conflicts have 
+been resolved, the merge commit can be completed using <code>git add</code> followed by
+<code>git commit</code>. </p>
+<p>The <code>git branch</code> subcommand contains lots of useful options for managing your branches. The 
+<code>--merged</code> switch shows branches that have been merged into the current branch and 
+the <code>--no-merged</code> command shows branches that have not yet been merged in. To 
+delete a branch, use:</p>
+<p><code>git branch -d &lt;branchname&gt;</code></p>
+<p>If the branch to be deleted contains work that has not yet been merged in, the command will 
+fail. You can still force the delete using:</p>
+<p><code>git branch -D &lt;branchname&gt;</code></p>
+<p>Use the <code>--move</code> switch to rename a branch:</p>
+<p><code>git branch --move &lt;old_name&gt; &lt;new-name&gt;</code></p>
+<p>This will change the name of the local copy of the branch. To replicate this on the 
+server you will need to both push the new branch name and delete the old branch name on the 
+remote:</p>
+<pre><code>git push -u origin &lt;new-name&gt;
+git push origin --delete &lt;old_name&gt;
+</code></pre>
+<p>Care should be taken when re-naming and deleting remote branches that may be in use or ancestors
+for other branches held locally elsewhere. Also, if pipelines depend on the branch to be renamed, 
+these scripts will also need to be adjusted for the new name
+Remote tracking branches are local references to the state of remote branches at the time that
+you last pulled them. To synchronise your remote tracking branches use:</p>
+<p><code>git fetch &lt;remotename&gt;</code></p>
+<p>When you want to share a local branch, you can push that up to the server:</p>
+<p><code>git push &lt;remotename&gt; &lt;branchname&gt;</code></p>
+<p>This will allow others to pull the branch from the server using:</p>
+<p><code>git fetch origin</code></p>
+<p>To create a local copy of the new branch, you will need to checkout the branch:</p>
+<p><code>git checkout -b &lt;branchname&gt; &lt;origin/branchname&gt;</code></p>
+<p>If the local branch does not already exists and exists on only one remote, 
+this command can be shortened to:</p>
+<p><code>git checkout &lt;branchname&gt;</code></p>
+<p>The <code>-b</code> option allows you to specify an alternative name for the tracking branch
+To see the difference between your local tracking branches and the remote branches at the
+time you last fetched them, use:</p>
+<p><code>git branch -vv</code></p>
+<p>To see the difference between your local tracking branches and the current state of the remotes, 
+you will need to fetch them first:</p>
+<pre><code>git fetch -all 
+git branch -vv
+</code></pre>
+<p>Fetching a remote tracking branch will not update your local working directory. You will need 
+to merge the remote tracking branch into your working directory manually:</p>
+<p><code>git merge &lt;origin/branchname&gt;</code></p>
+<p>Alternatively <code>git pull</code> does both a fetch and a merge</p>
+<h1 id="rebasing">Rebasing</h1>
+<p>When two branches have divergent commit histories, then a merge commit will create a new 
+snapshot from the most recent commits on both branches and the most recent common ancestor commit for both branches. An alternative approach is the available using the <code>rebase</code> command. 
+Rebase will:</p>
+<ul>
+<li>stash away the divergent commits from the current branch</li>
+<li>rewind the current branch to the common ancestor for both branches</li>
+<li>apply the commits from the source branch</li>
+<li>re-apply the commits that were previously stashed away</li>
+</ul>
+<p>To rebase the <strong>feature1</strong> branch to the main branch:</p>
+<pre><code>git checkout feature1
+git rebase main
+</code></pre>
+<p>The <strong>feature1</strong> branch will now have the commit history from <strong>main</strong>, 
+with the additional commits from <strong>feature1</strong> appended. When you are ready to merge 
+<strong>feature1</strong> back to <strong>main</strong> a fast-forward merge will suffice:</p>
+<pre><code>git checkout main
+git merge feature1
+</code></pre>
+<p>Rebasing is typically used to where you want to cleanly apply your commits to a remote branch. 
+You can rebase your local branch to the remote branch and then create a pull request, so that
+when the request is approved, the new commits can be applied without fear of merge conflicts.
+Rebasing whilst keeping all the changes applied in a branch will result in new commits being 
+created when the original commits are re-applied. This could cause a problem if someone else 
+has created work based on your original branch. The simple lesson from all this is <strong>never rebase anything that you've pushed somewhere else.</strong></p>
+<h1 id="reversing-changes">Reversing Changes</h1>
+<p>HEAD is the symbolic name for the currently checked out commit. HEAD is normally attached to a branch
+but you can attach it to a commit:</p>
+<p><code>git checkout commit_hash</code></p>
+<p>Since commit hashes are awkward to work with, you can use relative refs to move around: </p>
+<ul>
+<li>Use the carat symbol to move up one commit at a time</li>
+<li>Use the tilde symbol followed by an integer to move upwards that integer number of time</li>
+</ul>
+<p>Thus you can move HEAD using relative refs. The following code moves HEAD back two commits before the $current_commit:</p>
+<pre><code>git checkout $current_commit
+git checkout HEAD^
+git checkout HEAD^
+</code></pre>
+<p>The same effect can be produced with:</p>
+<p><code>git checkout HEAD~2</code></p>
+<p>Instead of moving HEAD, you can reassign a branch to to a previous commit:</p>
+<p><code>git branch -f main HEAD~3</code></p>
+<p>This will move the main branch to three commits behind HEAD. Or you can move the branch forward to a specific commit hash:</p>
+<p><code>git branch -f main $specific_commit</code></p>
+<p>You can reverse changes by moving a branch reference backwards in time to an older commit:</p>
+<p><code>git reset HEAD~1</code></p>
+<p>'reset' works for local branches on your own machine. To reverse changes for remote branches 
+that others are using, use 'revert':</p>
+<p><code>git revert HEAD</code></p>
+<p>'revert' appends a new commit that has the effect of undoing the previous commit. This commit can be 
+pushed to the remote for others to pull</p>
+<h1 id="cherry-picking">Cherry Picking</h1>
+<p>Git cherry-pick allows you to incorporate changes from another branch into the current branch:</p>
+<p><code>git cherry-pick commit_hash1, commit_hash3, ..., commit_hashN</code></p>
+<p>The above commands appends the selected commits to the commits on the current branch
+An interactive rebase allows you to reorder or omit commits from the current branch:</p>
+<p><code>git rebase -i HEAD~7</code></p>
+<p>The above command moves you back in the commit tree by seven commits and then allows you to reorder or 
+omit commits. You can even change the commit message if you wish</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
