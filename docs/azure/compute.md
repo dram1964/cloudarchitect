@@ -80,12 +80,68 @@ Examples:
 - B2ms - B-series, 2 vCPUs, memory-intensive, premium storage
 - D4ds v4 - D-series, 4 vCPUs, local temp disk, premium storage, version 4
 
-Virtual Machine Scale Sets - IaaS service
+## VM Availability
 
-- deploy and manage a set of identical, load-balanced VMs
-- provides scaling and auto-scaling for VMs
+VM resources need to be configured to provide consistent response times and with high availability. 
+Azure offers several options to meet these requirements. 
 
-Azure Container Instances - PaaS service to run your container instances
+An availability plan should handle responses to:
+
+- Unplanned hardware maintenance - Azure issues an unplanned hardware maintenance event when a 
+resource component is predeictied to fail. Live Migration is used to migrate a VM from failing 
+hardware to healthy resources and can result in reduced performance during the migration
+- Unexpected downtime - occurs when hardware fails unexpectedly
+- Planned maintenance - periodic updates to VM Host machines normally have minimal impact on VM availability
+
+An Availability Set is a logical grouping of Virtual Machines performing the same tasks. 
+Availability sets run your VMs across multiple physical servers, compute racks, storage units 
+and network switches. If a hardware or software failure occurs, only a subset of your VMs will be
+affected. By grouping machines into availability sets, you ensure that not all 
+the machines are upgraded at the same time during a host operating system upgrade. A VM can only 
+be added to an availability set at create time. To add an existing VM, you would need to delete and
+recreate it. When using availability sets consider:
+
+- Redundancy: place mutliple VMs in the Availability Set
+- Application Tiers: each application tier (front-end, db, controllers, etc) should be placed in its own Availability Set
+- Load Balancing: use Load Balancer to distribute incoming traffic to healthy servers
+- Managed Disks for block level storage
+
+Each VM in an Availability Set is placed in one update domain and one fault domain. An update
+domain is a group of nodes that are upgraded together during a service upgrade: only one update
+romain is rebooted at a time. There are 5 non-user-configurable update domains, but you can configure
+up to 20. A fault domain is a group of nodes that share a common set of hardware that represents 
+a single point of failure.
+
+An Availabilty Zone is a combination of a fault domain and an update domain. By placing your
+VMs across multiple Availability Zones, you are spreading your VMs over multiple fault domains
+and multiple update domains. Availability Zones are unique physical locations within an Azure
+region with independant power, cooling and networking. There is a minimum of three separate
+zones in all enabled regions. Zonal services such as VMs, disks and Standard IP addresses, pin 
+each resource to a specific zone. Zone-redundant services such as zone-redundant Storage or SQL 
+Database are automatically replicated across all zones. 
+
+Scalability for VMs can be either:
+
+1. Vertical: (scale up and scale down) involves increasing or decreasing VM size in response to workloads
+2. Horizontal: (scale out and scale in) involves increasing or decreasing the number of VMs to support changing workload. 
+
+Vertical scaling depends on the availability of larger hardware and usually requires stopping and 
+restarting a VM. 
+
+VM Scale Sets allow you to deploy and manage a set of identical VMs. VMSS can automatically 
+increase or decrease the number of VM instances to provide true auto-scaling. VMSS can be 
+scaled automatically, manually or both. VMSS supports use of both Azure Load Balancer or Azure 
+Application Gateway for layer-4 or layer-7 distribution. VMSS can support up to 1000 instances or 
+600 instances if using custom VM images. 
+
+When configuring a VMSS, you define:
+
+- Scaling Policy: Manual or Auto and minimum and maximum instances allowed
+- Scale Out: CPU threshold, duration and number of instances to increase by
+- Scale In: CPU threshold, duration and number of instances to decrease by
+- Scale-in Policy: determines the order in which VMs are removed. VMs are balanced across availability zones and fault domains, then deleting the VM with the highest instance ID (default) or the newest or the oldest VM.
+
+## Azure Container Instances - PaaS service to run your container instances
 
 Azure Kubernetes Service - PaaS service for hosting and orchestrating containers
 

@@ -48,9 +48,9 @@ So far we've been selecting fields that return a scalar value. However some fiel
 If the query returns a single row, you can use the tsv output format to assign the value to a variable or to directly use the value in a command:
 	
     SUB=$(az account list --query "[?contains(name, 'research')].[id]" -o tsv)
-    `az account set --subscription $SUB`
+    az account set --subscription $SUB
 
-    az account set --subscription $(az account list --query "[?contains(name, 'research')].[id]" -o tsv)`
+    az account set --subscription $(az account list --query "[?contains(name, 'research')].[id]" -o tsv)
 
 For multiple rows of single values, you can pipe the output to xargs, to perform the same 
 command multiple times:
@@ -62,6 +62,19 @@ You can capture multiple values in an ENV variable and use a foreach loop to ite
 
     VM_NAMES=$(az vm list --query [].[name] -o tsv)
     for n in $VM_NAMES; do echo "on $n now"; done
+
+Or you can capture the output in an array, by enclosing the rvalue in round brackets:
+
+    SUB=($(az account show --query [id, name] -o tsv))
+    echo "ID: ${SUB[0]}"
+    echo "Name: ${SUB[1]}"
+
+
+Replace placeholder data in an environment variable:
+
+    JSON_DATA=$(cat somejsonfile.json)
+    # replace <name> with 'Example Text'
+    JSON_DATA=${JSON_DATA//<name>/Example Text}
 	
 
 # Storage

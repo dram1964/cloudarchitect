@@ -39,7 +39,7 @@ A defence-in-depth strategy addresses security at the following layers:
     - Use Workflow Automation (Logic Apps) to respond to security alerts
   
 - Microsoft Sentinel (previously Azure Sentinel)
-    - Microsoft Managed (SaaS), cloud-based Security Information and Event Management (SIEM) and Security Orchestration, Automation and Response (SOAR) system
+    - Microsoft Managed (SaaS), cloud-based Security Information and Event Management (SIEM) and Security Orchestration, Automation and Response ([SOAR](/operations/soar)) system
     - Aggregates security data from many different sources, using open-standard logging format
     - Threat detection uses built-in rules (AI) provided as templates or custom rules
     - Threat response can be automated with Azure Monitor Workbooks, to set alerts or send emails. Email will include link to Block or Ignore threat
