@@ -1,6 +1,7 @@
 # References
 
 - [How to query Azure resources using the Azure CLI](https://techcommunity.microsoft.com/t5/itops-talk-blog/how-to-query-azure-resources-using-the-azure-cli/ba-p/360147)
+- [JMES Query Tutorial](http://jmespath.org/tutorial.html)
 
 # JMES Query Syntax
 
@@ -76,6 +77,37 @@ Replace placeholder data in an environment variable:
     # replace <name> with 'Example Text'
     JSON_DATA=${JSON_DATA//<name>/Example Text}
 	
+## Compute
+
+The `--admin-username` parameter of `az vm create` is used to specify a username for the VM: if 
+not provided, then the username on your local machine is used. The `--generate-ssh-keys` will 
+create `id_rsa` key pairs on the local and remote machines. If these already exist on the local 
+machine they will be copied to the remote instead being created.
+
+`az vm image list` can be used to get a list of VM images available. By default this will display
+the most popular images. Use the `--all` flag to get a complete list. You can also filter the
+results using `--publisher`, `--sku`, `--offer` flags. Use the `--location` filter to view offers
+that are available in the region you wish to deploy to. 
+
+Use `az vm list-sizes --location $LOCATION -o table` to list the available machine sizes 
+for your region. If you don't specify the `--size` parameter in your `az vm create` command, 
+Azure will select a default general-purpose size for you. If you wish to resize an existing
+VM, you can use the following command to check available sizes for cluster the VM is deployed
+to: 
+
+    az vm list-vm-resize-options \
+    --resource-group learn-6e62a4e5-3f38-4461-aa16-2a0149360363 \
+    --name SampleVM \
+    --output table
+
+Once you have identified the desired VM size, run `az vm resize` to resize the VM.
+
+Use `az vm list-ip-address` to list the IP Addresses associated to a VM. 
+
+`az vm list` will return information about all VMs in the current subscription. Use `az vm show` to
+get more detailed information about a specific VM. 
+
+`az vm open-port --port $port_number` to open a port on a running VM. 
 
 # Storage
 Create a storage account and container

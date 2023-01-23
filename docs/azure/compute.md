@@ -42,6 +42,20 @@ When configuring a VM via the Portal, a number of tabs are available:
 - Monitoring
 - Tags
 
+Virtual Machine Extensions provide post-deployment configuration and automation tasks for VMs.
+VM Extensions can be bundled with the VM deployment or run against existing VMs. VM extensions 
+can be managed from the CLI, Powershell, ARM templates and the Portal. 
+
+Custom Scripts Extensions can be added to your VMs. After the Custom Script Extension is added
+to the VM, you can provide a Powershell script file to execute commands on the VM. The script files
+can be downloaded from Azure Storage or GitHub. Custom Script Extensions have a default timeout value
+of 90 minutes.  The script can also be run from the command line:
+
+    Set-AzVmCustomScriptExtension -FileUri https://scriptstore.blob.core.windows.net/scripts/Install_IIS.ps1 -Run "PowerShell.exe" -VmName vmName -ResourceGroupName resourceGroup -Location "location"
+
+Desired State Configuration is a management platform in Windows Powershell. DSC provides a 
+declarative syntax for specifying machine configuration. 
+
 Additional Resources:
 
 - [Linux VM Sandbox](https://learn.microsoft.com/en-us/training/modules/create-linux-virtual-machine-in-azure/)
