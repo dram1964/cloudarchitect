@@ -2,7 +2,8 @@
 
 ## App Service Plans
 An app always runs in an App Service Plan. An App Service Plan defines a set of compute resources 
-for the web app to run. App Service Plans can run multiple web apps or Azure Functions
+for the web app to run. App Service Plans can run multiple web apps or Azure Functions.
+
 App Service Plans define:
 
 - Region
