@@ -404,6 +404,8 @@ service chaining to provide transitivity.
 
 ## [VPN Gateway](https://learn.microsoft.com/en-us/azure/vpn-gateway/)
 
+See also [Create a Site-to-Site VPN connection](https://learn.microsoft.com/en-us/azure/vpn-gateway/tutorial-site-to-site-portal?source=docs)
+
 A VPN Gateway is used to connect two trusted private networks using an encrypted 
 tunnel over a public, untrusted network. A VPN Gateway can be used to connect 
 Azure VNets and On-prem networks and typically provides up to 1 Gbps bandwidth. 
@@ -420,7 +422,7 @@ a VPN connection:
 
 1. Create VNets and Subnets
 
-    requires a reservation from the on-site network address range
+    requires a reservation from the on-site network address range. Ensure that there is no overlap between on-prem and cloud networks/subnets.
 
 2. Specify the DNS server (optional)
 
@@ -432,7 +434,7 @@ a VPN connection:
 
 4. Create the VPN Gateway
 
-    when creating the virtual network gateway you can choose between VPN or ExpressRoute as the gateway type, and route-based or policy-based as the VPN type. Policy-based only supports IKEv1, comes with a Basic SKU only, and provides only one tunnel. Policy-based VPNs direct traffic using IPsec policies. Route-based is the usual choice and uses route table to direct traffic. The SKU will determine the number of tunnels available and the aggregate throughput of the connection. The different SKUs provide between 30-100 S2S connections, 250 to 10,000 P2S connections and 650Mbps to 10.0 Gbps aggregate throughput. 
+    when creating the virtual network gateway you can choose between VPN or ExpressRoute as the gateway type, and route-based or policy-based as the VPN type. Policy-based only supports IKEv1, comes with a Basic SKU only, and provides only one tunnel. Policy-based VPNs direct traffic using IPsec policies. Route-based is the usual choice and uses route table to direct traffic. The SKU will determine the number of tunnels available and the aggregate throughput of the connection. The different SKUs provide between 30-100 S2S connections, 250 to 10,000 P2S connections and 650Mbps to 10.0 Gbps aggregate throughput. During this step you will also be able to choose between active-active or active-standby mode.
     
 5. Create the Local Network Gateway
 
@@ -444,7 +446,7 @@ a VPN connection:
 
 7. Create the VPN Connection
 
-    Uses the Local Network Gateway, Virtual Network Gateway and a Shared Key (PSK)
+    Uses the Local Network Gateway, Virtual Network Gateway and a Pre-Shared Key (PSK). The Shared Key value must match the value used when configuring the on-prem VPN Device in Step 6.
 
 A VPN Gateway consists of two or more VMs deployed to a dedicated Gateway Subnet in the
 VNet. VPN Gateways support Availability Zones. When connecting to a single 

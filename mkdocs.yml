@@ -29,6 +29,7 @@ nav:
   - 'Linux':
     - 'Commands': 'linux/commands.md'
     - 'Bash Scripting': 'linux/bash_scripting.md'
+    - 'Awk': 'linux/awk.md'
   - 'Git':
     - 'Git Client': 'git/git_commands.md'
     - 'Github Actions': 'git/github_actions.md'

@@ -166,7 +166,164 @@ Functions are declared are declared with the key word 'function':
 Call the function by name, supplying any required arguments: 
 
     function f1 {
-        echo "$1 $2"
+        echo "${1}, ${2}"
     }
 
-    f1 "Hello," "World!"
+    STMT=$(f1 "Hello" "World!")
+
+    echo $STMT
+
+Use command substitution to collect the output from the function as a return value. Use the 'local' 
+keyword to scope your variables to the functions scope to avoid changing variables in the
+global scope:
+
+    function f1 {
+        GREET="Hello"
+        local SCOPE="Earth"
+        echo "${GREET}, ${SCOPE}!"
+    }
+
+    GREET="Goodbye"
+    SCOPE="World"
+
+    f1 $GREET $SCOPE           # changes $GREET globally
+
+    echo "${GREET}, ${SCOPE}!" # prints "Hello, World!"
+
+When using command substitution around your function calls, the variables are scoped to the 
+statement, so variables in the function will not overwrite globals:
+
+
+    function f1 {
+        GREET="Hello"
+        local SCOPE="Earth"
+        echo "${GREET}, ${SCOPE}!"
+    }
+
+    GREET="Goodbye"
+    SCOPE="World"
+
+    echo $(f1 $GREET $SCOPE)   # prints "Hello, Earth!" but does not change global $GREET
+
+    echo "${GREET}, ${SCOPE}!" # prints "Goodbye, World!"
+
+## Special Variables and Signals
+
+A number of special variables are available to scripts and functions:
+
+| Variable Name | Meaning |
+| --- | --- |
+| $0 | filename of current script | 
+| $n | *n*th argument to script or function | 
+| $# | number of arguments passed |
+| $@ | all arguments passed |
+| $\* | all arguments passed |
+| $? | exit status of last command |
+| $$ | process id of current shell |
+| $! | process number of last background job |
+
+You can use trap to intercept OS signals such as Ctrl+C (SIGINT) or Ctrl+D (SIGQUIT):
+
+    trap <code to execute> $SIG1 $SIG2 ...
+
+Signals can be specified by name or number: use `kill -l` for a list of signals. The code 
+to execute can be inline or a function name. 
+
+## File Tests
+
+| Name | Test |
+| --- | --- |
+| -e | file exists |
+| -d | directory exists |
+| -r | file is readable |
+
+
+## Awk
+
+'awk' is a interpreted programming language designed for text processing. An awk program consists
+of commands that are executed sequentially on lines of text. Optional BEGIN and END blocks can
+be used for setup and tear-down. Use single-quotes to mark the start and end of the awk script.
+
+In its simplest form awk can be used to print the contents of a file:
+
+    awk '{print}' <filename>
+
+The '-v' option can be used to assign variables before the awk commands are executed:
+
+    awk -v name="World!" 'BEGIN{printf "Hello, %s\n", name}'
+
+'awk' treats input lines as space-separated fields. Columns from each line can be printed using
+their indexes (starting from 1):
+
+    awk '{print $3 "\t" $4}' <filename>
+
+Filters can be added to select which lines to print:
+
+    awk '/<pattern>/ {print $3 "\t" $4}' <filename>
+
+In the absence of a body block, awks default action is to print the whole record. $0 
+can be used to refer to the whole input record: These two programs therefore produce the
+same output:
+
+    awk '/<pattern>/ {print $0}' <filename>
+    awk '/<pattern>/' <filename>
+
+Variables can be used without prior declaration:
+
+    awk '/<pattern>/{++counter} END{print "Lines matched = ", counter}' <filename>
+
+'length' is a built-in function to return the length of its operand. To print all lines longer than
+82 characters use:
+
+    awk 'length($0) > 82' <filename>    # using default action of {print}
+
+Awk comes with a number of built-in variables:
+
+| Variable | Meaning |
+| --- | --- |
+| ARGC | number of arguments provided at the command line | 
+| ARGV | an array of the command line arguments | 
+| CONVFMT | the conversion format for numbers | 
+| ENVIRON | hash of environment variables | 
+| FILENAME | the current filename | 
+| FS | current field separator (default is space) | 
+| RS | current record separator (default is newline) |
+| NF | number of fields in current record | 
+| NR | number of the current record |  
+| FNR | number of current record in current file |
+| OFMT | the output format for numbers | 
+| OFS | the output field separator (default space) | 
+| ORS | the output record separtor (default newline) |
+| RLENGTH | the length of the string matched in `match` function | 
+| RSTART | the first position in the string matched in `match` function |
+| SUBSEP | the separator character for array subscripts |
+
+    awk 'BEGIN {print "Arguments = ", ARGC}' one two three four
+
+    awk 'BEGIN {
+        for (i=0 ; i < ARGC -1 ; i++) {
+            printf "ARGV[%d] = %s\n", i, ARGV[i]
+        }
+    }' one two three four
+
+    awk 'BEGIN { print ENVIRON["USER"] }'
+
+    awk 'NF < 10' <filename>                # print lines with less than 10 fields
+    awk 'NF < 10 {print NF}' <filename>     # print number of fields in lines with less than 10 fields
+
+    awk 'NR < 11' <filename>                # prints first 10 records 
+
+    awk 'BEGIN { if (match("Hello, World!", "or")) {print RLENGTH}'
+
+Additional variables are available with GNU AWK (gawk):
+
+| Variable | Meaning | 
+| --- | --- |
+| ARGIND | Index in ARGV of the current file being processed |
+| BINMODE | used to set binmode for file I/O |
+| ERRNO | error number if getline or close fails |
+| FIELDWIDTHS | use a space-separated list of fieldwidths instead of a delimiter |
+| IGNORECASE | used to make awk case-insensitive |
+| LINT | used to dynamically set lint options | 
+| PROCINFO | used to access process information | 
+| TEXTDOMAIN | text domain of the AWK program | 
