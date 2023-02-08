@@ -158,6 +158,15 @@ If Threat Intelligence filtering is enabled, these rules are highest priority an
 before network and application rules. If IDPS is configured in *Alert and Deny* mode, these 
 rules are applied after the network and application rules have been processed. 
 
+You can temporarily stop a deployed firewall by executing: 
+
+    az network firewall ip-config delete -f $FW_NAME -g $RG_NAME -n $CONFIG_NAME
+
+This will reduce the costs of running the firewall. To re-enable the firewall, you can re-apply 
+your terraform code or manually run: 
+
+    az network firewall ip-config create -f $FW_NAME -g $RG_NAME -n $CONFIG_NAME --public-ip-address $PIP_NAME --vnet-name $VNET_NAME
+
 ## VNet Routing
 
 Azure automatically creates system routes and assigns the routes to each subnet in a VNet.
@@ -434,7 +443,7 @@ a VPN connection:
 
 4. Create the VPN Gateway
 
-    when creating the virtual network gateway you can choose between VPN or ExpressRoute as the gateway type, and route-based or policy-based as the VPN type. Policy-based only supports IKEv1, comes with a Basic SKU only, and provides only one tunnel. Policy-based VPNs direct traffic using IPsec policies. Route-based is the usual choice and uses route table to direct traffic. The SKU will determine the number of tunnels available and the aggregate throughput of the connection. The different SKUs provide between 30-100 S2S connections, 250 to 10,000 P2S connections and 650Mbps to 10.0 Gbps aggregate throughput. During this step you will also be able to choose between active-active or active-standby mode.
+    when creating the virtual network gateway you can choose between VPN or ExpressRoute as the gateway type, and route-based or policy-based as the VPN type. Policy-based only supports IKEv1, comes with a Basic SKU only, and provides only one tunnel. Policy-based VPNs direct traffic using IPsec policies. Route-based is the usual choice and uses route table to direct traffic. The SKU will determine the number of tunnels available and the aggregate throughput of the connection. The different SKUs provide between 30-100 S2S connections, 250 to 10,000 P2S connections and 650Mbps to 10.0 Gbps aggregate throughput. During this step you will also be able to choose between active-active or active-standby mode. terraform resource: `azurerm_virtual_network_gateway`
     
 5. Create the Local Network Gateway
 
@@ -480,6 +489,74 @@ Gateway can be configured in Active/Active mode.
     - Virtual Network Gateway - routes traffic between the VNet and on-prem network
     - Connection: creates a logical connection between the Local Network Gateway and the VPN Gateway
 - VPN gateways can also be used for ExpressRoute failover or in Zone-redundant configuration.
+
+Terraform Sample Code:
+
+    resource "azurerm_resource_group" "example" {
+    name     = "test"
+    location = "West US"
+    }
+
+    resource "azurerm_virtual_network" "example" {
+    name                = "test"
+    location            = azurerm_resource_group.example.location
+    resource_group_name = azurerm_resource_group.example.name
+    address_space       = ["10.0.0.0/16"]
+    }
+
+    resource "azurerm_subnet" "example" {
+    name                 = "GatewaySubnet"
+    resource_group_name  = azurerm_resource_group.example.name
+    virtual_network_name = azurerm_virtual_network.example.name
+    address_prefixes     = ["10.0.1.0/24"]
+    }
+
+    resource "azurerm_local_network_gateway" "onpremise" {
+    name                = "onpremise"
+    location            = azurerm_resource_group.example.location
+    resource_group_name = azurerm_resource_group.example.name
+    gateway_address     = "168.62.225.23"
+    address_space       = ["10.1.1.0/24"]
+    }
+
+    resource "azurerm_public_ip" "example" {
+    name                = "test"
+    location            = azurerm_resource_group.example.location
+    resource_group_name = azurerm_resource_group.example.name
+    allocation_method   = "Dynamic"
+    }
+
+    resource "azurerm_virtual_network_gateway" "example" {
+    name                = "test"
+    location            = azurerm_resource_group.example.location
+    resource_group_name = azurerm_resource_group.example.name
+
+    type     = "Vpn"
+    vpn_type = "RouteBased"
+
+    active_active = false
+    enable_bgp    = false
+    sku           = "Basic"
+
+    ip_configuration {
+        public_ip_address_id          = azurerm_public_ip.example.id
+        private_ip_address_allocation = "Dynamic"
+        subnet_id                     = azurerm_subnet.example.id
+    }
+    }
+
+    resource "azurerm_virtual_network_gateway_connection" "onpremise" {
+    name                = "onpremise"
+    location            = azurerm_resource_group.example.location
+    resource_group_name = azurerm_resource_group.example.name
+
+    type                       = "IPsec"
+    virtual_network_gateway_id = azurerm_virtual_network_gateway.example.id
+    local_network_gateway_id   = azurerm_local_network_gateway.onpremise.id
+
+    shared_key = "4-v3ry-53cr37-1p53c-5h4r3d-k3y"
+    }
+
 
 ## ExpressRoute and VWAN
 
