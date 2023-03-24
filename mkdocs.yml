@@ -4,7 +4,6 @@ nav:
   - 'Home': 'index.md'
   - 'IT Operations':
     - 'SOAR': 'operations/soar.md'
-    - 'Devops': 'operations/devops.md'
   - 'Azure': 
     - 'CLI Commands': 'azure/cli_commands.md'
     - 'Azure AD': 'azure/aad.md'
@@ -20,18 +19,24 @@ nav:
     - 'App Service':
         - 'App Service Overview': 'azure/app_service/app_service.md'
         - 'App Service Deplyment: Part 1': 'azure/app_service/flask_app_service_part_one.md'
-    - 'Azure Databricks': 'azure/databricks.md'
     - 'KQL': 'azure/kusto.md'
     - 'Azure Monitor' : 'azure/monitor.md'
     - 'Azure Networking': 'azure/networking.md'
     - 'Azure Storage': 'azure/storage.md'
     - 'PostgreSQL': 'azure/postgresql.md'
-    - 'Terraform': 'azure/terraform.md'
+  - 'Devops':
+    - 'Overview': 'devops/devops.md'
+    - 'Git Client': 'devops/git_commands.md'
+    - 'Github Actions': 'devops/github_actions.md'
+    - 'Porter': 'devops/porter.md'
+    - 'Terraform': 
+        - 'Intro': 'devops/terraform/intro.md'
+        - 'Variables': 'devops/terraform/variables.md'
+        - 'Remote State': 'devops/terraform/state.md'
   - 'Linux':
     - 'Commands': 'linux/commands.md'
     - 'Bash Scripting': 'linux/bash_scripting.md'
     - 'Awk': 'linux/awk.md'
-  - 'Git':
-    - 'Git Client': 'git/git_commands.md'
-    - 'Github Actions': 'git/github_actions.md'
-  - 'Porter': 'porter.md'
+  - 'Databricks':
+    - 'Overview': 'databricks/overview.md'
+    - 'Databbricks Lakehouse Fundamentals': 'databricks/fundamentals.md'

@@ -1,4 +1,10 @@
-# WiFi Commands
+# Linux Commands
+
+- Check your linux version
+
+        lsb_release -a
+
+## WiFi Commands
 The `lshw` command can be used to quickly identify network hardware on your device:
 ```
 sudo lshw -C network
