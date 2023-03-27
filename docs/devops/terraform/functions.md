@@ -59,16 +59,6 @@ key:
 lookup(map, key, default)
 ```
 
-## For
-
-'For' expressions can be used to iterate over any collection type to output 
-another collection:
-
-```hcl
-{ for name, location in var.vm_map: lower(name) => lower(location) }
-[ for name, location in var.vm_map: "${name}-${location}" ]
-```
-
 ## File
 
 The `file()` function returns the content of the specified file
@@ -81,3 +71,47 @@ resource "aws_instance" "web" {
 ...
 }
 ```
+
+## CSVDecode
+
+The csvdecode() function can be used to convert the rows in a CSV file to
+elements in a list of maps. Use the file function to specify the file path:
+
+```hcl
+locals {
+    users = csvdecode(file("${path.module}/users.csv"))
+}
+```
+
+## For
+
+'For' expressions can be used to iterate over any collection type to output 
+another collection:
+
+```hcl
+{ for name, location in var.vm_map: lower(name) => lower(location) }
+[ for name, location in var.vm_map: "${name}-${location}" ]
+```
+
+The new collection can be used to initialise a for_each iterator:
+
+```hcl
+for_each = { for user in local.users :  user.first_name => user }
+```
+
+## Format
+
+The `format()` function can be used to generate strings, using a 
+format string and values:
+
+```hcl
+user_principal_name = format(
+  "%s%s-%s@%s",
+  substr(lower(each.value.first_name), 0 , 1),
+  lower(each.value.last_name),
+  random_pet.suffix.id,
+  local.domain_name
+)
+```
+
+

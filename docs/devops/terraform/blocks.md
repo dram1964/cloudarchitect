@@ -98,7 +98,7 @@ be managed by terraform. The resource block defines the desired resource
 configuration. 
 
 Resource blocks declare a resource type and a name. Resource types always begin with the provider
-name followed by an underscore: `azurerm_` or `random_` or `aws_` or some other provider. 
+name followed by an underscore: `azurerm_` or `random_` or `azuread_` or some other provider. 
 
 Each provider, provides a unique list of resources: the random provider currently provides: 
 

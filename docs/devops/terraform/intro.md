@@ -18,7 +18,8 @@ executed in a working directory. The state file is a JSON representation of the 
 infrastructure and is used by Terraform to plan and execute the changes to be made to the 
 infrastructure when Terraform commands are run. 
 
-You can use `terraform state show <ID>` to inspect the state of a specified resource. 
+Use `terraform state list` to list the objects in the state file. To inspect 
+a specific object use `terraform state show <ID>`.
 The ID is declared in the resource block, and is the result of joining the resource
 type and resource name with a '.'. 
 
@@ -62,7 +63,12 @@ After reviewing the plan, 'terraform apply' can be used to apply the
 desired configuration as defined in the scripts to the target infrastructure. 
 If the apply is successful, Terraform generates a state file which, by default, 
 is stored in the current working directory as 'terraform.tfstate'. Use 
-`terraform show` to see the full state file. 
+`terraform show` to see the full state file. When using `azuread` provider
+to create users, groups and assign the users to groups, you need to create 
+the users before you try to assign group membership. You can run 
+`terraform apply -target azuread_user.users` to create the users first, 
+before running `terraform apply` to create the groups and group 
+memberships.
 
 The 'terraform destroy' command can be used to remove resources from 
 environment and also from the state file. The '-target' option will allow 
