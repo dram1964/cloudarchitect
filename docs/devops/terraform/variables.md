@@ -1,5 +1,7 @@
 # Terraform Variables
 
+[Input Variables Documentation](https://developer.hashicorp.com/terraform/language/values/variables)
+
 Terraform variable blocks allow an existing configuration to be tailored 
 using external input values. A variable block starts with the keyword 'variable' 
 followed by the variable name and a block of attributes associated to the variable.

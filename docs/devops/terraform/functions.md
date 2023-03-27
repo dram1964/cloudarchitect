@@ -23,7 +23,7 @@ resource azurerm_virtual_machine "user_vm" {
   for_each = var.user_machines
   name = each.key
   resource_group_name = each.value
-  vm_size = each.key == "vm_larry" ? "Standard_DS1_v2" : "Standard_FS1_v2"
+  vm_size = (each.key == "vm_larry" ? "Standard_DS1_v2" : "Standard_FS1_v2")
 ...
 ...
 }

@@ -15,16 +15,46 @@ terraform plugins directory: `~/.terraform.d/plugins/${host_name}/${namespace}/$
 terraform {
     required_providers {
         azurerm = {
-            version = "=2.86"
             source = "hashicorp/azurerm"
+            version = ">= 2.86"
+        }
+
+        random = {
+            source = "hashicorp/random"
+            version = "3.1.0"
         }
     }
+
+    required_version = ">= 1.1"
 
     backend azurerm {}
 }
 ```
 
+The `required_version` specifies that only terraform binaries greater the v1.1 
+can run this configuration. The `required_providers` block specifies version
+3.1.0 of the random provider and the latest version of azurerm provider that 
+is greater than 2.86. 
+
+When you initialise a Terraform configuration, Terraform will create
+a `.terraform.lock.hcl` file in the current working directory to save the
+versions downloaded to satisfy the version requirements in the 
+required_providers block. If the `.terraform.lock.hcl` already exists in
+the directory, then Terraform will download the versions listed there, 
+as long as they satisfy the versions in the required_providers block. 
+
+The `.terraform.lock.hcl` should be included in version control to ensure
+that Terraform uses the same versions of providers across your team. 
+
+If you want to use a newer version of a provider from that listed in the
+lock file, you can execute `terraform init -upgrade` to download the 
+current latest versions that satisfy the provider version requirements. 
+The same command can also be used to downgrade the versions if you 
+have specified an earlier version in the required_providers block.
+
 ## Provider
+
+[Terraform Provider Registry](https://registry.terraform.io/browse/providers)
 
 Used to configure provider plugins:
 
@@ -58,11 +88,14 @@ provider "azurerm" {
 
 ## Variable
 
-Used to accept external values as parameters to be used by all other blocks, apart from the terraform block. See [Variables](../variables)
+Used to accept external values as parameters to be used by all other blocks, 
+apart from the terraform block. See [Variables](../variables)
 
 ## Resource
 
-Used to represent a resource instance in the remote infrastructure that will be managed by terraform. The resource block defines the desired resource configuration. 
+Used to represent a resource instance in the remote infrastructure that will 
+be managed by terraform. The resource block defines the desired resource 
+configuration. 
 
 Resource blocks declare a resource type and a name. Resource types always begin with the provider
 name followed by an underscore: `azurerm_` or `random_` or `aws_` or some other provider. 
@@ -78,6 +111,8 @@ Each provider, provides a unique list of resources: the random provider currentl
 - random_uuid
 
 ## Output
+
+[Terraform Outputs Documentation](https://developer.hashicorp.com/terraform/language/values/outputs)
 
 Used to export data about your resources. The data can be used to configure other parts
 of your infrastructure or as a data source for another Terraform workspace. 
@@ -100,6 +135,7 @@ the state needs to be applied before the output values are accessible. Use
 `terraform output` to see the output values. To see a specific output, include its name:
 `terraform output region`. String values are retrieved in double-quotes: use the `-raw` 
 switch to retrieve the value without quotes: 
+
 ```bash
 curl $(terraform output -raw web_url)
 ```
@@ -113,8 +149,7 @@ name or in JSON outputs.
 
 ## Data
 
-See [Terraform Data Sources](https://developer.hashicorp.com/terraform/language/data-sources) 
-documentation.
+[Terraform Data Sources Documentation](https://developer.hashicorp.com/terraform/language/data-sources)
 
 A data block can be used to read information from existing resources. For 
 example, to retrieve secrets from a keyvault, the following data blocks can 
@@ -184,6 +219,8 @@ data "terraform_remote_state" "lz" {
 Used to include external modules in your scripts. See [Modules](../modules)
 
 ## Local
+
+[Local Variables Documentation](https://developer.hashicorp.com/terraform/language/values/locals)
 
 locals allow you to set a name for the value of an expression. Locals differ from variables, 
 in that they cannot be set directly from user input (for example using `-var` or `.tfvars` or `TF_VAR_` expressions). 

@@ -115,7 +115,7 @@ resource azurerm_virtual_machine "my_database_server" {
 ```
 
 Implicit dependancies must be declared as a list of references to other 
-resources:
+resources, using a `depends_on` block:
 
 ```hcl
 resource_azurerm_virtual_machine "my_app_server" {
@@ -127,6 +127,11 @@ resource_azurerm_virtual_machine "my_app_server" {
 }
 ```
 
+A `depends_on` block can be included in any resource or module block.
+
+Terraform creates a [dependancy graph](https://developer.hashicorp.com/terraform/internals/graph)
+from the dependancy information to ensure that resources are created in the correct order. 
+
 ## Provider
 
 Where multiple providers are being used in Terraform scripts, you can add
@@ -136,4 +141,28 @@ a provider attribute to a resource to tell it to use the non-default provider
 
 The 'lifecycle' meta-argument can be used to change terraform's default 
 behaviour when creating, updating or destroying resources
+
+
+## Template File
+
+The `template_file()` function allows you to interpolate values into a script
+file at resource creation time. A simple template file might contain
+references to variables such as `${group}` and `${user}`. The `template_file()`
+function allows you to specify the values for the variables:
+
+```hcl
+
+user_data = template_file("user_data.tftpl", { group = var.user_group, user = var.user_name })
+```
+
+The `file()` function does not interpolate values into the files contents, but allows you
+to read a file into your configuration without modification:
+
+```hcl
+resource "aws_key_pair" "ssh_key" {
+  key_name = "ssh_key"
+  public_key = file("ssh_key.pub")
+}
+```
+
 
