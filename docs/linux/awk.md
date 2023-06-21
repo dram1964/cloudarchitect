@@ -15,8 +15,12 @@ The '-v' option can be used to assign variables before the awk commands are exec
 
     awk -v name="World!" 'BEGIN{printf "Hello, %s\n", name}'
 
-'awk' treats input lines as space-separated fields. Columns from each line can be printed using
+'awk' treats input lines and output lines as space-separated fields. Columns from each line can be printed using
 their indexes (starting from 1):
+
+    awk '{print $3,$4}' <filename
+
+Or you can insert a tab separator between the output fields:
 
     awk '{print $3 "\t" $4}' <filename>
 
@@ -24,9 +28,9 @@ Filters can be added to select which lines to print:
 
     awk '/<pattern>/ {print $3 "\t" $4}' <filename>
 
-In the absence of a body block, awks default action is to print the whole record. $0 
-can be used to refer to the whole input record: These two programs therefore produce the
-same output:
+In the absence of a body block, awks default action is to print the whole 
+record. $0 can be used to refer to the whole input record. These two 
+programs therefore produce the same output:
 
     awk '/<pattern>/ {print $0}' <filename>
     awk '/<pattern>/' <filename>
