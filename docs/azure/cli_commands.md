@@ -61,7 +61,7 @@ expressions:
 
 ```bash
 az account list \
-    --query "[?name == 'mySubscription')].{Subscription:id,Name:name}" \
+    --query "[?name == 'mySubscription'].{Subscription:id,Name:name}" \
     -o table`
 
 az account list \
