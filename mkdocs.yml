@@ -5,6 +5,7 @@ nav:
   - 'IT Operations':
     - 'SOAR': 'operations/soar.md'
   - 'Azure': 
+    - 'AZ104 Reference': 'azure/az104.md'
     - 'CLI Commands': 'azure/cli_commands.md'
     - 'Azure AD': 'azure/aad.md'
     - 'Azure Compute': 'azure/compute.md'
