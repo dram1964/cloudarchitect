@@ -4,6 +4,8 @@ Azure Monitor is based on a
 [common monitoring data platform](https://learn.microsoft.com/en-us/azure/azure-monitor/data-platform)
 that enables you to collect and analyse Logs and Metrics from multiple resources. Logs are
 useful for complex analysis using log queries. Metrics support real-time monitoring. 
+Use Monitor > Activity Logs to see all activity for the Tenant. You can add filters for 
+Resource, Resource Group, Resource Type, Operation and Events. 
 
 Azure Monitor data is collected and stored in tables based on the [resource provider](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers) 
 namespaces (which is part of each resource id) using two data stores: Metrics and Logs. Platform

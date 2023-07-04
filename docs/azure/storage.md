@@ -28,7 +28,8 @@ Namespaces are formatted: <code>https://$STORAGE_ACCOUNT_NAME.$SERVICE_NAME.core
 - Data Lake: https://$STORAGE_ACCOUNT_NAME.dfs.core.windows.net
 
 You can also configure a custom domain to access blob data in a Storage Account. However, 
-there is no native support for HTTPS access to blobs with custom domains. 
+there is no native support for HTTPS access to blobs with custom domains. Custom domains
+can be configured with direct mapping or [intermediary mapping](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-custom-domain-name?tabs=azure-portal).
 
 The following limits apply to Storage Accounts:
 
@@ -57,6 +58,15 @@ Four options are available for accessing Blob Storage:
 Stored access policies can be associated to Service SAS keys, to give you the option to revoke permissions without having to regenerate the storage account keys. The only way to revoke permissions on 
 ad-hoc SAS keys is to regenerate the SA Shared Keys
 
+## Replication Strategies
+
+1. LRS - Locally Redundant Storage. Data is replicated to a second copy in the same data centre
+2. ZRS - Zone Redundant Storage. Data is replicated across three availability zones in the same region.
+3. GRS - Geo Redundant Storage. Data is replicated to a secondary region. Regional data is also replicated locally with LRS.
+4. RA-GRS - Read-Access GRS. Provides read-access to data in the secondary region. 
+5. GZRS - Geo-Zone Redundant Storage. Data is replicated across three availability zones in the primary region, and also replicated to a secondary region across three availability zones. 
+6. RA-GZRS - Read-Access GZRS. Provides read-access to data in the secondary region. 
+
 ## Azure Blob Storage
 
 Blob Storage is optimised for massive amounts of unstructured data such as text or binary data.
@@ -84,6 +94,10 @@ Blob Storage setup has the following configuration:
         - Blob: allow anonymous read access to blobs only
         - Container: allow anonymous read access to container and blobs
 - Blob Types and Upload options
+    - Block Blob: consists of blocks of data assembled to make a blob
+    - Append Blob: optimised for append operations. Suitable for log files
+    - Page Blob: up to 8 TB in size, optimised for frequent read/write operations. Suitable for VM disks. 
+    - Block Blobs are the default. Once a blob is created, you cannot change its type.
 - Access Tier
     - Hot - optimised for data that is accessed frequently: highest storage costs, lowest access costs
     - Cool - accessed infrequently and stored for at least 30 days: higher access costs and lower storage costs than hot tier. Suitable for data that is accessed infrequently but needs to be available immeadiately, e.g. backup and DR files
