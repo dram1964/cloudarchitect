@@ -116,3 +116,22 @@ By default output is sent to STDOUT, but you can change the file
 contents using the *-i* switch:
 
     sed -i 's/left/right/' <filename>
+
+Sed allows capturing groups and backreferences. To capture IP Address from
+the weblog.txt use:
+
+    sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt
+
+Sed works well in pipelines: to find unique values of ip_address in 
+above example use:
+
+    sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | sort -u
+
+To count the occurrences for each unique IP Address use:
+
+    sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | sort | uniq -c
+
+You can also pipe the list of IPs to lookup the hostnames:
+
+    sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | \
+    sort -u | awk '{ cmd = "dig +short -x " $1; system(cmd) }'
