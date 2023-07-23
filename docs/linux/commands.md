@@ -4,6 +4,18 @@
 
         lsb_release -a
 
+- Check system startup time
+
+        systemd-analyze
+
+- Check  startup time by individual service
+
+        systemd-analyze blame
+
+- Disable an individual service
+
+        sudo systemctl disable NetworkManager-wait-online.service
+
 ## WiFi Commands
 The `lshw` command can be used to quickly identify network hardware on your device:
 ```

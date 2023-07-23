@@ -25,6 +25,7 @@ nav:
     - 'Azure Networking': 'azure/networking.md'
     - 'Azure Storage': 'azure/storage.md'
     - 'PostgreSQL': 'azure/postgresql.md'
+    - 'Machine Learning': 'azure/aml.md'
   - 'Devops':
     - 'Overview': 'devops/devops.md'
     - 'Git Client': 'devops/git_commands.md'
