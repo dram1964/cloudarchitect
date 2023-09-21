@@ -156,12 +156,21 @@ az vm list-vm-resize-options \
 
 Once you have identified the desired VM size, run `az vm resize` to resize the VM.
 
-Use `az vm list-ip-address` to list the IP Addresses associated to a VM. 
+Use `az vm list-ip-addresses` to list the IP Addresses associated to a VM. 
 
 `az vm list` will return information about all VMs in the current subscription. Use `az vm show` to
 get more detailed information about a specific VM. 
 
 `az vm open-port --port $port_number` to open a port on a running VM. 
+
+Check the power status of a VM:
+
+```bash
+az vm get-instance-view \
+    --name $VM_NAME\
+    --resource-group $RG_NAME \
+    --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" -o tsv
+```
 
 ## Storage
 

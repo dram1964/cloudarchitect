@@ -155,7 +155,27 @@ When configuring a VMSS, you define:
 - Scale In: CPU threshold, duration and number of instances to decrease by
 - Scale-in Policy: determines the order in which VMs are removed. VMs are balanced across availability zones and fault domains, then deleting the VM with the highest instance ID (default) or the newest or the oldest VM.
 
-## Azure Container Instances - PaaS service to run your container instances
+## Azure Container Instances 
+
+Azure Container Instances is a PaaS service to run your container instances. ACI provides:
+
+- Fast Startup Times
+- Public IP and DNS connectivity
+- Custom Sizes: nodes can be scaled dynamically
+- Persistent Storage: using Azure Files
+- Virtual Network Deployment: containers can be deployed to a VNET
+
+A Container Group is a collection of containers that get scheduled on the same 
+host machine and share lifecycle, resources, local network and storage. Container
+Groups work similarly to a Docker compose project. Container 
+groups can be deployed via ARM templates or a YAML file. The YAML file approach
+is only recommended when deploying Container Instances with no additional resources
+such as file shares. Container groups share an IP Address, port range and FQDN. 
+
+Container Instances uses Docker and thus ensures that the containers run 
+in the same platform both locally and in Azure. 
+
+Container Instances are deployed with the following default FQDN: `https://${DNS_NAME_LABEL}.${LOCATION}.azurecontainer.io` 
 
 Azure Kubernetes Service - PaaS service for hosting and orchestrating containers
 

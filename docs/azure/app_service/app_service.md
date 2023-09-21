@@ -1,15 +1,14 @@
 # App Service Overview
 
 ## App Service Plans
-An app always runs in an App Service Plan. An App Service Plan defines a set of compute resources 
-for the web app to run. App Service Plans can run multiple web apps or Azure Functions.
 
-App Service Plans define:
+App Service Plans defines:
 
 - Region
 - Number of VM instances
 - Size of VM instances
-- Pricing Tier
+
+All applications in the plan will run all resources defined by the plan. 
 
 Pricing Tier Categories
 
@@ -18,7 +17,23 @@ Pricing Tier Categories
 - Isolated: adds dedicated VNet to dedicated VMs. Provides maximum scale-out capabilities
 - Consumption: only available to Function Apps
 
+| Feature | Free | Shared | Basic | Standard | Premium | Isolated |
+| --- | --- | --- | --- | --- | --- | --- |
+| Usage | DEV/Test | DEV/Test | DEV/Test | Production | Enhanced Scale | Secure, High Performance |
+| Apps | 10 | 100 | Unlimited | Unlimited | Unlimited | Unlimited |
+| Disk Space | 1 GB | 1 GB | 10 GB | 50 GB | 250 GB | 1 TB |
+| Autoscale | - | - | - | yes | yes | yes |
+| Deployment Slots | - | - | - | 5 | 20 | 20 |
+| Max Instances | - | - | 3 | 10 | 30 | 100 |
+
 The App Service Plan is the scale unit for the apps. Apps in the Service Plan run on all VM instances configured by the Plan or the autoscale (scale-out) settings. Scaling up or down is achieved by changing the pricing tier of the plan.
+
+Because the App Service Plan determines the resources available, you can save money by running
+multiple apps in the same App Service Plan. You may want to consider having multiple plans
+to reflect the resource requirements of your apps or to isolate sensitive or 
+resource-hungry apps. 
+
+Use `az appservice plan list` to view App Service Plans. 
 
 ## App Deployment
 App Service supports both automated (continuous integration) or manual deployment. Automated 
@@ -47,6 +62,11 @@ This command will:
 - Create a default App Service Plan
 - Create an app with the specified name
 - Zip deploy the files from the current working directory
+
+Apps are deployed with the following default FQDN: `https://${APP_NAME}.azurewebsites.net`
+
+You can query details for a webapp using `az webapp list` or `az webapp show`.
+
 
 ## Authentication and Authorisation
 App Service provides built-in authentication and authorisation otherwise you can use the
@@ -93,15 +113,11 @@ az webapp show -g $RG -n $NAME --query possibleOutboundIpAddresses
 
 ## Configuring Application Settings
 In App Service, application settings are passed as environment settings to the application code. 
-For Linux apps and Custom Containers, App Service uses the '--env' flag to pass these settings to the
-app. Application settings are configured in the Portal via 'Configuration > Application Settings'. 
-This way you can have one environment when running the app locally and another environment for 
-your app when running in Azure
-In App Service, application settings are passed as environment settings to the application code. 
-For Linux apps and Custom Containers, App Service uses the '--env' flag to pass these settings to the
-app. Application settings are configured in the Portal via 'Configuration > Application Settings'. 
-This way you can have one environment when running the app locally and another environment for 
-your app when running in Azure. The settings in the app configuration are encrypted.
+For Linux apps and Custom Containers, App Service uses the '--env' flag to pass these settings 
+to the app. Application settings are configured in the Portal via 
+'Configuration > Application Settings'.  This way you can have one environment when 
+running the app locally and another environment for your app when running in Azure
+The settings in the app configuration are encrypted.
 Click 'New Application Setting' to add a new app setting. For nested JSON keys use an underscore
 instead of a colon for the name. By clicking 'Advanced' you can add settings in bulk using a 
 JSON array.
@@ -200,7 +216,13 @@ Azure App Service supports the use of feature flags to enable or disable feature
 application. 
 
 ## Autoscaling
-Autoscaling performs scale-in or scale-out according and can be triggered by:
+
+Scale-up increases the amount of CPU, Memory and Disk Space available to your app, and 
+therefore requires changing the pricing ter of the App Service Plan. 
+
+Scale-out increases the number of VM instances that run your application. 
+
+Autoscaling performs scale-in or scale-out and can be triggered by:
 
 - A schedule
 - CPU usage
@@ -212,14 +234,17 @@ Autoscaling monitors the resource metrics of a web app as it runs and responds t
 adding or removing web servers and load balancing between them. Autoscaling does not affect the 
 resources available to the web servers: only the number of web servers. Autoscaling responds to 
 rules that define thresholds to trigger an autoscale event.
+
 Care should be taken when defining autoscale rules: scaling-up in response to a DDoS attack
 would be pointless and expensive. Instead, DDoS protection should be enabled to filter such 
 attacks.
+
 Autoscaling improves availability and fault-tolerance by ensuring enough servers are available to 
 service requests and that crashed servers are replaced. Autoscaling might not help cope with 
 resource-instensive requests: scaling-up might be a better response in this case. Autoscaling 
 does take time to spin up new instances, and so availability and response time may be affected 
 during periods of surge in demand
+
 Autoscale rules can combine both schedules and metric-based rules. Metrics include:
 
 - CPU Percentage
@@ -235,12 +260,14 @@ only triggered if the rule crosses the threshold over a time duration (usually 1
 aggregations are available. If the aggregation is MAX, then a single time grain exceeding the 
 threshold will be enough to trigger the autoscale. If the aggregation is AVG, then multiple
 time grains will need to exceed the threshold to trigger the autoscale for the duration. 
+
 Autoscaling can either trigger an incremental increase or decrease or the trigger can set the 
 number of instances explicitly. Autoscale rules should be paired: setting the value for when 
 to scale-out and when to scale-in in response to a specific metric.
 Scaling rules can combine multiple conditions. Scale-out will occur if any scale-out rule is
 met: scale-in will occur only if all scale-in rules are met. If you want to scale-in when only
 one scale-in rule is met, then you should define the rules separately
+
 Once auto-scaling is enabled for an app, scale conditions can be defined. The default 
 condition can be use to define a default scale for the app (e.g. one instance). The default
 condition will be applied when no other condition is met, or when there are no metrics
@@ -256,6 +283,7 @@ two instances (75 x 3 / 2), so the app would immeadiately have to scale-out agai
 flapping, autoscale doesn't scale-in when it detects that the scale-out threshold will be 
 met if it scales-in. By setting an adequate margin between scale-out and scale-in conditions, 
 flapping can be avoided.
+
 Autoscaling logs activity and these can be used to trigger alerts or used by webhook or 
 email notifications. Autoscaling logs the following:
 

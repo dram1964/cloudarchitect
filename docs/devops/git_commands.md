@@ -130,7 +130,7 @@ The output of this command will show you:
 - which local branches no longer exist on the remote (stale branches)
 
 Running `git fetch origin` will collect the remote branches that you don't currently 
-have and `git remote prune` to remove stale branches
+have and `git remote prune` or `git remote prune origin` to remove stale branches.
 
 # Tagging
 To add a tag to the current commit:

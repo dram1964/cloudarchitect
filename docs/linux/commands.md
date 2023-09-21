@@ -16,6 +16,14 @@
 
         sudo systemctl disable NetworkManager-wait-online.service
 
+- Find process ids based on name patterns:
+
+        pgrep firefox
+
+- Find process ids based on username: 
+
+        pgrep -u <username>
+
 ## WiFi Commands
 The `lshw` command can be used to quickly identify network hardware on your device:
 ```

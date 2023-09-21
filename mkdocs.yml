@@ -40,6 +40,7 @@ nav:
         - 'Provisioners': 'devops/terraform/provisioner.md'
         - 'Modules': 'devops/terraform/modules.md'
         - 'Remote State': 'devops/terraform/state.md'
+    - 'Cloud Init': 'devops/cloudinit.md'
   - 'Linux':
     - 'Commands': 'linux/commands.md'
     - 'Bash Scripting': 'linux/bash_scripting.md'
