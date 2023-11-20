@@ -118,6 +118,21 @@ JSON_DATA=$(cat somejsonfile.json)
 JSON_DATA=${JSON_DATA//<name>/Example Text}
 ```
 
+## REST API
+
+The `az rest` command can be used to send queries directly to ARM:
+
+```bash
+CONF=$(az rest --method GET --url https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/xx-xxxxxxxxxx/providers/Microsoft.Network/virtualNetworks/xxx-xxxxxxxxxxx?api-version=2020-07-01)
+echo $CONF
+az rest --method PUT --body $CONF --url https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/xx-xxxxxxxxxx/providers/Microsoft.Network/virtualNetworks/xxxx-xxxxxxxxxx?api-version=2020-07-01
+```
+
+Whilst the value for the `url` parameter should be possible to construct manually, you can also 
+find the value in the 'Overview' pane for the resource in the Azure Portal, and switching to 
+'JSON View'. You can also find the value by logging-in to resources.azure.com and browsing to the 
+resource. 
+
 ## Login
 
 The `az login` command can be used to authenticate to Azure. Without any additional
