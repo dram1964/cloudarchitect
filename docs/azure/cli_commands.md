@@ -521,6 +521,30 @@ az keyvault secret set \
     --vault-name $KEYVAULT_NAME \
     --name client-id --value $SECRET_VALUE
 ```
+
+## Azure Monitor
+
+Configure an alert for a VM when the CPU usage exceeds 80%:
+
+```bash
+RG=my_resource_group
+VM=my_vm
+
+VMID=$(az vm show \
+        --resource-group $RG \
+        --name $VM \
+        --query id \
+        --output tsv)
+
+az monitor metrics alert create -n "Cpu80PercentAlert" \
+	--resource-group $RG \
+	--scopes $VMID \
+	--condition "max percentage CPU > 80" \
+	--description "Virtual machine is running at or greater than 80% CPU utilization" \
+	--evaluation-frequency 1m \
+	--window-size 10m \
+	--severity 3
+```
         
 ## Configure Defaults
 
