@@ -522,6 +522,63 @@ az keyvault secret set \
     --name client-id --value $SECRET_VALUE
 ```
 
+## Azure Load Balancer
+
+Create a Load Balancer with a static front-end IP:
+
+```bash
+RG=my_resource_group
+Public_IP=pip-lb-uksouth
+
+az network public-ip create --resource-group $RG \
+	--allocation-method Static --name $Public_IP
+
+az network lb create --resource-group $RG \
+	--name myLoadBalancer \
+	--public-ip-address $Public_IP \
+	--frontend-ip-name myFrontEndPool \
+	--backend-pool-name myBackEndPool
+```
+
+Add a health probe and a distribution rule for http traffic:
+
+```bash
+az network lb probe create \
+	--resource-group $RG \
+	--lb-name myLoadBalancer \
+	--name myHealthProbe \
+	--protocol tcp \
+	--port 80
+
+az network lb rule create \
+	--resource-group $RG \
+	--lb-name myLoadBalancer \
+	--name myHTTPRule \
+	--protocol tcp \
+	--frontend-port 80 \
+	--backend-port 80 \
+	--frontend-ip-name myFrontEndPool \
+	--backend-pool-name myBackEndPool \
+	--probe-name myHealthProbe
+```
+
+Connect two VMs to the Back-End pool:
+
+```bash
+az network nic ip-config update \
+	--resource-group $RG \
+	--nic-name webNic1 \
+	--name ipconfig1 \
+	--lb-name myLoadBalancer \
+	--lb-address-pools myBackEndPool
+
+az network nic ip-config update \
+	--resource-group $RG \
+	--nic-name webNic2 \
+	--name ipconfig1 \
+	--lb-name myLoadBalancer \
+	--lb-address-pools myBackEndPool
+```
 ## Azure Monitor
 
 Configure an alert for a VM when the CPU usage exceeds 80%:
