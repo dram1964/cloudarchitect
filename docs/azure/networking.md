@@ -270,29 +270,54 @@ will prevent the VPN-gateway from working.
 
 ## [Service Endpoints](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview)
 
-Service Endpoints allow you to secure Azure service resources to only your VNets by 
-enabling only Private IP addresses in the VNet to reach the endpoint of a service. 
-The endpoint extends the VNet identity to the service resource. Endpoints provide access
-to services in the same region. 
+Service Endpoints allow you to secure Azure service resources to only your VNets.
+This is a two-step process of: 
 
-Service Endpoints are available for:
+1. Enable a service endpoint in a subnet
+2. Configure the service to only allow connections from the specified VNets
 
-- AAD
+```bash
+# Enable a service endpoint in a subnet
+az network vnet subnet update \
+  --resource-group $RG_NAME --vnet-name $VNET_NAME --name subnet-1 \
+  --service-endpoints "Microsoft.Storage.Global"
+
+# Set default Deny rule on Service
+az storage account update \
+  --resource-group $RG_NAME --name $SA_NAME \
+  --default-action Deny
+
+# Add network rule to allow access from the subnet
+subnetid=$(az network vnet subnet show --resource-group $RG_NAME --vnet-name $VNET_NAME --name subnet-1 --query id --output tsv)
+az storage account network-rule add \
+  --resource-group $RG_NAME --account-name $SA_NAME --subnet $subnetid
+```
+
+The endpoint extends the VNet identity to the service resource and allows resources in 
+the VNet to access the service using private IP addresses. Because the endpoint uses the 
+VNet identity, rather than its address range, endpoints for a service can be added to 
+multiple VNets even where their addresses overlap.
+
+If you want to inspect or filter the traffic sent to 
+the Azure service, you can apply the service endpoint to the VNA subnet, and then route traffic
+from the VNet through the VNA. 
+
+Service Endpoints are [available for](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview?source=recommendations):
+
+- Storage
+- SQL
 - CosmosDB
+- Synapse
+- KeyVault
 - Cognitive Services
 - Container Registry
 - EventHub
-- KeyVault
 - ServiceBus
-- SQL
-- Storage
-- Web
+- App Service
 
 Endpoints are enabled on subnets configured in the VNet. For Azure SQL and Data Lake Storage, 
-the endpoint only applies to traffic within the same region. Once you enable a service endpoint
-in your subnet, you can add a Virtual Network rule to secure the service resources to your VNet 
-and deny traffic to the service via the internet. Service Endpoints ensure that traffic from 
-the VNet to the service travels on the Azure Backbone only.
+the endpoint only applies to traffic within the same region. Service Endpoints ensure that 
+traffic from the VNet to the service travels on the Azure Backbone only.
 
 By default, Azure services secured by service endpoints will not be reachable from on-premises
 devices. You can allow access to the service from Public IPs using the firewall configuration 
@@ -300,11 +325,6 @@ for the service.
 
 With Service Endpoints, DNS entries for Azure services continue to the Public IP Addresses 
 assigned to the service. 
-
-To secure Azure services to multiple subnets within or across VNets, you can enable service
-endpoints on each subnet independantly. If you want to inspect or filter the traffic sent to 
-the Azure service, you can apply the service endpoint to the VNA subnet, and then route traffic
-from the VNet through the VNA. 
 
 There is no additional charge for using service endpoints and there is no limit on the number
 of service endpoints in a virtual network.
