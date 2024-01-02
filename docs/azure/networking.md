@@ -346,6 +346,23 @@ Private Link allows you to replace the Public IP address for the service with a 
 network interface. The private network interface is a private endpoint which is assigned an 
 IP address from the range assigned to your subnet. 
 
+```bash
+az network private-link-service create \
+  --resource-group test-rg --name private-link-service \
+  --vnet-name vnet-1 --subnet subnet-1 \
+  --lb-name load-balancer --lb-frontend-ip-configs frontend \
+  --location uksouth
+
+export resourceid=$(az network private-link-service show --name private-link-service --resource-group test-rg --query id --output tsv)
+
+az network private-endpoint create \
+  --connection-name connection-1 --name private-endpoint \
+  --private-connection-resource-id $resourceid \
+  --resource-group test-rg \
+  --vnet-name vnet-pe --subnet subnet-pe \
+  --manual-request false 
+```
+
 Private Link Services also allows you to create private endpoints for your own custom Azure services. 
 The custom service must be placed behind an Azure Standard Load Balancer and the private endpoint is 
 attached to the Load Balancer's front-end IP configuration. When you create your own 
