@@ -68,8 +68,6 @@ in the root of the project directory `flask_pg_app_service/docker-compose.yml`
       app:
         build: 
           context: ./ear
-          args: 
-            user_id: 1000
         image: ear:1.0
         ports: 
           - 5000:5000
@@ -77,7 +75,7 @@ in the root of the project directory `flask_pg_app_service/docker-compose.yml`
           - ./ear:/opt
         depends_on: [db]
       db:
-        image: postgres:9.0
+        image: postgres:11.0
         restart: always
         environment:
           POSTGRES_PASSWORD: example
@@ -171,7 +169,7 @@ Now we add the Models to the app with a single table to hold the book list `flas
         status = db.Column(db.String(30))
 
         def __repr__(self):
-        return '{} by {}'.format(self.title, self.author)
+            return '{} by {}'.format(self.title, self.author)
 
 We want our index page to display the list of books, so we need to update the Routes module: `flask_pg_app_service/ear/app/routes.py`
 
@@ -281,7 +279,7 @@ the Flask shell. To use Flask shell you will need to setup a shell context confi
 Now you can run `flask shell` on the app container to open a interactive Python session 
 with app, db, and Book already defined. With the 'flask shell' you can run DDL interactively:
 ```
->>> b1 = Book(title='East of Eden', author='John Steinbeck' status='In Progress')
+>>> b1 = Book(title='East of Eden', author='John Steinbeck', status='In Progress')
 >>> db.session.add(b1)
 >>> db.session.commit()
 >>> quit()
