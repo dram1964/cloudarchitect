@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/storage/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Azure Storage - Cloud Architecture notes</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../devops/devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../devops/terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../devops/cloudinit/" class="dropdown-item">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../databricks/overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../databricks/fundamentals/" class="dropdown-item">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../networking/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../postgresql/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#azure-storage" class="nav-link">Azure Storage</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#storage-emulators" class="nav-link">Storage Emulators</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#replication-strategies" class="nav-link">Replication Strategies</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-blob-storage" class="nav-link">Azure Blob Storage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-disks" class="nav-link">Azure Disks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-data-lake" class="nav-link">Azure Data Lake</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-file-storage" class="nav-link">Azure File Storage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-queue-storage" class="nav-link">Azure Queue Storage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-table-storage" class="nav-link">Azure Table Storage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#azure-importexport-service" class="nav-link">Azure Import/Export Service</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#data-box" class="nav-link">Data Box</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="azure-storage"><a href="https://learn.microsoft.com/en-us/azure/storage/">Azure Storage</a></h1>
+<p>Azure Storage is a cloud storage solution supporting blobs, files, disks, messages, tables and other
+types of data. Combining data services into a single account allows you to manage them as a 
+group - the settings applied to the Storage Account apply to all services within the 
+account. Deleting a Storage Account also deletes all the data in it. </p>
+<p>For each combination of settings that you require, you will need a corresponding Storage Account. An Azure Storage Account defines the following settings:</p>
+<ul>
+<li>Subscription (for billing)</li>
+<li>Location (where the data is stored)</li>
+<li>Performance (Standard or Premium). Premium is intended for low-latency 
+data access and uses SSDs. You cannot convert between Standard and 
+Premium storage: instead you will need to create a new Storage 
+Account and migrate the data from the original Account. Standard is 
+generally sufficient for most new Storage Accounts. Premium offers three
+specialist flavours: Page Blobs, Block Blobs or File Shares. </li>
+<li>Replication (LRS, ZRS, GRS)</li>
+<li>Access Tier (Hot, Cold, Archive)</li>
+<li>Secure Transfer Required</li>
+<li>Virtual Networks. Use the 'Firewalls and virtual networks' settings on your storage accounts to restrict access to specifici virtual networks or public IPs. Subnets and Virtual networks must exist in the same Azure region or region pair as the storage account. </li>
+</ul>
+<p>The number of Storage Accounts that you will need depends on your data 
+diversity (where it is consumed, how sensitive it is, who pays the bill,
+how business critical is the data, etc). Before creating each Storage 
+you should first analyse the data and understand the appropriate storage
+settings. </p>
+<p>The following limits apply to Storage Accounts:</p>
+<ul>
+<li>Number of storage accounts per region per subscription: <strong>250</strong></li>
+<li>Maximum storage account capacity: <strong>5 PiB</strong></li>
+<li>No limit to number of containers, blobs, files, tables, etc</li>
+<li>Maximum request rate per storage account: <strong>20,000 requests per second</strong></li>
+<li>Maximum ingress per storage account (US/Europe): <strong>10 Gbps</strong></li>
+<li>Maximum ingress per storage account (outside US/Europe): <strong>5 Gbps</strong></li>
+<li>Maximum egress: <strong>50 Gbps</strong></li>
+</ul>
+<p>Ingress rates may be increased by raising a support request with Microsoft. Data is durable, secure, scalable, managed, accessible. </p>
+<p>Azure storage encryption is enabled by default and cannot be disabled. 
+Data is encrypted using 256-bit AES (advanced encryption standard). 
+Encryption keys can be either Microsoft-managed or Customer-managed. 
+Customer-managed keys are stored in Key Vault and can be generated by
+Key Vault or independantly. To manage a Storage Account the Key Vault
+keys need to be in the same region as the SA, but can be in a 
+different subscription. </p>
+<p>Azure storage provides a unique namespace for your data, accessible 
+over HTTP or HTTPS.  Namespaces are formatted: <code>https://$STORAGE_ACCOUNT_NAME.$SERVICE_NAME.core.windows.net</code>. For example:</p>
+<ul>
+<li>Blobs: https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net</li>
+<li>Files: https://$STORAGE_ACCOUNT_NAME.file.core.windows.net</li>
+<li>Queues: https://$STORAGE_ACCOUNT_NAME.queue.core.windows.net</li>
+<li>Table: https://$STORAGE_ACCOUNT_NAME.table.core.windows.net</li>
+<li>Data Lake: https://$STORAGE_ACCOUNT_NAME.dfs.core.windows.net</li>
+</ul>
+<p>You can also configure a custom domain to access blob data in a Storage Account. However, 
+there is no native support for HTTPS access to blobs with custom domains. Custom domains
+can be configured with direct mapping or <a href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-custom-domain-name?tabs=azure-portal">intermediary mapping</a>.</p>
+<p>Four options are available for accessing Blob Storage:</p>
+<ul>
+<li>AAD. A security principal authenticates to AAD and receives an OAuth 2.0 
+token, which is then used to authenticate to the storage. Works well for 
+apps using managed identities or security principals.</li>
+<li>Shared Keys for the Storage Account. Two 512-bit keys are created with every Storage Account. These keys can be used to grant full access to the Storage Account. It is recommended that these keys are regularly rotated.</li>
+<li>Shared Access Signature: SAS keys grant granular-access for a specified period of time. Three types of SAS key:<ul>
+<li>User delegation SAS - secured with AAD credentials - only available for Blob Storage access</li>
+<li>Service SAS - secured with the storage account keys - grants access to one of the four storage services in an account. </li>
+<li>Account SAS - secured with the storage account keys - grants access to the services in the SA and also to service-level operations</li>
+</ul>
+</li>
+<li>Public: read-only anonymous access. To enable public access to containers or blobs, public access must also be enabled for the Storage Account. </li>
+</ul>
+<p>SAS URI parameters:</p>
+<ul>
+<li>restype: indicates service or account-level operations</li>
+<li>sv: storage version</li>
+<li>ss: storage service</li>
+<li>st: start time</li>
+<li>se: expiry time</li>
+<li>sr: resource</li>
+<li>sp: permissions</li>
+<li>sip: ip address ranges</li>
+<li>spr: ip protocols</li>
+<li>sig: signature </li>
+</ul>
+<p>User Delegation SAS tokens are recommended for applications, as you 
+don't have to use the storage account keys in code. </p>
+<p>Stored access policies can be associated to Service SAS keys, to give you 
+the option to revoke permissions without having to regenerate the 
+storage account keys. The only way to revoke permissions on ad-hoc 
+SAS keys is to regenerate the SA Shared Keys.</p>
+<h2 id="storage-emulators">Storage Emulators</h2>
+<p>You can use Storage Emulators during development, to avoid incurring 
+costs associated with using Azure Storage Accounts:</p>
+<ol>
+<li>Azure Storage Emulator - uses MSSQL 2012 Express LocalDB to emulate Azure Table, Queue and Blob Storage</li>
+<li>Azurite - Node.js open-source emulator</li>
+</ol>
+<h2 id="replication-strategies">Replication Strategies</h2>
+<ol>
+<li>LRS - Locally Redundant Storage. Data is replicated to a second copy in the same data centre</li>
+<li>ZRS - Zone Redundant Storage. Data is replicated across three availability zones in the same region.</li>
+<li>GRS - Geo Redundant Storage. Data is replicated to a secondary region. Regional data is also replicated locally with LRS.</li>
+<li>RA-GRS - Read-Access GRS. Provides read-access to data in the secondary region. </li>
+<li>GZRS - Geo-Zone Redundant Storage. Data is replicated across three availability zones in the primary region, and also replicated to a secondary region across three availability zones. </li>
+<li>RA-GZRS - Read-Access GZRS. Provides read-access to data in the secondary region. </li>
+</ol>
+<h2 id="azure-blob-storage">Azure Blob Storage</h2>
+<p>Blob Storage is optimised for massive amounts of unstructured data such as text or binary data.
+Blobs are stored in Containers, which act like folders to organise the blob storage.</p>
+<ul>
+<li>Ideal for:<ul>
+<li>serving images/files to a browser</li>
+<li>storing files for distributed access (eg. to support an installation)</li>
+<li>streaming video/audio</li>
+<li>storing backups</li>
+<li>storing data for analysis</li>
+<li>storing up to 8TB of data for VMs</li>
+</ul>
+</li>
+<li>Access tier can be set at blob level, during or after upload. Lifecycle Management on the Storage Account allows you to configure rules to transition blobs between tiers.</li>
+<li>Blob storage comes in three forms:<ul>
+<li>Page Blob: used to hold random access (unordered) files, such as VM disks (managed disks are stored in Microsoft storage accounts)</li>
+<li>Block Blob: used to hold objects that are ordered, consecutive and non-random, such as backups</li>
+<li>Append Blob: used for information that is added in consecutive order, such as log files</li>
+</ul>
+</li>
+</ul>
+<p>Blob Storage setup has the following configuration:</p>
+<ul>
+<li>Container options<ul>
+<li>Name: must be unique within the Storage Account, 3-63 characters (a-z0-9-) long</li>
+<li>Access Level: <ul>
+<li>Private (default): deny anonymous access to the container and blobs</li>
+<li>Blob: allow anonymous read access to blobs only</li>
+<li>Container: allow anonymous read access to container and blobs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Blob Types and Upload options<ul>
+<li>Block Blob: consists of blocks of data assembled to make a blob</li>
+<li>Append Blob: optimised for append operations. Suitable for log files</li>
+<li>Page Blob: up to 8 TB in size, optimised for frequent read/write operations. Suitable for VM disks. </li>
+<li>Block Blobs are the default. Once a blob is created, you cannot change its type.</li>
+</ul>
+</li>
+<li>Access Tier<ul>
+<li>Hot - optimised for data that is accessed frequently: highest storage costs, lowest access costs</li>
+<li>Cool - accessed infrequently and stored for at least 30 days: higher access costs and lower storage costs than hot tier. Suitable for data that is accessed infrequently but needs to be available immeadiately, e.g. backup and DR files</li>
+<li>Archive - rarely accessed, stored for at least 180 days: lowest storage cost and highest access cost. Data is stored off-line and will take several hours before the first byte is avaiable. If data is removed before 180 days, it will incur early deletion charges. </li>
+<li>Premium Blob Storage: uses SSDs for I/O intensive workloads</li>
+</ul>
+</li>
+<li>Lifecycle rules<ul>
+<li>transition blobs to cooler storage and/or deletion</li>
+<li>define daily rule-based conditions to run at the Storage Account level</li>
+<li>apply rule-based conditions to containers or sets of blobs</li>
+</ul>
+</li>
+<li>Replication<ul>
+<li>define a replication policy from one storage account to another</li>
+<li>both source and destination must be in the Hot or Cool tier - but they don't need to be in the same tier</li>
+<li>requires blob versioning enabled on source and destination</li>
+<li>doesn't support replication for blob snapshots</li>
+<li>replication can be used to reduce access latency, by keeping copies closer to end-users</li>
+<li>can support compute workloads by allowing the same set of blobs to be accessed in different regions</li>
+</ul>
+</li>
+</ul>
+<p>There are several options for uploading Blob Data:</p>
+<ul>
+<li>Storage Explorer</li>
+<li>AzCopy</li>
+<li>Azure Data Factory</li>
+<li>Azure Storage Data Movement library (.Net)</li>
+<li>blobfuse (linux filesytem support)</li>
+<li>Azure Data Box Disk</li>
+<li>Azure Import/Export (using WAImport Tool to copy files to disk)</li>
+</ul>
+<h2 id="azure-disks">Azure Disks</h2>
+<p>Persistent block storage for Azure VMs: data disks have a maximum capacity of around 32 TB</p>
+<h2 id="azure-data-lake">Azure Data Lake</h2>
+<p>Azure Data Lake is the Hadoop Distributed Flie System (HDFS) as a service</p>
+<h2 id="azure-file-storage">Azure File Storage</h2>
+<p>Azure File Storage provides cloud-hosted file shares. Files can be accessed using SMB or NFS from 
+on-prem or VMs in Azure. Scripts to connect a file share to a local machine or VM can be
+downloaded using the 'Connect' link on the file share blade in the Azure Portal. </p>
+<p>Files are encrypted at rest, and SMB ensures encryption in transit. 
+Files can be access using a URL or SAS URL token. </p>
+<ul>
+<li>Ideal for:<ul>
+<li>Applications that use file shares</li>
+<li>Sharing files between VMs or Users</li>
+</ul>
+</li>
+</ul>
+<p>File Shares are accessed on port 445 - so this needs to be enabled in your firewall. When
+creating the file share, the 'enable secure transfer' enforces encryption during data 
+transfers.</p>
+<p>Azure Files provides capablility to take snapshots of file shares to create a point-in-time, 
+read-only copy of the file share. Share snapshots are incremental, recording only changes
+that were made since the last snapshot. Although the snapshots are incremental, you only need
+the save the most recent snapshot to recover a file or share. To delete a share that has 
+snapshots, you must first delete all snapshots. </p>
+<p>Azure File Sync enables you to cache several Azure Files shares on an on-prem Windows server or 
+cloud VM. You can then access the files via the server cache using the protocols supported on 
+the server. Azure File Sync allows you to cache the shares on an many servers as required. 
+Cloud tiering is a feature that allows you to define policies to control which files are
+stored locally and which are kept in Azure Files. Files that are not stored locally are 
+replaced with a pointer (URL to the file in Azure). Tiered files are retrieved on-demand
+from Azure as needed. Azure File Sync can be used to:</p>
+<ul>
+<li>Provide write access to the same data across Windows Servers and Azure Files</li>
+<li>Store backup files</li>
+<li>Provide DR storage</li>
+<li>Archiving files to Azure with Cloud Sync</li>
+</ul>
+<p>Azure File Sync comprises six main components:</p>
+<ol>
+<li>Storage Sync Service: forms sync relationships with Storage Accounts</li>
+<li>Sync Group: defines the endpoints (local:Azure) for the sync</li>
+<li>Registered Server: a local server that is trusted by the Sync Service</li>
+<li>Azure File Sync Agent: Package installed on the local server to enable synchronisation with Azure</li>
+<li>Server Endpoint: represents a particular location on the local server that is to be synchronised with Azure Files</li>
+<li>Cloud Endpoint: an Azure Files share that the server endpoint is to be synchronised to. </li>
+</ol>
+<p>The Azure Files share can be a member of only one Sync Group and only one Cloud Endpoint. A server
+can be registered with only one Cloud Sync Service resource at a time.</p>
+<p>Deploy Azure File Sync</p>
+<ol>
+<li>Deploy the Storage Sync Service on Azure</li>
+<li>Install the Azure File Sync Agent on your local Windows Server</li>
+<li>Register the local server to the Storage Sync Service (establishes the trust relationship)</li>
+</ol>
+<h2 id="azure-queue-storage">Azure Queue Storage</h2>
+<p>Azure Queue Storage is used to store and retrieve messages. Queue messages can be up to 64KB and
+each queue can hold millions of messages. Queues can be used to store lists of messages 
+to be processed asynchronously.</p>
+<p>You can use a queue in conjuction with Azure Functions to respond to a user action. For example, 
+every time a new file is added to a storage container, you can write a message to the queue. 
+An Azure Function can then retrieve the message and run a custom action. </p>
+<h2 id="azure-table-storage">Azure Table Storage</h2>
+<p>Azure Table Storage is now part of Azure Cosmos DB, a fully-managed, NoSQL database service. In 
+addition to the Azure Table Storage service, there's an Azure Cosmos DB Table API offering 
+throughput-optimised tables, global distribution and automatic secondary indexes. </p>
+<p>Table Storage is ideal for storing structured or relational data. </p>
+<h2 id="azure-importexport-service">Azure Import/Export Service</h2>
+<p>Used to securely export data from on-prem to Azure Storage by sending 
+disks to an Azure Data Centre or to import data from Azure Storage to 
+disks which are then sent to on-prem. </p>
+<h3 id="create-an-import-job">Create an Import Job:</h3>
+<ul>
+<li>Create a Storage Account in Azure for the Import Job</li>
+<li>Attach the disks to be used to an on-prem server</li>
+<li>Install the WAImportExport tool on the server</li>
+<li>Run WAImportExport tool to copy the data to the disks</li>
+<li>Create an Import Job in Azure Portal </li>
+<li>Ship the disks to the Azure Data Centre</li>
+</ul>
+<h3 id="create-an-export-job">Create an Export Job:</h3>
+<ul>
+<li>Determine number of disks required to the Export Job</li>
+<li>Create an Export Job in Azure Portal</li>
+<li>Ship the disks to the Data Centre</li>
+<li>Disks are returned with the required data </li>
+</ul>
+<h2 id="data-box">Data Box</h2>
+<ul>
+<li>Data Box is a physical storage device with a maximum capacity of 80TB</li>
+<li>Use device to copy data to or from Azure Storage</li>
+<li>Data Box can be used for: <ul>
+<li>One-time migration - for large (&gt;40TB) datasets</li>
+<li>Initial bulk transfer - followed by incremental loads over the network or with Data Box Gateway</li>
+<li>Periodic Uploads - where network connectivity is limited</li>
+</ul>
+</li>
+</ul>
+<p>Data Box Gateway is a service that allows you to securely transfer large amounts of data to and from Data Box</p>
+<ul>
+<li>Data Box Gateway consists of: <ul>
+<li>a virtual device hosted on-prem</li>
+<li>a gateway resource on Azure</li>
+<li>a local Web UI for management and support</li>
+</ul>
+</li>
+<li>Files can be copied to the gateway using SMB or NFS</li>
+<li>Files written to the Gateway are transferred to Azure Storage</li>
+<li>Data Box Gateway can be used to:<ul>
+<li>Cloud Archival - copy 100s TBs of data to Azure Storage</li>
+<li>Continuous Data Ingestion</li>
+<li>Incremental Transfers following a Bulk Transfer - incremental loads after an initial Data Box load</li>
+</ul>
+</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

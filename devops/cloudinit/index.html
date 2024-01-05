@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/devops/cloudinit/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Cloud Init - Cloud Architecture notes</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../azure/az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../../azure/app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../azure/kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../databricks/overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../databricks/fundamentals/" class="dropdown-item">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../terraform/state/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../linux/commands/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#cloud-init" class="nav-link">Cloud Init</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#configuration-sources" class="nav-link">Configuration Sources</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#determining-first-boot" class="nav-link">Determining First Boot</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#re-running-cloud-init-configuration" class="nav-link">Re-Running Cloud-Init Configuration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#user-data" class="nav-link">User Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#debugging-cloud-init" class="nav-link">Debugging Cloud-Init</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="cloud-init">Cloud Init</h1>
+<p><a href="https://cloudinit.readthedocs.io/en/latest/index.html">Cloud-init</a> 
+provides tools for initialising compute resources deployed acoss various 
+cloud platforms. Cloud images typically come with cloud-init pre-installed and 
+configured to run on first boot. </p>
+<p>Cloud providers also provide an IMDS - Instance MetaData Service. The IMDS is 
+used to expose cloud-init configuration to the instance. During early boot, 
+cloud-init connects to the IMDS webserver to collect configuration.</p>
+<h2 id="configuration-sources">Configuration Sources</h2>
+<p>Cloud-init builds a single configuration from multiple sources:</p>
+<ol>
+<li>Base Config - consists of multiple sources (lowest to highest priority):
+    a. Hard Coded Config: Config that is part of cloud-init and cannot be changed
+    b. Configuration Directory: anything defined in <code>/etc/cloud/cloud.cfg</code> and <code>/etc/cloud/cloud.cfg.d/</code>
+    c. Runtime Config: anything defined in <code>/run/cloud-init/cloud.cfg</code>
+    d. Kernel Command Line: anything found between <code>cc</code> and <code>end_cc</code> on the kernel command line </li>
+<li>Vendor and User Data: provided by the datasource and added to the Base Config</li>
+<li>Network Configuration: occurs independantly of other cloud-init configuration</li>
+</ol>
+<p>End Users can pass configuration is specified as User Data. Distro Providers will modify
+the Base Config and Cloud Providers will modify Vendor Data.</p>
+<p>Cloud-init functionality is integrated into the five boot stages:</p>
+<ol>
+<li>Generator</li>
+<li>Local</li>
+<li>Network<ul>
+<li>also runs disk_setup and mounts modules, to configure disks, partitions and mount points. On Azure, this stage is used to setup mounts necessary for cloud-init to work. Additional disks configuration should be added after this stage completes</li>
+</ul>
+</li>
+<li>Config<ul>
+<li>runs config modules only</li>
+</ul>
+</li>
+<li>Final<ul>
+<li>runs as late in the boot process as possible. Typically this stage is for running commands that would otherwise be run by a user logging-in to the system to run the commands. This will include package installation and post-installation scripts. </li>
+</ul>
+</li>
+</ol>
+<h2 id="determining-first-boot">Determining First Boot</h2>
+<p>Cloud-init configuration is divided into per-instance and per-boot configuration. Per-instance configuration is only run on the first boot: per-boot configuration runs at every boot. 
+Cloud-init stores a cache for use across stages and boots. If the cache is already present, 
+then cloud-init has already run on this instance. </p>
+<p>However, a cache will exist if the instance is built from an image that has 
+previously been launched. To determine if the presence of a cache represents
+a first boot for an instance, cloud-init runs a <strong>check</strong> to compare the Instance ID in the 
+cache to the Instance ID found at runtime: if they do not match, then this is determined
+to be a first-boot for the instance. 
+This behaviour can be over-ridden by using a <strong>trust</strong> behaviour: which
+tells cloud-init not to compare the Instance ID and assume that this is not a 
+first boot if a cloud-init cache exists. Using the <strong>trust</strong> behaviour, cloud-init 
+per-instance configuration will only run if no cache is found. </p>
+<h2 id="re-running-cloud-init-configuration">Re-Running Cloud-Init Configuration</h2>
+<p>You can re-run the config and final stages of a cloud-init configuration by logging-on
+to the instance and executing:</p>
+<pre><code class="language-bash">sudo cloud-init clean --logs
+sudo cloud-init init --local
+sudo cloud-init init
+sudo cloud-init modules --mode=config
+sudo cloud-init modules --mode=final
+</code></pre>
+<h2 id="user-data">User Data</h2>
+<p>User Data can be provided in a variety of formats:</p>
+<ol>
+<li>Cloud Config: yaml format. Begins with either:<ul>
+<li><code>#cloud-config</code> or</li>
+<li><code>Content-Type: text/cloud-config</code></li>
+</ul>
+</li>
+<li>User Data: used to execute shell scripts. Begins with either:<ul>
+<li><code>#!</code> or </li>
+<li><code>Content-Type: text/x-shellscript</code></li>
+</ul>
+</li>
+<li>Gzip-compressed Data: user data is limited to 16,384 bytes. Gzipped data can be used where scripts would exceed these limits</li>
+<li>Mime Multipart File: Can be used to specify configuration using any combination of the other formats available. </li>
+<li>Include File: contains a list of URLs, one per line. Each URL is retrieved and processed in order. Begins with:<ul>
+<li><code>#include</code> or </li>
+<li><code>Content-Type: text/x-include-url</code></li>
+</ul>
+</li>
+<li>Cloud-boothook: boothook data is stored in /var/lib/cloud and executed immeadiately. Begins with <code>#cloud-boothook</code></li>
+<li>Part-handler: Python code. Begins with:<ul>
+<li><code>#part-handler</code> or </li>
+<li><code>Content-Type: text/part-handler</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="debugging-cloud-init">Debugging Cloud-Init</h2>
+<p>To check the status of your cloud-init on a booted instance, run: </p>
+<pre><code>cloud-init status --wait
+</code></pre>
+<p>Cloud-init log files are kept in <code>/var/log/cloud-init.log</code>, <code>/var/log/cloud-init-output.log</code>
+and <code>/run/cloud-init</code>.</p>
+<p>Cloud-init configuration files are found in <code>/etc/cloud/cloud.cfg</code> and <code>/etc/cloud/cloud.cfg.d/*.cfg</code>.</p>
+<p>The <code>/var/lib/cloud/instance</code> directory points to the most recently used instance-id directory and
+contains the the data received from the datasources including user and vendor data. It also contains
+a datasource file with information about the datasource used. You can also run the <code>cloud-id</code> command
+to find out which datasource is being used. </p>
+<p>The <code>/var/lib/cloud/data</code> directory contains information from the previous boot. </p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

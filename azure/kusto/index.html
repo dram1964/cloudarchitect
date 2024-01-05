@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/kusto/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>KQL - Cloud Architecture notes</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../devops/devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../devops/terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../devops/cloudinit/" class="dropdown-item">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../databricks/overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../databricks/fundamentals/" class="dropdown-item">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../app_service/flask_app_service_part_one/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../monitor/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#kusto-query-language" class="nav-link">Kusto Query Language</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#let-statement" class="nav-link">'let' Statement</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#search-operator" class="nav-link">'search' Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#extend-operator" class="nav-link">'extend' Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#project-operator" class="nav-link">'project' Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#aggregation-operators" class="nav-link">Aggregation Operators</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#render-operator" class="nav-link">'render' Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#union-operator" class="nav-link">'union' Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#join-operator" class="nav-link">'join' Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#unstructured-data" class="nav-link">Unstructured Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#structured-data" class="nav-link">Structured Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#external-data" class="nav-link">External Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#virtual-tables" class="nav-link">Virtual Tables</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p>Access the <a href="https://aka.ms/lademo">demo environment</a></p>
+<h1 id="kusto-query-language">Kusto Query Language</h1>
+<p>KQL is used to run queries in Azure Sentinel. Queries start with the data source followed
+by a set of data transformation operators bound together by using the pipe delimiter:</p>
+<pre><code>SecurityEvent 
+| where EventID == &quot;4626&quot; 
+| summarize count() by Account 
+| limit 10
+</code></pre>
+<h1 id="let-statement">'let' Statement</h1>
+<p>'let' statements are used to bind names to expressions and can be used
+to define variables, functions and views</p>
+<pre><code>let timeOffset = 7d;
+let discardEventId = 4688;
+SecurityEvent
+| where TimeGenerated &amp;gt; ago(timeOffset*2) and TimeGenerated &amp;lt; ago(timeOffset)
+| where EventId != discardEventId
+| where AccountType =~ &quot;user&quot;
+| limit 100
+</code></pre>
+<pre><code>let suspiciousAccounts = datatable(account: string) [
+  @&quot;\administrator&quot;,
+  @&quot;NT AUTHORITY\SYSTEM&quot;
+];
+SecurityEvent | where Account in (suspiciousAccounts)
+| limit 100
+</code></pre>
+<pre><code>let LowActivityAccounts = 
+  SecurityEvent
+  | summarize cnt = count() by Account
+  | where cnt &amp;lt; 1000;
+LowActivityAccounts | where Account contains &quot;SQL&quot;
+| limit 100
+</code></pre>
+<h1 id="search-operator">'search' Operator</h1>
+<p>Use the 'search' operator to search for text in multiple tables and colums.
+'search' is not as efficient as 'where' but is useful to trackdown data when 
+you're unsure which table or column to filter:</p>
+<pre><code>search &quot;temp\\startup.bat&quot;
+
+search in (Event) &quot;temp\\startup.bat&quot;
+</code></pre>
+<h1 id="extend-operator">'extend' Operator</h1>
+<p>The 'extend' operator will create calculated columns and append the new columns 
+to the resultset</p>
+<pre><code>SecurityEvent
+| where ProcessName != &quot;&quot; and Process != &quot;&quot;
+| extend StartDir =  substring(ProcessName,0, string_size(ProcessName)-string_size(Process))
+| order by StartDir desc, TimeGenerated asc
+| limit 100
+</code></pre>
+<h1 id="project-operator">'project' Operator</h1>
+<p>The 'project' operator can be used to control output columns from the query</p>
+<dl>
+  <dt>project</dt>
+  <dd>select columns to include, rename, drop or insert</dd>
+  <dt>project-away</dt>
+  <dd>select columns to exclude</dd>
+  <dt>project-keep</dt>
+  <dd>select columns to keep</dd>
+  <dt>project-rename</dt>
+  <dd>rename columns</dd>
+  <dt>project-reorder</dt>
+  <dd>reorder columns</dd>
+</dl>
+
+<pre><code>SecurityEvent
+| where ProcessName != &quot;&quot; and Process != &quot;&quot;
+| extend StartDir =  substring(ProcessName,0, string_size(ProcessName)-string_size(Process))
+| order by StartDir desc, TimeGenerated asc
+| project TimeGenerated, StartDir, Computer, SubjectUserName, SubjectMachineName
+| limit 100
+</code></pre>
+<h1 id="aggregation-operators">Aggregation Operators</h1>
+<p>'summarize' can be used to group result rows. Aggregate operators can be used 
+to add columns to the resultset. List of aggregate operators:</p>
+<ul>
+<li>count(), countif()</li>
+<li>dcount(), dcountif()</li>
+<li>avg(), avgif()</li>
+<li>max(), maxif()</li>
+<li>min(), minif()</li>
+<li>percentile()</li>
+<li>stdev(), stdevif()</li>
+<li>sum(), sumif()</li>
+<li>variance(), varianceif()</li>
+</ul>
+<pre><code>SecurityEvent
+| summarize IPAddressCount = dcount(IpAddress)
+
+SecurityEvent
+| where TimeGenerated &gt; ago(1h)
+| where EventID == 4624
+| where AccountType == &quot;Machine&quot;
+| summarize howMany = count(), firstTime = min(TimeGenerated), lastTime = max(TimeGenerated) by Computer
+| project Computer, firstTime, lastTime, howMany
+
+let timeframe = 1d;
+let threshold = 3;
+SigninLogs
+| where TimeGenerated &gt;= ago(timeframe)
+| summarize applicationCount = dcount(AppDisplayName) by UserPrincipalName, IPAddress
+| where applicationCount &gt;= threshold
+</code></pre>
+<p>The 'arg_max' and 'arg_min' functions return rows for the max and min values of their
+first parameter respectively. Subsequent parameters specify the list of columns to return. An 
+asterix can be used to return all columns:</p>
+<pre><code>SecurityEvent 
+| where Computer == &quot;SQL12.na.contosohotels.com&quot;
+| summarize arg_max(TimeGenerated, Account, AccountType, EventID) by Computer
+</code></pre>
+<p>'make_' functions return a dynamic (JSON) array:</p>
+<pre><code>SecurityEvent
+| where EventID == &quot;4624&quot;
+| summarize make_list(Account) by Computer
+
+SecurityEvent
+| where EventID == &quot;4624&quot;
+| summarize make_set(Account) by Computer
+</code></pre>
+<p>'make_set' will return a list of unique values for the given expression</p>
+<h1 id="render-operator">'render' Operator</h1>
+<p>The 'render' operator is used to generate visualisations:</p>
+<pre><code>SecurityEvent 
+| summarize count() by Account
+| render barchart
+
+SecurityEvent 
+| summarize count() by bin(TimeGenerated, 1d) 
+| render timechart
+</code></pre>
+<h1 id="union-operator">'union' Operator</h1>
+<p>The 'union' operator takes two or more tables and returns the rows of
+all of them. </p>
+<pre><code>SecurityEvent
+| union SigninLogs
+
+union Security*
+| summarize count() by Type
+</code></pre>
+<h1 id="join-operator">'join' Operator</h1>
+<p>The 'join' operator merges the rows of two tables to form a new table
+by matching specified column values from each table</p>
+<pre><code>SecurityEvent 
+| where EventID == &quot;4624&quot; 
+| summarize LogOnCount=count() by EventID, Account 
+| project LogOnCount, Account 
+| join kind = inner (
+  SecurityEvent 
+  | where EventID == &quot;4634&quot; 
+  | summarize LogOffCount=count() by EventID, Account 
+  | project LogOffCount, Account 
+) on Account
+</code></pre>
+<p>Various join types are available:</p>
+<ul>
+<li>inner: returns rows that match in both left and right</li>
+<li>leftsemi: returns all left-side rows that have a match on the right-side</li>
+<li>leftanti (leftantisemi): returns all left-side rows that don't have a match on the right-side</li>
+<li>leftouter (rightouter or fullouter): returns a row for every row on the left and right, even if it has no match</li>
+<li>rightsemi</li>
+<li>rightanti</li>
+</ul>
+<h1 id="unstructured-data">Unstructured Data</h1>
+<p>The 'extract' operator can be used to get a match for a regular expression from a text string. The
+arguments for extract are:</p>
+<ul>
+<li>regex</li>
+<li>captureGroup</li>
+<li>text string</li>
+<li>type literal (optional)</li>
+</ul>
+<pre><code>SecurityEvent
+| where EventID == 4672 and AccountType == 'User'
+| extend Account_Name = extract(@&quot;^(.*\\)?([^@]*)(@.*)?$&quot;, 2, tolower(Account))
+| summarize LoginCount = count() by Account_Name
+| where Account_Name != &quot;&quot;
+| where LoginCount &lt; 10
+</code></pre>
+<p>The 'parse' operator can be used to convert a string column into one or more calculated columns. The
+computed columns will have nulls for unsuccessfullly parsed strings</p>
+<pre><code>let Traces = datatable(EventText:string)
+[
+&quot;Event: NotifySliceRelease (resourceName=PipelineScheduler, totalSlices=27, sliceNumber=23, lockTime=02/17/2016 08:40:01, releaseTime=02/17/2016 08:40:01, previousLockTime=02/17/2016 08:39:01)&quot;,
+&quot;Event: NotifySliceRelease (resourceName=PipelineScheduler, totalSlices=27, sliceNumber=15, lockTime=02/17/2016 08:40:00, releaseTime=02/17/2016 08:40:00, previousLockTime=02/17/2016 08:39:00)&quot;,
+&quot;Event: NotifySliceRelease (resourceName=PipelineScheduler, totalSlices=27, sliceNumber=20, lockTime=02/17/2016 08:40:01, releaseTime=02/17/2016 08:40:01, previousLockTime=02/17/2016 08:39:01)&quot;,
+&quot;Event: NotifySliceRelease (resourceName=PipelineScheduler, totalSlices=27, sliceNumber=22, lockTime=02/17/2016 08:41:01, releaseTime=02/17/2016 08:41:00, previousLockTime=02/17/2016 08:40:01)&quot;,
+&quot;Event: NotifySliceRelease (resourceName=PipelineScheduler, totalSlices=27, sliceNumber=16, lockTime=02/17/2016 08:41:00, releaseTime=02/17/2016 08:41:00, previousLockTime=02/17/2016 08:40:00)&quot;
+];
+Traces  
+| parse EventText with * &quot;resourceName=&quot; resourceName &quot;, totalSlices=&quot; totalSlices:long * &quot;sliceNumber=&quot; sliceNumber:long * &quot;lockTime=&quot; lockTime &quot;, releaseTime=&quot; releaseTime:date &quot;,&quot; * &quot;previousLockTime=&quot; previousLockTime:date &quot;)&quot; *  
+| project resourceName, totalSlices, sliceNumber, lockTime, releaseTime, previousLockTime
+</code></pre>
+<h1 id="structured-data">Structured Data</h1>
+<p>Dynamic fields in a table contain key-value pairs. Values can be accessed using dot notation</p>
+<pre><code>SigninLogs 
+| extend OS = DeviceDetail.operatingSystem
+</code></pre>
+<p>Fields that store JSON data can be converted to dynamic fields using the todynamic or parse-json functions</p>
+<pre><code>SigninLogs
+| extend Location =  todynamic(LocationDetails)
+| extend City =  Location.city
+| extend City2 = Location[&quot;city&quot;]
+| project Location, City, City2
+</code></pre>
+<p>'mv-expand' can be used to duplicate each row for every key-value pair found in the JSON field.</p>
+<pre><code>SigninLogs
+| mv-expand Location = todynamic(LocationDetails)
+| project Location, LocationDetails
+| limit 20
+</code></pre>
+<p>'mv-apply' can be used to filter the output by key value</p>
+<pre><code>SigninLogs
+| mv-apply Location = todynamic(LocationDetails) on ( where Location.city == &quot;Cannock&quot;)
+| project Location, LocationDetails
+| limit 20
+</code></pre>
+<h1 id="external-data">External Data</h1>
+<p>The 'externaldata' operator is used to connect to and query from an external data source:</p>
+<pre><code>externaldata ( ColumnName : ColumnType [, ...] )
+  [ StorageConnectionString [, ...] ]
+  [with ( PropertyName = PropertyValue [, ...] )]
+</code></pre>
+<p>For example:</p>
+<pre><code>Users
+| where UserID in ((externaldata (UserID:string) [
+    @&quot;https://storageaccount.blob.core.windows.net/storagecontainer/users.txt&quot; 
+      h@&quot;?...SAS...&quot; // Secret token needed to access the blob
+    ]))
+</code></pre>
+<h1 id="virtual-tables">Virtual Tables</h1>
+<p>Queries created in the query editor can be saved as functions to define a virtual table. The 
+virtual table can then be access by calling the name of the function</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

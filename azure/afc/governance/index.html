@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/afc/governance/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Governance - Cloud Architecture notes</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../../cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../../compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../../keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="./" class="dropdown-item active">Governance</a>
+</li>
+            
+<li>
+    <a href="../costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../../app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../../monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../../networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../../storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../../aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../devops/devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../../devops/git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../../../devops/github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../../../devops/porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../devops/terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../../devops/cloudinit/" class="dropdown-item">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../../linux/bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../../../linux/awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../../../linux/performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../databricks/overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../../databricks/fundamentals/" class="dropdown-item">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../security/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../costs/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#identity-and-governance" class="nav-link">Identity and Governance</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#azure-ad" class="nav-link">Azure AD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#governance" class="nav-link">Governance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="identity-and-governance">Identity and Governance</h1>
+<h2 id="azure-ad">Azure AD</h2>
+<p>With Cloud Computing and BYOD, identity is now the primary security boundary. Identity is 
+establish by the exchange of credentials to establish the identity of an agent 
+(authentication). Authorisation is about establishing the levels of access to be granted
+to an authenticated agent.</p>
+<ul>
+<li>Azure AD is a cloud-based identity and access management service (SaaS)</li>
+<li>AAD can be used to grant access to Azure Portal, Microsoft 365 and thousands of other SaaS applications</li>
+<li>A Tenant is a representation of an organisation. Each Microsoft 365, Office 365, Azure and Dynamics CRM tenant is automatically an Azure tenant</li>
+<li>An instance of Azure AD is created for each tenant</li>
+<li>Additional tenants can be created from the AAD Overview page</li>
+<li>Custom domain names can be added in addtion to the default <code>$ORG_NAME.onmicrosoft.com</code>. The custom domain should be registered with a domain name registrar</li>
+<li>
+<p>Azure AD is available with different licences:</p>
+<ul>
+<li>AAD Free<ul>
+<li>user and group management</li>
+<li>on-prem directory synchronisation</li>
+<li>basic reports</li>
+<li>self-service password change for cloud users</li>
+<li>SSO across Azure, M365 and many popular SaaS apps</li>
+<li>Included with any Microsoft Online business service</li>
+</ul>
+</li>
+<li>AAD Premium P1<ul>
+<li>paid licence built on top of existing free directory</li>
+<li>create custom RBAC roles</li>
+<li>grant hybrid users access to both on-prem and cloud resources</li>
+<li>dynamic groups</li>
+<li>self-service group management</li>
+<li>Microsoft Identity Manager</li>
+<li>Cloud write-back capabilities allows self-service password reset for your on-prem users</li>
+</ul>
+</li>
+<li>AAD Premium P2<ul>
+<li>paid licence built on top of AAD P1</li>
+<li>AAD Identity Protection:<ul>
+<li>risk-based Conditional Access</li>
+<li>Privileged Identity Management</li>
+<li>Just-In-Time access</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>"Pay as you go" feature licences. Additional features such as Business-to-Customer (B2C) provide IAM for customer-facing apps</li>
+</ul>
+</li>
+<li>
+<p>The AAD Architecture consists of </p>
+<ul>
+<li>A primary replica that receives all write operations for the partition it belongs to. The write operation is immeadiately replicated to a secondary replica in a different data centre before returning success to the caller</li>
+<li>Secondary replicas are used to service all directory reads. Secondary replicas are distributed across different geographies. Data is replicated asynchronously. Directory reads are serviced from data centres that are closest to the customer</li>
+</ul>
+</li>
+<li>Write scalability is achieved by partitioning the data. Read scalability is achieved by having multiple secondary replicas</li>
+<li>High availability is guaranteed by the services ability to shift traffic across multiple geographically distributed data centres</li>
+<li>If a failure occurs on a primary replica, writes are immeadiately shifted to another replica. This can result in a 1-2 minute loss of write availability.</li>
+<li>
+<p>Azure AD holds objects known as security principles. These can be one of the following types:</p>
+<ul>
+<li>Users: can be a member of the tenants Azure AD or a guest. Guests can be B2B (business-to-business) or B2C (third-party identity provider)</li>
+<li>Application Service Principal: represents the identity of a service or application in Azure</li>
+<li>Managed Identity Service Principal: used by services or applications in place of a user identity. Can be either system-assigned or user-assigned</li>
+<li>Device: a device identity</li>
+</ul>
+</li>
+<li>
+<p>Azure AD provides:</p>
+<ul>
+<li>Authentication: includes self-service password resets, MFA, smart-lockout, password blacklist</li>
+<li>SSO</li>
+<li>Application Management</li>
+<li>Device Management</li>
+</ul>
+</li>
+<li>
+<p>Conditional access allows or denies access to resources based on <i>signals</i>: identity, location, service requested, device, device security status. Conditional Access requires an Azure AD Premium P1 or P2 licence. Signals could result in the logon attempt requiring MFA</p>
+</li>
+<li>
+<p>Azure AD Connect</p>
+<ul>
+<li>Free download tool used to synchronise user identities between on-prem Active Directory and Azure AD</li>
+</ul>
+</li>
+</ul>
+<h2 id="governance">Governance</h2>
+<p>Governance is the process of establishing and enforcing rules and policies</p>
+<ul>
+<li>Azure RBAC<ul>
+<li>Role-Based Access Control</li>
+<li>Pre-defined roles defining access-levels to resources</li>
+<li>Uses an allow model: roles define what is <strong>allowed</strong></li>
+<li>Roles assigned to principals within a scope:<ul>
+<li>management group</li>
+<li>subscription</li>
+<li>resource group</li>
+<li>resource</li>
+</ul>
+</li>
+<li>Enforced against any action on a resource that is initiated through Resource Manager</li>
+<li>Does not apply at the application or data levels</li>
+<li>It is good practice to assign users to groups and then assign RBAC roles to the group, rather than assign roles directly to user accounts</li>
+</ul>
+</li>
+<li>Resource Locks<ul>
+<li>Prevents resources being accidentally deleted or modified</li>
+<li>Accessible from the 'Locks' pane in the Azure Portal</li>
+<li>Resource locks are inherited by child objects if these exist</li>
+<li>Two lock-types available<ul>
+<li>CanNotDelete - prevents deletion</li>
+<li>Read - prevents deletion or modification</li>
+</ul>
+</li>
+<li>Read locks can be used on resource groups to prevent additional resources being deployed</li>
+</ul>
+</li>
+<li>Resource Tags<ul>
+<li>Provide Metadata about a resource</li>
+<li>Up to 15 tags allowed per resource</li>
+<li>Tags can be used for:<ul>
+<li>Resource Management</li>
+<li>Billing and Cost Management</li>
+<li>Operations Management (SLAs)</li>
+<li>Security level</li>
+<li>Governance and Compliance</li>
+<li>Visualise complex workloads</li>
+</ul>
+</li>
+<li>Azure Policy can be used to force resources to inherit tags from their resource group</li>
+</ul>
+</li>
+<li>Azure Policy<ul>
+<li>Used to define policies that control or audit your resources</li>
+<li>Groups of policies are called <strong>initiatives</strong></li>
+<li>Policy definitions are assigned to a scope:<ul>
+<li>management group</li>
+<li>subscription</li>
+<li>resource group</li>
+</ul>
+</li>
+<li>Policy assignments are inherited by all child resources in the assignment scope</li>
+<li>Initiatives can be defined in Azure Portal or via command-line tools</li>
+<li>New policies can be added to an initiative, and these will be applied without the need to re-assign the initiative</li>
+</ul>
+</li>
+<li>Azure Blueprints<ul>
+<li>Azure Blueprints allow for the definition of controls at the organisational level</li>
+<li>Each component in a blueprint is termed an <strong>artifact</strong></li>
+<li>Blueprints ochestrate deployments and can include the following types of artifacts:<ul>
+<li>Role assignments</li>
+<li>Policy assignments</li>
+<li>ARM templates</li>
+<li>Resource groups</li>
+</ul>
+</li>
+<li>Artifacts can have zero or more parameters</li>
+<li>Parameter values can be set in the definition or during assignment</li>
+<li>Several Blueprints exist for ISO 27001</li>
+<li>Blueprints are backed by the globally available Cosmos DB</li>
+<li>Unlike ARM templates, Blueprint definitions exist natively in Azure. The relationship between the definition and the assignment is preserved</li>
+<li>When defining a Blueprint, you will also specify the location to save it to: either a Management Group or Subscription</li>
+<li>Blueprint definitions begin in draft mode. Before they can be assigned they need to be published</li>
+<li>Publishing involves assigning a Version string (up to 20 characters)</li>
+<li>Each version of a single Blueprint can be assigned and different versions of the same Blueprint can be assigned to a subscription</li>
+<li>When a published Blueprint is altered the original version is retained, along with unpublished changes. When the changes are published a new Version is assigned to the Blueprint definition</li>
+<li>Blueprints can be assigned at the Management Group level but this needs to be done using the <a href="https://docs.microsoft.com/en-us/rest/api/blueprints/assignments/create-or-update?tabs=HTTP" target="#">REST API</a></li>
+<li>Blueprint creation requires the following roles:<ul>
+<li>Microsoft.Blueprint/blueprints/write - Create a blueprint definition</li>
+<li>Microsoft.Blueprint/blueprints/artifacts/write - Create artifacts on a blueprint definition</li>
+<li>Microsoft.Blueprint/blueprints/versions/write - Publish a blueprint</li>
+</ul>
+</li>
+<li>Blueprint deletion requires the following roles:<ul>
+<li>Microsoft.Blueprint/blueprints/delete</li>
+<li>Microsoft.Blueprint/blueprints/artifacts/delete</li>
+<li>Microsoft.Blueprint/blueprints/versions/delete</li>
+</ul>
+</li>
+<li>Blueprint assignment requires the following roles:<ul>
+<li>Microsoft.Blueprint/blueprintAssignments/write - Assign a blueprint</li>
+<li>Microsoft.Blueprint/blueprintAssignments/delete - Unassign a blueprint</li>
+</ul>
+</li>
+<li>Built-in Roles also have Blueprint permissions:<ul>
+<li>Owner - all Blueprint related permissions</li>
+<li>Contributor - can create and delete Blueprint defintions. No assignment permissions</li>
+<li>Blueprint Contributor - can manage Blueprint definitions. No assignment permissions</li>
+<li>Blueprint Operator - can assign published blueprints using a user-assigned managed identity. No permissions to create new Blueprint definitions</li>
+</ul>
+</li>
+<li>Rules for Updating Assignments:<ul>
+<li>Role Assignments - if the role or assignee has changed, an new role assignment is created. Previously deployed roles are retained</li>
+<li>Policy Assignments - assignment is updated if the parameters are changed. If the definition is changed a new policy assigment is created and the previous assignment is retained. If the policy assignment is removed from the blueprint, the previous assignment is retained</li>
+<li>ARM Templates are deployed using a PUT request. Different resources will respond differently (update, replace) to this request</li>
+</ul>
+</li>
+<li>Resource Locking in Blueprint Assignments<ul>
+<li>Resource locks applied by a Blueprint assignment are only applied to non-extension resources deployed by the blueprint. Existing resources do not have locks added to them</li>
+<li>There are three locking modes available:<ul>
+<li>Don't Lock</li>
+<li>Read Only</li>
+<li>Do Not Delete</li>
+</ul>
+</li>
+<li>Locking mode is applied during artifact deployment resulting from the assignment. A different locking mode can be set by updating the assignment or removed by deleting the assignment. The locking mode cannot be changed outside of Azure Blueprints</li>
+<li>To prevent a subscription owner from changing the locking mode of a resource deployed during BP assignment, the assigment can be made at the Management Group level. Then only Owners of the management group can change the assignment. Blueprints assigned to a management group must still specify the subscription that the assignment targets and so is still applied at the subscription level</li>
+<li>The locking mode will result in resources having one of four states depending on where the locking mode is assigned:<ul>
+<li>Not Locked - where 'Don't Lock' mode is selected in BP assignment</li>
+<li>Cannot Edit/Delete - where 'Read Only' mode is set on the resource group. The resource group is Read Only, but Not Locked resources can be added, changed or deleted from the resource group</li>
+<li>Read Only - where 'Read Only' mode is set on a resource deployed during the assignment</li>
+<li>Cannot Delete - where 'Do Not Delete' is set on a resource deployed during the assignment. 'Not Locked' resources can be added, moved, changed or deleted from a resource group in 'Cannot Delete' state</li>
+</ul>
+</li>
+<li>Read Only and Delete locks are implemented by Blueprints as RBAC 'deny' assignments. The deny assigments are added by the managed identity of the BP assignment, and can only be removed from the artifact resources by the same managed identity. Therefore the locks can only be removed from within Blueprints. During the assignment, specific principals can be excluded from the 'deny' assignments. Similarly, specific actions (read, write, etc) on specified resources can be excluded from the deny assignment</li>
+</ul>
+</li>
+<li><a href="https://docs.microsoft.com/en-gb/azure/governance/blueprints/samples/caf-foundation/" target="#">CAF Foundation</a><ul>
+<li>Deploys an Azure Key Vault to host secrets for VMs deployed in the shared services environment</li>
+<li>Log Analytics is deployed to ensure all actions and services log to a central location</li>
+<li>Defender Standard deployed</li>
+<li>Policies<ul>
+<li>CostCenter Tag applied to Resource Groups</li>
+<li>Append CostCenter Tag to Resources in Resource Groups</li>
+<li>Allowed Region for Resources and Resource Groups</li>
+<li>Allowed Storage Account and VM SKUs</li>
+<li>Require Network Watcher to be Deployed</li>
+<li>Require secure transfer encryption on Storage Accounts</li>
+<li>Deny Resource Types</li>
+</ul>
+</li>
+<li>Policy Initiatives<ul>
+<li>Enable Monitoring in Microsoft Defender for Cloud (100+ policy definitions)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Cloud Adoption Framework<ul>
+<li>Consists of tools, documentation and proven practice to drive success during adoption of cloud computing on Azure</li>
+<li>The following steps are included:<ul>
+<li>Define Your Strategy<ul>
+<li>Define and Document your Motivations - meet stakeholders and leadership</li>
+<li>Document Business Outcomes - document your goals</li>
+<li>Evaluate Financial Considerations - identify the return expected from the investment</li>
+<li>Understand Technical Considerations</li>
+</ul>
+</li>
+<li>Make a Plan<ul>
+<li>Digital Estate - inventory of existing assets</li>
+<li>Initial Organisational Alignment - involve the right people</li>
+<li>Skills Readiness Plan</li>
+<li>Cloud Adoption Plan - shared cloud adoption goal</li>
+</ul>
+</li>
+<li>Ready your Organisation<ul>
+<li>Azure Setup Guide</li>
+<li>Azure Landing Zone - build subscriptions to support each major area of your business</li>
+<li>Expand the Landing Zone</li>
+<li>Best Practices</li>
+</ul>
+</li>
+<li>Adopt the Cloud<ul>
+<li>Migrate<ul>
+<li>Migrate your First Workload</li>
+<li>Migration Scenarios</li>
+<li>Best Practices</li>
+<li>Process Improvements</li>
+</ul>
+</li>
+<li>Innovate<ul>
+<li>Business Value Consensus - ensure innovations add value</li>
+<li>Azure Innovation Guide - build an MVP (Minimum Viable Product)</li>
+<li>Best Practices</li>
+<li>Feedback Loops</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Govern and Manage your Cloud Environments<ul>
+<li>Govern<ul>
+<li>Methodology - consider end-state solution </li>
+<li>Benchmark</li>
+<li>Initial Governance Foundation - MVP</li>
+<li>Improve the Initial Governance Foundation - iteratively add governance controls</li>
+</ul>
+</li>
+<li>Manage<ul>
+<li>Establish a Managment Baseline - minimum commitment to operations management</li>
+<li>Define Business Commitments - document supported workloads and required management investments for each</li>
+<li>Expand the Management Baseline</li>
+<li>Advanced Operations and Design Principles</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Create a Subscription Governance Strategy<ul>
+<li>Teams often start their governance strategy at the subscription level</li>
+<li>Three main aspects to consider:<ul>
+<li>Billing - take account of billing requirements when planning subscriptions. Use Tags if needed to identify billing department</li>
+<li>Access Control - isolation of environments based on subscriptions</li>
+<li>Subscription Limits - subscriptions have resource limitations: e.g. number of ExpressRoute connections</li>
+<li>Quotas for resources in resource groups are per region rather than per subscription</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Microsoft Trusted Cloud Principles<ul>
+<li>The shared responsibility model means that depending on the service, some responsibilities will transfer to the service provider</li>
+<li>Microsofts Trusted Cloud Principles means that Microsoft will provides contractual agreements to ensure:<ul>
+<li>Data residency</li>
+<li>Data security</li>
+<li>Data privacy</li>
+<li>Data compliance</li>
+</ul>
+</li>
+<li>The <a href="https://www.microsoft.com/trust-center" target="#">Microsoft Trust Center</a> can be used to access detailed statements from Microsoft on their security, privacy and compliance standards<ul>
+<li>The <a href="https://privacy.microsoft.com/privacystatement" target="#">privacy statement</a> details how each Microsoft service interacts with your data</li>
+<li>The <a href="https://www.microsoft.com/licensing/terms" target="#">Product Terms</a> site lists the terms and conditions of Microsoft product licences. The Data Protection Addendum lists the data processing conditions associated with these licences</li>
+<li>Legal and Regulatory compliance documentation can be found at https://docs.microsoft.com/azure/compliance</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

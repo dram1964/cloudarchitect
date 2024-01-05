@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/databricks/fundamentals/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Databbricks Lakehouse Fundamentals - Cloud Architecture notes</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../azure/az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../../azure/app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../azure/kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../devops/devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../devops/terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../devops/cloudinit/" class="dropdown-item">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../../linux/performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../overview/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#fundamentals-of-the-databricks-lakehouse-platform" class="nav-link">Fundamentals of the Databricks Lakehouse Platform</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#what-is-a-data-lakehouse" class="nav-link">What is a Data Lakehouse</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#what-is-a-data-lakehouse_1" class="nav-link">What is a Data Lakehouse</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#architecture-and-security" class="nav-link">Architecture and Security</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#instant-compute-and-serverless" class="nav-link">Instant Compute and Serverless</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#lakehouse-data-management-terminology" class="nav-link">Lakehouse Data Management Terminology</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#supported-workloads" class="nav-link">Supported Workloads</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#acid-transations" class="nav-link">ACID transations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="fundamentals-of-the-databricks-lakehouse-platform">Fundamentals of the Databricks Lakehouse Platform</h1>
+<h2 id="what-is-a-data-lakehouse">What is a Data Lakehouse</h2>
+<p>In the 1980s, Data Warehouses were developed to organise huge volumes 
+of data for analytics and BI. Data Warehouses are organised with 
+pre-defined schemas. </p>
+<p>Drawbacks for traditional data warehouses were:</p>
+<ul>
+<li>They failed to provide support for unstructured data </li>
+<li>they had long processing times</li>
+<li>they could not cope with the increasing velocity and volume of data from digital sources</li>
+</ul>
+<p>In the 2000s, Data Lakes were developed to cope with Big Data: handling structured, 
+semi-structured and unstructured data generated in huge volumes and high velocity.
+Multiple data types could be stored side-by-side in cloud object-stores. Built to handle 
+streaming data. Drawbacks of Data Lakes:</p>
+<ul>
+<li>do not support transactional data<ul>
+<li>lack of ACID transaction support</li>
+</ul>
+</li>
+<li>do not enforce data quality (data swamps)<ul>
+<li>lack of schema enforcement</li>
+</ul>
+</li>
+<li>slow analysis performance</li>
+<li>governance concerns</li>
+</ul>
+<p>The drawbacks led to companies developing Data Warehouses and Data Lakes side-by-side, 
+leading to complex, silo-ed environments involving copying data backwards and forwards
+between the specialist systems. </p>
+<p>The Data Lakehouse emerged to provide a platform to unify data, analytics and AI workloads. 
+Built on a Data Lake, the Data Lakehouse can handle all types of data, becoming a single
+source of truth. Data Lakehouses provide:</p>
+<ul>
+<li>Transaction support </li>
+<li>Schema enforcement and governance</li>
+<li>Data Governance</li>
+<li>BI Support</li>
+<li>Decouples storage from compute</li>
+<li>Open storage formats (e.g. Apache Parquet)</li>
+<li>Support for diverse data types</li>
+<li>Support for diverse workloads</li>
+<li>End-to-end streaming for real-time reports</li>
+</ul>
+<h2 id="what-is-a-data-lakehouse_1">What is a Data Lakehouse</h2>
+<p>Databricks was founded in 2013 by the original founders of Apache Spark, 
+Delta Lake and MLflow. The Lakehouse platform was first proposed in 2021, 
+based on a paper entitled: 'Lakehouse: A New Generation of Open Platforms
+that Unify Data Warehousing and Advanced Analytics'. The Lakehouse 
+paradigm specifies:</p>
+<ul>
+<li>Platform for all data processing workloads (AI, ML, SQL Analytics, BI, and streaming)</li>
+<li>One security and governance approach for all data assets</li>
+<li>A reliable data platform for all data types</li>
+</ul>
+<p>This is met in Databricks through</p>
+<ul>
+<li>Delta Lake - for data reliability and performance</li>
+<li>Unity Catalog - for governance</li>
+<li>Persona-based use cases</li>
+</ul>
+<p>The Databricks Lakehouse Platform provides instant, serverless compute
+and is built on open standards and open source and is multicloud. </p>
+<h2 id="architecture-and-security">Architecture and Security</h2>
+<h3 id="data-reliability-and-performance">Data Reliability and Performance</h3>
+<p>Databricks Lakehouse Platform solves the problems of Data Lakes using 
+two technologies: </p>
+<ul>
+<li>Delta Lake<ul>
+<li>file-based open source storage format</li>
+<li>provides ACID transaction guarantees</li>
+<li>scalable data and metadata handling (using Spark)</li>
+<li>audit history and time travel through a transaction log</li>
+<li>schema enforcement and schema evolution</li>
+<li>support for deletes, updates and merges</li>
+<li>unified streaming and batch data processing</li>
+<li>runs on top of existing Data Lake technologies</li>
+<li>uses Delta tables based on Apache Parquet</li>
+</ul>
+</li>
+<li>Photon<ul>
+<li>next-generation query engine</li>
+<li>supports Spark and SQL APIs but provides improved performance</li>
+</ul>
+</li>
+</ul>
+<h3 id="unified-governance-and-security">Unified Governance and Security</h3>
+<p>Protecting against data breaches. Databricks Lakehouse Platform addresses
+the data and AI governance challenges through:</p>
+<ul>
+<li>Unity Catalog<ul>
+<li>unified governance solution for all data assets</li>
+<li>uses SQL to define and enforce fine-grained access controls on all data and AI assets on any cloud</li>
+<li>provides one consistent model to discover, access and share data</li>
+<li>provides single source of truth for all user identities and data assets</li>
+<li>access can be controlled by rows or columns and using attribute-based controls</li>
+<li>provides a detailed audit trail of who has performed what actions against the data</li>
+<li>provides an interface for data search and discovery</li>
+<li>provides data lineage and supports impact analysis for data changes</li>
+</ul>
+</li>
+<li>Delta Sharing<ul>
+<li>open solution to securely share live data to any computing platform</li>
+<li>data providers retain the ability to track and audit usage</li>
+<li>share data without copying it</li>
+<li>privacy-safe data clean-rooms</li>
+<li>REST protocol to share access to part of a cloud dataset</li>
+</ul>
+</li>
+<li>Divided Architecture<ul>
+<li>control plane<ul>
+<li>where the applications reside</li>
+<li>mangaged backend services that Databricks provides. Held in Databricks' own cloud account. </li>
+<li>Databricks runs the workspace application and manages notebooks, configuration and clusters</li>
+<li>Notebook, configuration and log data is encrypted at-rest and in-transit<ul>
+<li>User Identity and Access:<ul>
+<li>Table ACLs</li>
+<li>IAM instance profiles</li>
+<li>Securely stored access keys</li>
+<li>Secrets API</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>data plane<ul>
+<li>where the data and compute resources reside</li>
+<li>runs inside the business owners own cloud account</li>
+<li>clusters use the latest, hardened server images</li>
+<li>clusters are short-lived and often terminated after a job</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Databricks support staff require a support ticket to access a workspace<ul>
+<li>ticket is time-limited</li>
+<li>allows access to specific group of employees</li>
+</ul>
+</li>
+<li>Compliance on Multicloud<ul>
+<li>SOC 2 Type II</li>
+<li>ISO 27001</li>
+<li>ISO 27017</li>
+<li>ISO 27018</li>
+</ul>
+</li>
+<li>Additional compliance per cloud-provider<ul>
+<li>FedRAMP High</li>
+<li>HITRUST</li>
+<li>HIPPA</li>
+<li>PCI</li>
+</ul>
+</li>
+<li>GDPR and CCPA ready</li>
+</ul>
+<h2 id="instant-compute-and-serverless">Instant Compute and Serverless</h2>
+<p>Configuring the data plane can be complicated and leads to over-provisioning of resouces
+and higher administration costs. Databricks offers serverless compute or serverless data
+plane which is available for Databricks SQL. Databricks Serverless SQL is provisioned and
+managed by Databricks in the Databricks cloud account. Resources are provisioned on-demand
+and destroyed when they are finished with. Serverless Compute relies on pre-configured 
+database clusters which are assigned to customers as needed and supports elastic scaling
+in response to demand. The compute has three layers of isolation:</p>
+<ul>
+<li>the container hosting the runtime</li>
+<li>the VM hosting the container</li>
+<li>the virtual network for the workspace</li>
+</ul>
+<p>When finished the VM is terminated and not reused. Instead a new VM is deployed and allocated
+to the pool. </p>
+<h2 id="lakehouse-data-management-terminology">Lakehouse Data Management Terminology</h2>
+<p>Delta Lake </p>
+<ul>
+<li>provides a data storage format built for the Lakehouse and Unity Catalog. </li>
+</ul>
+<p>Unity Catalog</p>
+<ul>
+<li>provides a common governance model for data and AI assets</li>
+</ul>
+<p>Metastore</p>
+<ul>
+<li>top-level logical construct for organising data and associated metadata. Functions as a reference for a collection of metadata and a link to the cloud storage container.</li>
+</ul>
+<p>Catalog</p>
+<ul>
+<li>top-most container for data objects in Unity Catalog. Several Catalogs can exist in a Unity Catalog. Each Catalog represents the start of the data objects namespace, followed by the schema and tablename</li>
+</ul>
+<p>Schema</p>
+<ul>
+<li>acts as a container for data assets like tables, views and functions</li>
+</ul>
+<p>Tables</p>
+<ul>
+<li>defined by two distinct elements: metadata and data. Metadata here is the comments, tags and list of columns and data types. Tables can be either managed or external. External tables store their data in an external data store: with managed tables, data is stored in the Metastores defined storage location. </li>
+</ul>
+<p>Views</p>
+<ul>
+<li>read-only queries: are not able to modify the underlying data. </li>
+</ul>
+<p>Storage Credentials</p>
+<ul>
+<li>created by admins and used to authenticate to cloud storage containers</li>
+</ul>
+<p>External Location</p>
+<ul>
+<li>used to provide access control at the file level</li>
+</ul>
+<p>Shares and Recipients</p>
+<ul>
+<li>Used in Delta Sharing, an open source protocol for sharing data across organisations. Shares are read-only, logical collections of tables. </li>
+</ul>
+<h2 id="supported-workloads">Supported Workloads</h2>
+<ul>
+<li>Data Warehousing <ul>
+<li>using Databricks SQL to support SQL Analytics and BI tasks (ETL, queries, dashboards, reporting). Data analysts can use the tools of their choice to interact with Databricks SQL. </li>
+</ul>
+</li>
+<li>Data Engineering <ul>
+<li>ingesting, cleaning and orchestrating (delivering) data. Building data pipelines. </li>
+<li>Auto Loader is an optimised data ingestion tool that processes new data files as they arrive in the lakehouse cloud storage. Auto detects schemas and enforces it. The <code>COPY INTO SQL</code> command uses the 'lake-first' approach, loading data from a folder into a Delta Lake tables. </li>
+<li>Delta Live Tables (DLT) uses a declarative syntax to build reliable data pipelines. DLT supports both SQL and Python and works with streaming and batch workloads. With DLT, engineers treat their data as code, and can use common practices from software engineering: separate dev and prod environments, test before deploying, using parameters to define environments, unit testing and documentation. </li>
+<li>Databricks workflows can be built in the UI, using the Databricks Workflows API or external orchestrators such as Apache Airflow. </li>
+</ul>
+</li>
+<li>Data Streaming<ul>
+<li>handling real-time data </li>
+<li>supports real-time analysis, real-time ML, real-time applications</li>
+</ul>
+</li>
+<li>Data Science and Machine Learning<ul>
+<li>Databricks ML Runtime<ul>
+<li>optimised and pre-configured ML Frameworks</li>
+<li>distributed ML</li>
+<li>built-in Auto-ML</li>
+<li>GPU support</li>
+</ul>
+</li>
+<li>MLflow is an open-sourced ML platform created by Databricks<ul>
+<li>track model training sessions</li>
+<li>package and re-use models</li>
+<li>feature store to create new features or re-use existing features, to train or score models</li>
+<li>serve models to production</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="acid-transations">ACID transations</h2>
+<ul>
+<li>Atomicity
+    All changes to data are performed as if they are a single operation. That is, all the changes are performed, or none of them are.
+    For example, in an application that transfers funds from one account to another, the atomicity property ensures that, if a debit is made successfully from one account, the corresponding credit is made to the other account.</li>
+<li>Consistency
+    Data is in a consistent state when a transaction starts and when it ends.
+    For example, in an application that transfers funds from one account to another, the consistency property ensures that the total value of funds in both the accounts is the same at the start and end of each transaction.</li>
+<li>Isolation
+    The intermediate state of a transaction is invisible to other transactions. As a result, transactions that run concurrently appear to be serialized.
+    For example, in an application that transfers funds from one account to another, the isolation property ensures that another transaction sees the transferred funds in one account or the other, but not in both, nor in neither.</li>
+<li>Durability
+    After a transaction successfully completes, changes to data persist and are not undone, even in the event of a system failure.
+    For example, in an application that transfers funds from one account to another, the durability property ensures that the changes made to each account will not be reversed. </li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

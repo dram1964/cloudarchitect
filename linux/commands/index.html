@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/linux/commands/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Commands - Cloud Architecture notes</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../azure/az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../../azure/afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../azure/app_service/app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="../../azure/app_service/flask_app_service_part_one/" class="dropdown-item">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../azure/kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../../azure/aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../devops/devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../../devops/porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../devops/terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../../devops/terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../devops/cloudinit/" class="dropdown-item">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../databricks/overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../databricks/fundamentals/" class="dropdown-item">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../devops/cloudinit/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../bash_scripting/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#linux-commands" class="nav-link">Linux Commands</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#wifi-commands" class="nav-link">WiFi Commands</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#network-commands" class="nav-link">Network Commands</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#sed" class="nav-link">sed</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="linux-commands">Linux Commands</h1>
+<ul>
+<li>
+<p>Check your linux version</p>
+<pre><code>lsb_release -a
+</code></pre>
+</li>
+<li>
+<p>Check system startup time</p>
+<pre><code>systemd-analyze
+</code></pre>
+</li>
+<li>
+<p>Check  startup time by individual service</p>
+<pre><code>systemd-analyze blame
+</code></pre>
+</li>
+<li>
+<p>Disable an individual service</p>
+<pre><code>sudo systemctl disable NetworkManager-wait-online.service
+</code></pre>
+</li>
+<li>
+<p>Find process ids based on name patterns:</p>
+<pre><code>pgrep firefox
+</code></pre>
+</li>
+<li>
+<p>Find process ids based on username: </p>
+<pre><code>pgrep -u &lt;username&gt;
+</code></pre>
+</li>
+</ul>
+<h2 id="wifi-commands">WiFi Commands</h2>
+<p>The <code>lshw</code> command can be used to quickly identify network hardware on your device:</p>
+<pre><code>sudo lshw -C network
+</code></pre>
+<p>The output will include both MAC address in the 'serial' field and IP address in the 'configuration' 
+field, along with other information such as the 'logical name' and the 'bus id'. <code>ifconfig</code> 
+will also provide the MAC and IP addresses for connect wireless adapters. Use <code>iwconfig</code> 
+to see the speed and link quality for your wireless adapter
+The <code>nmcli</code> command provides useful information from Network Manager. To see the saved 
+connections for your device use:</p>
+<pre><code>nmcli connection show
+</code></pre>
+<p>To see a list of Access Points and stats on their signal strength and capabilities, use:</p>
+<pre><code>nmcli dev wifi
+</code></pre>
+<p><code>wavemon</code> is an ncurses-based monitoring tool for WiFi</p>
+<h2 id="network-commands">Network Commands</h2>
+<p>To see your current IP address instead of using <em>ifconfig</em> try <em>ip</em>:</p>
+<pre><code class="language-bash">ip address show
+</code></pre>
+<p>This will show:</p>
+<ol>
+<li>Interface name</li>
+<li>MAC address: <em>link/ether</em></li>
+<li>IP address: <em>inet</em></li>
+<li>State of the Interface: UP or DOWN</li>
+</ol>
+<p>You can also use <code>ip link show</code> to check the state of your interfaces.</p>
+<p>Use the <em>route</em> command to show the routing table on a computer:</p>
+<pre><code class="language-bash">route
+</code></pre>
+<p>The default route shows you which interface is used if no specific 
+route matches the address specified. </p>
+<p>You can also use <em>ip route show</em> to show the route to a specific network:</p>
+<pre><code class="language-bash">ip route show 10.0.0.0/8
+</code></pre>
+<p>You can get help on the <em>ip</em> command using <em>man ip-address</em>, <em>man ip-link</em> 
+or <em>man ip-route</em>. </p>
+<p>Use the <em>arp</em> command to check the ARP table (data link layer) addresses
+stored locally. This will show the mapping of physical addresses to ip 
+addresses for devices on the same LAN (e.g. your gateway or router):</p>
+<pre><code class="language-bash">arp -a 
+</code></pre>
+<p>To check for ports on localhost use <em>ss</em>:</p>
+<pre><code class="language-bash">ss -tunlp4
+</code></pre>
+<p>Whilst <em>telnet</em> can be used to test connectivity to TCP ports, netcat
+also provides the ability to check connections to UDP ports:</p>
+<pre><code class="language-bash">nc 192.168.0.3 -u 80 -v
+nc 127.0.0.1 8000 -v
+</code></pre>
+<p>Netcat can also be used to quickly setup a server to listen on a 
+specified port. </p>
+<pre><code class="language-bash">nc -l 1234 &gt; filename.out
+</code></pre>
+<p>All the input sent to port 1234 will be copied to <em>filename.out</em>:</p>
+<pre><code class="language-bash">nc -N myhost.example.com 1234 &lt; filename.in
+</code></pre>
+<p>These two commands will allow you to transfer the contents if <em>filename.in</em> to <em>filename.out</em> on the listening server. </p>
+<p>The <em>-N</em> option closes the connection on termination.</p>
+<h2 id="sed">sed</h2>
+<p><em>sed</em> stands for Stream Editor, and can be used to replace text from 
+input to output:</p>
+<pre><code>echo 'Hello, World!' | sed 's/World/Universe/'
+</code></pre>
+<p>sed can also be used directly on a file:</p>
+<pre><code>sed 's/left/right/' &lt;filename&gt;
+</code></pre>
+<p>By default output is sent to STDOUT, but you can change the file 
+contents using the <em>-i</em> switch:</p>
+<pre><code>sed -i 's/left/right/' &lt;filename&gt;
+</code></pre>
+<p>Sed allows capturing groups and backreferences. To capture IP Address from
+the weblog.txt use:</p>
+<pre><code>sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt
+</code></pre>
+<p>Sed works well in pipelines: to find unique values of ip_address in 
+above example use:</p>
+<pre><code>sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | sort -u
+</code></pre>
+<p>To count the occurrences for each unique IP Address use:</p>
+<pre><code>sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | sort | uniq -c
+</code></pre>
+<p>You can also pipe the list of IPs to lookup the hostnames:</p>
+<pre><code>sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | \
+sort -u | awk '{ cmd = "dig +short -x " $1; system(cmd) }'
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

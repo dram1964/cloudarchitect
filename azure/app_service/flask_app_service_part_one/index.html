@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/app_service/flask_app_service_part_one/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>App Service Deplyment: Part 1 - Cloud Architecture notes</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">Cloud Architecture notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">IT Operations <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../operations/soar/" class="dropdown-item">SOAR</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Azure <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../az104/" class="dropdown-item">AZ104 Reference</a>
+</li>
+                                    
+<li>
+    <a href="../../cli_commands/" class="dropdown-item">CLI Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../aad/" class="dropdown-item">Azure AD</a>
+</li>
+                                    
+<li>
+    <a href="../../compute/" class="dropdown-item">Azure Compute</a>
+</li>
+                                    
+<li>
+    <a href="../../keyvault/" class="dropdown-item">Azure Key Vault</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Azure Fundamentals</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../afc/core_concepts/" class="dropdown-item">Core Concepts</a>
+</li>
+            
+<li>
+    <a href="../../afc/core_services/" class="dropdown-item">Core Services</a>
+</li>
+            
+<li>
+    <a href="../../afc/core_management_tools/" class="dropdown-item">Core Management Tools</a>
+</li>
+            
+<li>
+    <a href="../../afc/security/" class="dropdown-item">Security</a>
+</li>
+            
+<li>
+    <a href="../../afc/governance/" class="dropdown-item">Governance</a>
+</li>
+            
+<li>
+    <a href="../../afc/costs/" class="dropdown-item">Costs</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">App Service</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../app_service/" class="dropdown-item">App Service Overview</a>
+</li>
+            
+<li>
+    <a href="./" class="dropdown-item active">App Service Deplyment: Part 1</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../kusto/" class="dropdown-item">KQL</a>
+</li>
+                                    
+<li>
+    <a href="../../monitor/" class="dropdown-item">Azure Monitor</a>
+</li>
+                                    
+<li>
+    <a href="../../networking/" class="dropdown-item">Azure Networking</a>
+</li>
+                                    
+<li>
+    <a href="../../storage/" class="dropdown-item">Azure Storage</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/" class="dropdown-item">PostgreSQL</a>
+</li>
+                                    
+<li>
+    <a href="../../aml/" class="dropdown-item">Machine Learning</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Devops <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../devops/devops/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../../devops/git_commands/" class="dropdown-item">Git Client</a>
+</li>
+                                    
+<li>
+    <a href="../../../devops/github_actions/" class="dropdown-item">Github Actions</a>
+</li>
+                                    
+<li>
+    <a href="../../../devops/porter/" class="dropdown-item">Porter</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Terraform</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../devops/terraform/intro/" class="dropdown-item">Intro</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/blocks/" class="dropdown-item">Blocks</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/variables/" class="dropdown-item">Variables</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/meta/" class="dropdown-item">Meta-Arguments</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/functions/" class="dropdown-item">Functions</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/provisioner/" class="dropdown-item">Provisioners</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/modules/" class="dropdown-item">Modules</a>
+</li>
+            
+<li>
+    <a href="../../../devops/terraform/state/" class="dropdown-item">Remote State</a>
+</li>
+    </ul>
+  </li>
+                                    
+<li>
+    <a href="../../../devops/cloudinit/" class="dropdown-item">Cloud Init</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../linux/commands/" class="dropdown-item">Commands</a>
+</li>
+                                    
+<li>
+    <a href="../../../linux/bash_scripting/" class="dropdown-item">Bash Scripting</a>
+</li>
+                                    
+<li>
+    <a href="../../../linux/awk/" class="dropdown-item">Awk</a>
+</li>
+                                    
+<li>
+    <a href="../../../linux/performance/" class="dropdown-item">Performance</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Databricks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../databricks/overview/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../../../databricks/fundamentals/" class="dropdown-item">Databbricks Lakehouse Fundamentals</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../app_service/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../kusto/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#deploy-a-flask-app-to-azure-part-1" class="nav-link">Deploy a Flask App to Azure: Part 1</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#intro" class="nav-link">Intro</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#references" class="nav-link">References</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#setup-local-development-environment" class="nav-link">Setup Local Development Environment</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#setup-a-minimal-flask-application" class="nav-link">Setup a Minimal Flask Application</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#connect-the-flask-app-to-the-postgresql-database" class="nav-link">Connect the Flask App to the PostgreSQL Database</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#create-the-database-tables" class="nav-link">Create the Database Tables</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#add-data-to-the-books-table" class="nav-link">Add Data to the Books Table</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#summary" class="nav-link">Summary</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="deploy-a-flask-app-to-azure-part-1">Deploy a Flask App to Azure: Part 1</h1>
+<h2 id="intro">Intro</h2>
+<p>In this series of articles, we're going to build a Flask App connected to a backend PostgreSQL 
+database. We'll develop the application and database locally using Docker, 
+then we'll install a production version on Azure using Azure App Service and 
+Azure Database for PostgreSQL</p>
+<p>On this page we'll focus on developing the Flask application locally. </p>
+<h2 id="references">References</h2>
+<p>For the Flask application we're going to be following <a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world" target="#">Miguel Grinbergs Tutorial</a>
+For the deployment to Azure App Services we'll be using the <a href="https://docs.microsoft.com/en-us/azure/app-service/tutorial-python-postgresql-app" target="#">Microsoft Sample</a>. 
+For connecting Flask to Postgres we're using Abdel Dyouri's post on <a href="https://www.digitalocean.com/community/tutorials/how-to-use-a-postgresql-database-in-a-flask-application" target="#">Digital Ocean</a>
+<a href="http://jinja.pocoo.org/" target="#">Jinja2</a></p>
+<h2 id="setup-local-development-environment">Setup Local Development Environment</h2>
+<p>For our local development in Docker, we'll be using to containers:</p>
+<ol>
+<li>A customised Python image to run the Flask Application and</li>
+<li>A standard PostgreSQL image</li>
+</ol>
+<p>Begin by creating a project directory <em>(flask_pg_app_service)</em> and create a subfolder to hold the 
+application <em>(ear)</em></p>
+<pre><code>mkdir flask_pg_app_service
+cd flask_pg_app_service
+mkdir ear
+</code></pre>
+<p>To run our Flask application we will use a custom docker image based on Python 3.8.
+Add a Dockerfile to the Flask application directory <code>flask_pg_app_service/ear/Dockerfile</code>:</p>
+<pre><code>FROM python:3.8-slim-buster
+
+ARG user_id=1000
+ARG user_name=ear
+
+EXPOSE 5000
+
+RUN groupadd -g $user_id $user_name &amp;&amp; \
+useradd -u $user_id -g $user_id -d /home/$user_name -m $user_name
+
+WORKDIR /opt
+
+COPY requirements.txt requirements.txt
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+USER $user_id
+
+ENV FLASK_APP=/opt/ear.py
+
+ENV FLASK_DEBUG=1
+
+CMD ["flask", "run", "--host=0.0.0.0"]
+</code></pre>
+<p>We'll build and run this image using Docker Compose. The docker-compose.yml file will be stored 
+in the root of the project directory <code>flask_pg_app_service/docker-compose.yml</code></p>
+<pre><code>version: '3.8'
+
+services:
+  app:
+    build: 
+      context: ./ear
+    image: ear:1.0
+    ports: 
+      - 5000:5000
+    volumes:
+      - ./ear:/opt
+    depends_on: [db]
+  db:
+    image: postgres:11.0
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+</code></pre>
+<p>Before we can build and run the containers, we'll need to add some code for the Flask App.</p>
+<h2 id="setup-a-minimal-flask-application">Setup a Minimal Flask Application</h2>
+<p>We can start with the requirements file for the application <code>flask_pg_app_service/ear/requirements.txt</code></p>
+<pre><code>flask
+flask-wtf
+psycopg2-binary
+flask-sqlalchemy
+flask-migrate
+</code></pre>
+<p>Then add the package code in <code>flask_pg_app_service/ear/app/__init__.py</code></p>
+<pre><code>from flask import Flask
+
+app=Flask(__name__)
+
+from app import routes
+</code></pre>
+<p>Next create the <i>routes</i> module in <code>flask_pg_app_service/ear/app/routes.py</code></p>
+<pre><code>from app import app
+
+@app.route('/')
+@app.route('/index')
+def index():
+    return "Hello World!"
+</code></pre>
+<p>Then add the Flask <i>application</i> file <code>flask_pg_app_service/ear/ear.py</code></p>
+<pre><code>from app import app
+</code></pre>
+<p>With both the Flask app written and a Docker container defined, let's build and run the container:</p>
+<pre><code>flask_pb_app_service/ear$ docker image build --build-arg user_id=$(id -u) -t ear:0.1 .
+flask_pg_app_service/ear$ docker container run --rm -p 5000:5000 --name ear_we_go ear:0.1
+</code></pre>
+<p>We can test that this works by visiting <a href="http://localhost:5000">http://localhost:5000</a>. If all is working well, we can stop 
+this container and remove the image, since we'll build the image from the docker-compose file later. </p>
+<h2 id="connect-the-flask-app-to-the-postgresql-database">Connect the Flask App to the PostgreSQL Database</h2>
+<p>We can now expand our application to use a backend database. The application will start simple, and
+will display a list of books. The book list will be stored in a single table on our PostgreSQL 
+database. We'll be using SQLAlchemy to connect to the database. Lets add some configuration 
+data in `flask_pg_app_service/ear/config.py</p>
+<pre><code>class Config(object):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://example:example@db/example'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+</code></pre>
+<p>Now we can use this configuration in our app module to define a <em>db</em> and <em>migrate</em> objects for use
+by the application <code>flask_pg_app_service/ear/app/__init__.py</code></p>
+<pre><code>from flask import Flask
+from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+app=Flask(__name__)
+app.config.from_object(Config)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+from app import routes, models
+</code></pre>
+<p>Now we add the Models to the app with a single table to hold the book list <code>flask_pg_app_service/ear/app/models.py</code></p>
+<pre><code>from datetime import datetime
+from app import db
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), index=True, unique=True)
+    author = db.Column(db.String(120), index=True)
+    status = db.Column(db.String(30))
+
+    def __repr__(self):
+        return '{} by {}'.format(self.title, self.author)
+</code></pre>
+<p>We want our index page to display the list of books, so we need to update the Routes module: <code>flask_pg_app_service/ear/app/routes.py</code></p>
+<pre><code>from flask import render_template, flash, redirect, url_for
+from app import app, db
+from app.models import Book
+
+@app.route('/')
+@app.route('/index')
+def index():
+    books = Book.query.all()
+    return render_template('index.html', title = 'Home Page', books=books)
+</code></pre>
+<p>We're using <code>render_template</code> to display handle our views, so we need to add a template for the 
+index page: <code>flask_pg_app_service/ear/app/templates/index.html</code></p>
+<pre><code>{% extends "base.html" %}
+
+{% block content %} 
+    &lt;h1&gt;Reading List&lt;/h1&gt;
+    {% for book in books %}
+    &lt;div&gt;&lt;p&gt;{{ book.title }} by {{ book.author }} ( {{ book.status }} )&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;
+    {% endfor %}
+{% endblock %}
+</code></pre>
+<p>We're using a base template to hold the overall layout for pages in our site, so we need to create
+this also <code>flask_pg_app_service/ear/app/templates/base.html</code></p>
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    {% if title %}
+    &lt;title&gt;{{ title }} - EAR&lt;/title&gt;
+    {% else %}
+    &lt;title&gt;Welcome to EAR&lt;/title&gt;
+    {% endif %}
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;Ear: 
+    &lt;a href="{{ url_for('index') }}"&gt;Home&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;hr&gt;
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    &lt;ul&gt;
+    {% for message in messages %}
+    &lt;li&gt;{{ message }}&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="create-the-database-tables">Create the Database Tables</h2>
+<p>We now have all the code in place to run our Flask application but the books table does not exist 
+yet. We can use the app container to create the table. First we need to build the app container:</p>
+<pre><code>flask_pg_app_service/ear$ docker compose build --build-arg user_id=$(id -u) app
+</code></pre>
+<p>Once built we can start both the database and the Flask app with</p>
+<pre><code>flask_pg_app_service/ear$ docker compose up
+</code></pre>
+<p>If we try to connect to the index page on the application, we will receive an error that the books 
+table does not exist. We can use flask-migrate to create the books table. First, connect to the 
+app container:</p>
+<pre><code>docker compose exec app bash
+</code></pre>
+<p>From here we can run the flask-migrate commands. First time around you will run:</p>
+<pre><code>flask db init
+</code></pre>
+<p>This will setup the repository to hold the database migrations. Once complete you can 
+create the first migration using: </p>
+<pre><code>flask db migrate -m "Add book table to database"
+</code></pre>
+<p>This will create python scripts to install the Model to the database. To install the Model
+you will need to run: </p>
+<pre><code>flask db upgrade
+</code></pre>
+<p>Now with the book table created, we can connect to the index page <a href="http://localhost:5000/">http://localhost:5000/</a>, which 
+will diplay the page header ('Reading List'), but there will be no books displayed. We need to add
+some data into the books table. </p>
+<h2 id="add-data-to-the-books-table">Add Data to the Books Table</h2>
+<p>You can manually connect to the db container and add some rows to the book table using the psql 
+command. Alternatively, you can use Python from the app container to do the same. If you use 
+Python, you will need to import the db and book objects. An alternative method is to use 
+the Flask shell. To use Flask shell you will need to setup a shell context configuration in 
+<code>ear/ear.py</code>:</p>
+<pre><code>    from app import app, db
+    from app.models import Book
+
+    @app.shell_context_processor
+    def make_shell_context():
+        return {'db': db,  'Book': Book}
+</code></pre>
+<p>Now you can run <code>flask shell</code> on the app container to open a interactive Python session 
+with app, db, and Book already defined. With the 'flask shell' you can run DDL interactively:</p>
+<pre><code>&gt;&gt;&gt; b1 = Book(title='East of Eden', author='John Steinbeck', status='In Progress')
+&gt;&gt;&gt; db.session.add(b1)
+&gt;&gt;&gt; db.session.commit()
+&gt;&gt;&gt; quit()
+
+Once we add some data to the book table we can refresh the index page on the app and the book
+should display. 
+</code></pre>
+<p>We can also add a page to the app for adding books to the book table. We'll start by adding a route
+to the <code>flask_pg_app_service/ear/app/routes.py</code></p>
+<pre><code>from flask import render_template, flash, redirect, url_for
+from app import app, db
+from app.forms import BookForm
+from app.models import Book
+
+@app.route('/')
+@app.route('/index')
+def index():
+    books = Book.query.all()
+    return render_template('index.html', title = 'Home Page', books=books)
+
+@app.route('/add_book', methods=['GET', 'POST'])
+def add_book():
+    form = BookForm()
+    if form.validate_on_submit():
+        book = Book(
+            author=form.author.data,
+            title=form.title.data, 
+            status=form.status.data
+        )
+        db.session.add(book)
+        db.session.commit()
+        flash('Your changes have been saved')
+        return redirect(url_for('index'))
+    return render_template('add_book.html', title='Add Book', form=form)
+</code></pre>
+<p>The new route references a form object and a new template which we'll need to create. First 
+there's the BookForm object. We'll create this in the `flask_pg_app_service/ear/app/forms.py:</p>
+<pre><code>from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
+
+class BookForm(FlaskForm):
+    author = StringField('Author', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired()])
+    status = StringField('Status', validators=[DataRequired()])
+    submit = SubmitField('Add Book')
+</code></pre>
+<p>Now we can create the page to display this form <code>flask_pg_app_service/ear/app/templates/add_book.html</code></p>
+<pre><code>{% extends "base.html" %}
+
+{% block content %}
+    &lt;h1&gt;Add New Book&lt;/h1&gt;
+    &lt;form action="" method="Post" novalidate&gt;
+        {{ form.hidden_tag() }}
+        &lt;p&gt;
+            {{ form.author.label }}&lt;br&gt;
+            {{ form.author(size=120) }}
+        &lt;/p&gt;
+        &lt;p&gt;
+            {{ form.title.label }}&lt;br&gt;
+            {{ form.title(size=120) }}
+        &lt;/p&gt;
+        &lt;p&gt;
+            {{ form.status.label }}&lt;br&gt;
+            {{ form.status(size=30) }}
+        &lt;/p&gt;
+        &lt;p&gt;{{ form.submit() }}&lt;/p&gt;
+    &lt;form&gt;
+{% endblock %}
+</code></pre>
+<p>The <code>form.hidden_tag()</code> in the page, allows us to use CSRF, but we need to add a SECRET_KEY to the 
+application configuration <code>flask_pg_app_service/ear/config.py</code></p>
+<pre><code>import os
+
+class Config(object):
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://example:example@db/example'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+</code></pre>
+<p>Now we can add books by navigating to <a href="http://localhost:5000/add_book">http://localhost:5000/add_book</a>. To make life easier, we
+can add this link to either the navigation or to the index page. Let's add it to the index
+page <code>flask_pg_app_service/ear/app/templates/index.html</code></p>
+<pre><code>{% extends "base.html" %}
+
+{% block content %} 
+    &lt;h1&gt;Reading List&lt;/h1&gt;
+    {% for book in books %}
+    &lt;div&gt;&lt;p&gt;{{ book.title }} by {{ book.author }} ( {{ book.status }} )&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;
+    {% endfor %}
+    &lt;p&gt;&lt;a href="{{ url_for('add_book') }}"&gt;Add a New Book&lt;/a&gt;&lt;/p&gt;
+{% endblock %}
+</code></pre>
+<h2 id="summary">Summary</h2>
+<p>We now have a working Flask application that displays data from a database. The application still
+has a lot of features missing:</p>
+<ol>
+<li>Authentication and Authorisation have not been implemented</li>
+<li>Additional CRUD operations are missing</li>
+<li>Data can be added without validation</li>
+<li>Site does not yet run with SSL</li>
+</ol>
+<p>In a production environment, you would want to fix these issues. We can do this as we develop the 
+app further, but we have enough code now to try to deploy the app to Azure. </p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
