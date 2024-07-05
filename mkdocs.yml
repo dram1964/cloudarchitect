@@ -24,7 +24,9 @@ nav:
     - 'Azure Monitor' : 'azure/monitor.md'
     - 'Azure Networking': 'azure/networking.md'
     - 'Azure Storage': 'azure/storage.md'
-    - 'PostgreSQL': 'azure/postgresql.md'
+    - 'Databases':
+      - 'PostgreSQL': 'azure/db/postgresql.md'
+      - 'CosmosDB': 'azure/db/cosmosdb.md'
     - 'Machine Learning': 'azure/aml.md'
   - 'Devops':
     - 'Overview': 'devops/devops.md'
@@ -49,3 +51,6 @@ nav:
   - 'Databricks':
     - 'Overview': 'databricks/overview.md'
     - 'Databbricks Lakehouse Fundamentals': 'databricks/fundamentals.md'
+  - 'Python': 
+    - 'venv': 'python/venv.md'
+    - 'Pandas': 'python/pandas.md'

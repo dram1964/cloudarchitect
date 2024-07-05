@@ -5,11 +5,15 @@ Microsoft documentation on [Remote State Storage](https://docs.microsoft.com/en-
 
 Here's another good article by [Matthew Davis](https://matthewdavis111.com/terraform/terraform-azure-remote-state/) which contains the info to use an SAS token for your backend
 
+
+## Create Azure Storage
+
 Storing Terraform state remotely allows multiple developers to work on the same
 environment from different machines. Terraform state can be stored in Azure and then
 referenced in the backend configuration of your Terraform scripts. Public access is allowed to Azure storage to store Terraform state.
 First create the remote state storage account in your subscription using the 
 Azure CLI:
+
 ```bash
     az login
     az account set --subscription <subscription_id>
@@ -24,6 +28,8 @@ Azure CLI:
 
     az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
 ```
+
+## Configure Backend
 
 To use remote state in Azure Storage, configure the backend block of your terraform block:
 ```hcl
@@ -81,8 +87,12 @@ for added security:
 ```
 export ARM_SAS_TOKEN=$(az keyvault secret show --name terraform-backend-key --vault-name myKeyVault --query value -o tsv)
 ```
+
+## Using Backend Config
+
 Rather than placing the values for the backend-config keys in your 
 Terraform scripts you can store these values in a config file and use the '-backend-config' option in during terraform initialisation to use those values:
+
 ```
 #### BEGIN /app/backend_config.conf #######
 resource_group_name = ""
@@ -99,3 +109,34 @@ terraform init --backend-config=/app/backend_config.conf
 The value for sas_token can be omitted from the backend-config file, and 
 instead supplied using the ARM_SAS_TOKEN environment variable.
 
+## Inspecting State
+
+Whether you use a remote or local state storage, you can inspect the configuration of 
+individual items using `terraform state show`. For instance if you have defined 
+a resource group in your config files as `azurerm_resource_group.rg`, you can 
+query the configuration using:
+
+```bash
+terraform state show azurerm_resource_group.rg
+```
+
+## Importing Resources
+
+You can import resources into your state file using 
+[terraform import](https://developer.hashicorp.com/terraform/tutorials/state/state-import?utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS#define-import-block). 
+However you will also need to create the configuration file for the 
+imported resource. You can automate the generation of the configuration 
+file using configuration-driven import. Create an import.tf, e.g.:
+
+```bash
+import {
+  id = "resource_id"
+  to = "azurerm_linux_virtual_machine.my_vm"
+}
+```
+
+You can then run `terraform plan` to generate a corresponding configuration file:
+
+```bash
+terraform plan -generate-config-out=generated.tf
+```
