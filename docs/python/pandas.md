@@ -198,6 +198,11 @@ print(df.sort_values(by=["Date of Birth", "Place of Birth"], ascending=True)[["D
 ```
 
 The `pivot()` function can be used to reshape data, specifying columns and values. 
+
+```python
+df.pivot(index='DATE', columns='LANGUAGE', values='POSTS')
+```
+
 The `pivot_table()` function supports aggregation. The reverse of `pivot()` is `melt()`.
 
 ## Data Joins
@@ -304,20 +309,88 @@ religions.plot()
 plt.show()
 ```
 
-Use selection criteria on your DataFrame to choose which Series to plot. 
+Use selection criteria on your DataFrame to choose which Series to plot.
+In JupyterLab, you can specify the x and y axes for your plot:
+
+```python
+plt.plot(df.index, df['java'])
+```
+
+You can use slicing to drop elements from the plot:
+
+```python
+plt.plot(df.index[:-1], df['java'][:-1])
+```
+
+You can also plot mulitple columns on the same graph, and add some graph
+formating:
+
+```python
+plt.figure(figsize=(16,10))
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.xlabel('Date', fontsize=14)
+plt.ylabel('No of Posts', fontsize=14)
+plt.ylim(0,35000)
+
+plt.plot(df.index, df['java'])
+plt.plot(df.index, df['python'])
+```
+
+To plot multiple columns use a `for` loop:
+
+```python
+plt.figure(figsize=(16,10))
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.xlabel('Date', fontsize=14)
+plt.ylabel('No of Posts', fontsize=14)
+plt.ylim(0,35000)
+
+for column in df.columns:
+    plt.plot(df.index, df[column], linewidth=3, label=df[column].name)
+
+plt.legend(fontsize=14)
+```
+
+For time series data you can specify a rolling mean to smooth out the data:
+instead of plotting the value of each data point, you can specify a window 
+to calculate an average value for each data point based on the values either
+side of the data point:
+
+```python
+rolling_df = reshaped_df.rolling(window=6).mean()
+```
+
+Plotting two columns with varying value-ranges can look untidy and make
+trend-spotting difficult. Instead you can specify two different y-axes
+for each plot to make comparison easier:
+
+```python
+ax1 = plt.gca() # gets the current axis
+ax2 = ax1.twinx() # create another axis that shares the same x-axis
+
+ax1.plot(sets_by_year.index[:-2], sets_by_year.set_num[:-2], color='g')
+ax2.plot(themes_by_year.index[:-2], themes_by_year.nr_themes[:-2], color='b')
+
+ax1.set_xlabel('Year')
+ax1.set_ylabel('Number of Sets', color='g')
+ax2.set_ylabel('Number of Themes', color='b')
+```
+
+If your xticks overlap, you can specify a rotation to make them readable:
+
+```python
+plt.xticks(fontsize=14, rotation=45)
+```
+
+
 
 Pandas provides a number of graph types including line, area, bar, pie and scatter:
 
-```python
-method_name = ''
-for method_name in dir(religions.plot):
-    if not method_name.startswith("_"):
-        print(method_name)
-
-religions.plot.bar()
-
-plt.show()
-```
+- `plt.plot` for a line chart
+- `plt.scatter` for a scatter plot
+- `plt.bar` for a bar chart
 
 ## Row Comprehensions
 

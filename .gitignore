@@ -1,3 +1,4 @@
 site
 testing
 *.swp
+*.venv
