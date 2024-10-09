@@ -58,7 +58,8 @@ and the last 5 rows. To show the first 10 rows, use the `head()` function:
 df.head(10)
 ```
 
-Use `tail()` to see the last *n* rows.
+Use `tail(n)` to see the last *n* rows or `sample(n)` to see *n* randomdly
+sampled rows.
 
 To check the datatypes applied to each Series in your DataFrame, use the
 `dtypes` attribute. A technical summary of the data is available using the
@@ -161,6 +162,48 @@ df_renamed = df.rename(
         "Date of Birth": "birth_date",
     }
 )
+```
+
+## Data Cleansing
+
+Use the `drop()` function to remove unwanted columns:
+
+```python
+df.drop(['Last_Updated', 'Android_Ver'], axis=1, inplace=True)
+```
+
+Use `isna()` to find rows with 'NaN' vaules and `dropna()` to remove rows 
+with 'NaN' values in the selected columns:
+
+```python
+df_clean = df.dropna(subset=['Rating'])
+```
+
+Use `inplace=True` if you don't want to create a new dataframe.
+
+Use `duplicated` to find duplicate rows and `drop_duplicates` to remove
+the duplicated rows (keeping the first occurrence):
+
+```python
+df_clean = df.drop_duplicates(subset = ['App', 'Type', 'Price'])
+```
+
+To convert strings to numeric data, you can perform string formatting
+and then use the pandas `to_numeric` function: 
+
+```python
+# remove commas
+df_clean['Installs'] = df_clean['Installs'].astype(str).str.replace(',',"")
+# remove currency symbol
+df_clean['Installs'] = df_clean['Installs'].astype(str).str.replace('£',"")
+# convert to numeric
+df_clean['Installs'] = pd.to_numeric(df_clean['Installs'])
+```
+
+You can use filtering to drop unwanted values:
+
+```python
+df_clean = df_clean[df_clean.Installs > 300]
 ```
 
 ## Aggregate Functions
@@ -359,7 +402,7 @@ to calculate an average value for each data point based on the values either
 side of the data point:
 
 ```python
-rolling_df = reshaped_df.rolling(window=6).mean()
+rolling_df = df.rolling(window=6).mean()
 ```
 
 Plotting two columns with varying value-ranges can look untidy and make
@@ -384,6 +427,45 @@ If your xticks overlap, you can specify a rotation to make them readable:
 plt.xticks(fontsize=14, rotation=45)
 ```
 
+You can also use locator functions for marking the x- and y- axes:
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
+df_unemployment = pd.read_csv('UE Benefits Search vs UE Rate 2004-19.csv')
+df_unemployment['MONTH'] = pd.to_datetime(df_unemployment['MONTH'])
+
+roll_df = df_unemployment[['UE_BENEFITS_WEB_SEARCH', 'UNRATE']].rolling(window=6).mean()
+roll_df['month'] = df_unemployment['MONTH']
+
+
+plt.figure(figsize=(16,10))
+plt.title('Rolling Web Searches vs Unemployment Rate', fontsize=20)
+plt.xticks(fontsize=14, rotation=45)
+plt.yticks(fontsize=14)
+
+ax1 = plt.gca()
+ax2 = ax1.twinx()
+ax1.grid(color='gray', linestyle='--')
+
+ax1.set_ylabel('Web Searches', fontsize=16, color='indianred')
+ax2.set_ylabel('Unemployment Rate', fontsize=16, color='cadetblue')
+
+ax1.set_xlim(roll_df.month[5:].min(), roll_df.month[5:].max())
+
+years = mdates.YearLocator()
+months = mdates.MonthLocator()
+years_fmt = mdates.DateFormatter('%Y')
+ax1.xaxis.set_major_locator(years)
+ax1.xaxis.set_major_formatter(years_fmt)
+ax1.xaxis.set_minor_locator(months)
+
+ax1.plot(roll_df.month[5:], roll_df.UE_BENEFITS_WEB_SEARCH[5:], color='indianred', linewidth=3, marker='o')
+ax2.plot(roll_df.month[5:], df_unemployment.UNRATE[5:], color='cadetblue', linewidth=3)
+```
+
 
 
 Pandas provides a number of graph types including line, area, bar, pie and scatter:
@@ -391,6 +473,79 @@ Pandas provides a number of graph types including line, area, bar, pie and scatt
 - `plt.plot` for a line chart
 - `plt.scatter` for a scatter plot
 - `plt.bar` for a bar chart
+
+
+## Plotly
+
+Bar charts are a good way to visualise 'categorical' data. You can use 
+`value_counts()` to quickly create categorical data:
+
+```python
+ratings = df.value_counts('Content_Rating')
+```
+
+Given a dataframe that contains the following data:
+
+```
+Content_Rating
+Everyone           6621
+Teen                912
+Mature 17+          357
+Everyone 10+        305
+Adults only 18+       3
+Unrated               1
+Name: count, dtype: int64
+```
+
+we can present this as a pie chart using plotly:
+
+```python
+fig = px.pie(
+    labels=ratings.index,
+    values=ratings.values,
+    names=ratings.index,
+    title="Content Rating"
+)
+fig.show()
+```
+
+We can change the location of the text on the pie chart using `update_traces()`:
+
+```python
+fig = px.pie(
+    labels=ratings.index,
+    values=ratings.values,
+    title='Content Rating',
+    names=ratings.index,
+)
+fig.update_traces(
+    textposition='outside', 
+    textinfo='percent+label'
+)
+fig.show()
+```
+
+To format the pie chart as a 'doughnut chart' add the 'hole' parameter:
+
+```python
+fig = px.pie(
+    labels=ratings.index,
+    values=ratings.values,
+    title='Content Rating',
+    names=ratings.index,
+    hole=0.4
+)
+fig.update_traces(
+    textposition='inside',
+    textfont_size=15,
+    textinfo='percent'
+)
+fig.show()
+```
+
+Which produces:<br>
+
+![doughnut](./images/doughnut.png)
 
 ## Row Comprehensions
 
