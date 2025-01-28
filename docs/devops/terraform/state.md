@@ -140,3 +140,34 @@ You can then run `terraform plan` to generate a corresponding configuration file
 ```bash
 terraform plan -generate-config-out=generated.tf
 ```
+
+## Renaming Resources
+
+Sometimes you might want to rename a resource in your state file without 
+causing the resource to be re-deployed. For instance if you originally
+gave your azurerm_resource_group a specific name, e.g. 'project_x', but now
+just want to call it 'rg'. You can do this by first creating a copy of the 
+resource block and then using the `terraform state mv` command. Once 
+removed, you can then delete the original block and update any references
+to point to the new resource name: 
+
+```terraform
+resource "azurerm_resource_group" "project_x" {
+    name     = var.rg_name
+    location = var.location
+
+    tags     = var.default_tags
+}    
+
+resource "azurerm_resource_group" "rg" {
+    name     = var.rg_name
+    location = var.location
+
+    tags     = var.default_tags
+}    
+```
+
+Use `terraform state mv azurerm_resource_group.project_x azurerm_resource_group.rg`
+to update the state without changing the deployed resources. Before running
+`terraform plan`, remove the `azurerm_resource_group.project_x` block and update
+any references to it from other resources to point to `azurerm_resource_group.rg`.
