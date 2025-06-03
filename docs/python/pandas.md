@@ -4,24 +4,89 @@ Notes from the Pandas
 [Getting Started](https://pandas.pydata.org/docs/getting_started/index.html) 
 guide
 
-## Data in Pandas
+## Series
+
+A `pandas.Series` objects a data structure for an array of data of a single
+type, and can be thought of as a column in a table. Create a Series by 
+providing an array of values: 
+
+```python
+import numpy as np
+import pandas as pd
+
+np.random.seed(0) # set a seed so that the random numbers are always the same
+pd.Series(np.random.rand(5), name='random')
+```
+
+## DataFrames
 
 A DataFrame is a 2-dimensional data structure used to store data in columns. 
+
 To create a DataFrame manually, use a dictionary of lists:
 
 ```python
 df = pd.DataFrame(
   {
-    'BV Reference': ['BV22400430', 'BV22033859/1', 'BV22028098/1', 'BV2020383/1'],
-    'Date of Publication': ['02/04/2023', '03/04/2023', '03/04/2023', '04/04/2023'],
-    'Forename': ['Jeff', 'Dorothy', 'Sasan', 'Elizabeth'],
-    'Surname': ['British', 'Irish', 'British', 'Norwegian'],
+    'Forename': ['Jeff', 'James', 'Eric', 'Clark'],
+    'Surname': ['Jefferson', 'Jameson', 'Ericsson', 'Clarkson'],
     'Date of Death': ['15/12/2021', '12/05/2002', '25/10/2023', '28/07/2012'],
-    'Place of Death': ['Norfolk', 'Shropshire', 'Devon', 'Bedfordshire'],
-    'Executors': ['', '', '', '' ]
+    'Place of Death': [np.random.choice(['Norfolk', 'Shropshire', 'Devon', 'Bedfordshire']) for _ in range(4)] ,
+    'Deceased': [np.random.choice(['Yes', 'No']) for _ in range(4) ],
+    'Age' : np.random.rand(4) * 100
   }
 )
 ```
+
+Or a list of dictionaries: 
+
+```python
+df2 = pd.DataFrame([
+    {'forename': 'Jeff', 'surname': 'Jefferson', 'date of death': '15/12/2021'},
+    {'forename': 'James', 'surname': 'Jameson', 'date of death': '01/10/2021'},
+    {'forename': 'Eric', 'surname': 'Ericsson', 'date of death': '11/05/2021'},
+    {'forename': 'Clark', 'surname': 'Clarkson', 'date of death': '25/02/2021'},
+])
+```
+
+Or a list of tuples:
+
+```python
+df3 = pd.DataFrame([
+    ('Jeff', 'Jefferson', '15/12/2021'),
+    ('James', 'Jameson', '01/10/2021'),
+    ('Eric', 'Ericsson', '11/05/2021'),
+    ('Clark', 'Clarkson', '25/02/2021')],
+    columns=['forename', 'surname', 'date of death']
+)
+```
+
+Or a list of lists:
+
+```python
+df5 = pd.DataFrame([
+        ['Jeff', 'Jefferson', '15/12/2021'],
+        ['James', 'Jameson', '01/10/2021'],
+        ['Eric', 'Ericsson', '11/05/2021'],
+        ['Clark', 'Clarkson', '25/02/2021']
+    ],
+    columns=['forename', 'surname', 'date of death']
+)
+```
+
+Or a `numpy` array:
+
+```python
+df4 = pd.DataFrame(
+    np.array([
+        ['Jeff', 'Jefferson', '15/12/2021'],
+        ['James', 'Jameson', '01/10/2021'],
+        ['Eric', 'Ericsson', '11/05/2021'],
+        ['Clark', 'Clarkson', '25/02/2021']
+    ]),
+    columns=['forename', 'surname', 'date of death']
+)
+```
+
 
 DataFrames can be created from CSV files using the `read_csv()` function:
 
