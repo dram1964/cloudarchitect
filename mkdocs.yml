@@ -55,5 +55,8 @@ nav:
     - 'Databbricks Lakehouse Fundamentals': 'databricks/fundamentals.md'
   - 'Python': 
     - 'venv': 'python/venv.md'
-    - 'Pandas': 'python/pandas.md'
+    - 'Pandas': 
+      - 'Data Collection': 'python/pandas/data_collection.md'
+      - 'Data Wrangling': 'python/pandas/pandas.md'
+    - 'Jupyter': 'python/jupyter.md'
 

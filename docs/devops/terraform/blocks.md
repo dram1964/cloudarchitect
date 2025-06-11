@@ -89,7 +89,7 @@ provider "azurerm" {
 ## Variable
 
 Used to accept external values as parameters to be used by all other blocks, 
-apart from the terraform block. See [Variables](../variables)
+apart from the terraform block. See [Variables](./variables.md)
 
 ## Resource
 
@@ -216,7 +216,7 @@ data "terraform_remote_state" "lz" {
 
 ## Module
 
-Used to include external modules in your scripts. See [Modules](../modules)
+Used to include external modules in your scripts. See [Modules](./modules.md)
 
 ## Local
 

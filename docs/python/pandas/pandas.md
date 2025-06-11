@@ -6,7 +6,7 @@ guide
 
 ## Series
 
-A `pandas.Series` objects a data structure for an array of data of a single
+A `pandas.Series` object is a data structure for an array of data of a single
 type, and can be thought of as a column in a table. Create a Series by 
 providing an array of values: 
 
@@ -17,6 +17,13 @@ import pandas as pd
 np.random.seed(0) # set a seed so that the random numbers are always the same
 pd.Series(np.random.rand(5), name='random')
 ```
+
+In addition to the data we provide the Series object, pandas adds in Index
+object representing the row numbers. The Index object can be used to perform 
+element-wise operations on Series objects. For example, addition using two
+Series objects, will add the values for the elements with matching index
+values. Where the indexes do not match, the result will return a null value 
+(`NaN` or `None`) for those index values. 
 
 ## DataFrames
 
@@ -87,59 +94,188 @@ df4 = pd.DataFrame(
 )
 ```
 
+## External Data
 
-DataFrames can be created from CSV files using the `read_csv()` function:
+DataFrames can be created from CSV files using the pandas `read_csv` function:
 
 ```python
 df = pd.read_csv("data/unclaimedestates.csv", parse_dates=True)
 ```
 
+The `read_csv` function provides additional arguments to allow you to 
+specifiy seperators, delimiters, etc. Use `help(pd.read_csv)` or 
+`pd.read_csv?` for the full function definition. 
+
 There are functions for reading data in various formats, all beginning with
-a `read_` prefix: e.g. `read_json()`, `read_excel()`, `read_sql()`.
-DataFrames can also be written using the corresponding `to_` functions: e.g.
-`to_json()`, `to_excel`, `to_sql()`.
+a `read_` prefix: e.g. `read_json`, `read_excel`, `read_sql`. Try: 
 
 ```python
-df.to_excel("recipes.xlsx", sheet_name="flapjack")
+functions = [function for function in dir(pd) if function.startswith('read_')]
+```
+
+To read data from a database, you need to provide a both a query or table name
+and a connection object: 
+
+```python
+import pandas as pd
+from sqlalchemy import URL, create_engine
+import psycopg2
+
+psql_connection_string = URL.create(
+    'postgresql',
+    username='user_name',
+    password='passwd',
+    host='server_name,
+    port=5432,
+    database='database_name'
+)
+conn = create_engine(psql_connection_string)
+
+query = '''
+SELECT * FROM
+"schema_name"."table_name"
+WHERE collected_date > CURRENT_DATE - INTERVAL '60 days'
+ORDER BY collected_date desc
+'''
+
+df = pd.read_sql_query(query,con=conn)
+```
+
+DataFrames can also be written to external files 
+using the corresponding `to_` methods: e.g.
+`to_json`, `to_excel`, `to_sql`. With the `to_sql` function you can provide
+the table name, connection and what action to take if the table already 
+exists: 
+
+```python
+df.to_sql(name='users', con=connection, if_exists='replace')
+```
+
+Pandas `to_` functions will also allow to you include or exclude
+the DataFrame index in the output: 
+
+```python
+df.to_excel("recipes.xlsx", sheet_name="flapjack", index=False)
+```
+
+## Examining Data
+
+DataFrame objects provide a number of attributes and functions that 
+you can use to examine the data frame. 
+
+| Attribute | Description | 
+|---|----| 
+| shape | number of rows and columns | 
+| columns | names of the columns | 
+| dtypes | data type for each column | 
+
+All the output from the `shape`, `columns`, and `dtypes` attributes is 
+also provided through the `info` function, along with details on the index
+and memory usage: 
+
+```python
+df.info()
+```
+
+The `describe` method provides summary data (min, max, mean, count and percentiles) 
+for the numeric columns, but can also be used to get some summary data 
+(count, unique values, mode, frequency of mode) for non-numeric data:
+
+```python
+df.describe(include=np.object)
+# or
+df.describe(include='all')
+```
+
+By default `describe` provides the 0.25, 0.5, 0.75 percentiles but you can select 
+these with the `percentiles` parameter:
+
+```python
+df.describe(percentiles=[0.05, 0.50, 0.95])
+```
+
+`describe` only provides summary statistics for non-null values.
+
+Each summary statistic is also available via separate summary methods that
+can be applied to either the DataFrame or Series objects, e.g `min`, `max`, 
+`idxmin`, `idxmax`, `sum`, `mean`, `median`. For Series objects additional 
+summary methods exist: `unique`, `value_counts` and `mode`. 
+
+## Selecting Data
+
+Display the dataframe by calling its name. This will display the first 5 rows 
+and the last 5 rows. To show the first *n* rows, use the `head` method, or
+`tail` for the last *n* rows, or `sample` for *n* random values:
+
+```python
+df.sample(10)
 ```
 
 Each column in a DataFrame is a Series. To select a column from a DataFrame, 
-use the column label between square brackets:
+use the column label between square brackets. For multiple columns supply a 
+list:
 
 ```python
-df["Place of Death"]
+df[["Place of Death", "Date of Birth"]
 ```
 
-You can do things to the data by applying methods to the DataFrame or Series:
+DataFrames support `slicing` operations, which can be combined with column
+selection: 
 
 ```python
-df["Date of Death"].max()
+df[["Place of Death", "Date of Birth"]][5:15]
+# Order doesn't matter
+df[5:15][["Place of Death", "Date of Birth"]]
 ```
 
-Display the dataframe by calling its name. This will display the first 5 rows 
-and the last 5 rows. To show the first 10 rows, use the `head()` function:
+For date indexes, slicing can also be done using dateparts or ranges: 
 
 ```python
-df.head(10)
+df[2024]
+df[2024-05]
+df[2024-01:2024-04]
 ```
 
-Use `tail(n)` to see the last *n* rows or `sample(n)` to see *n* randomdly
-sampled rows.
-
-To check the datatypes applied to each Series in your DataFrame, use the
-`dtypes` attribute. A technical summary of the data is available using the
-`info()` method. Use the `describe()` method to get an aggregation summary 
-of the numeric values in your data. 
-
-Check the `shape` attribute to see the number of rows and columns in your 
-DataFrame:
+However, using slicing and selection to assign values to a DataFrame
+is not the recommended approach: instead you should use the `loc` or 
+`iloc` methods. `loc` and `iloc` accept two `labels`: 
+a row selector and a column selector. Either selector can be 
+expressed as a single value, a list or a slice. :
 
 ```python
-df[["Forename", "Surname"]].shape
+df.loc[2, 'Surname']
+df.loc[[2,3], 'Surname']
+df.loc[2:3, 'Surname']
+
+df.loc[df.Surname == 'Johnson', ['Forename','Surname']]
+df.loc[df.Surname == 'Johnson', 'Forename':'Surname']
+
+df.loc[[df.Age.idxmin(), df.Age.idxmax()], :]
 ```
 
-The outer brackets are used to select the data from a DataFrame, and the 
-inner brackets are used to supply a list of columns. 
+With `loc`, slicing operations are inclusive of the end index if provided. `iloc` 
+instead follows the standard python-slicing approach, and excludes the end value
+of a slice if provided. `iloc` expects integer values for both row selectors and 
+column selectors:
+
+```python
+# returns only the value at row 2, column 1 and 2
+df.iloc[2:3, 1:3]
+
+# returns values at rows 2 and 3, column 1, 2 and 3
+df.iloc[[2,3],[1,2,3]]
+```
+
+`iloc` allows slicing for both row and column selectors. 
+
+For selecting a single value from a DataFrame, the `at` and `iat` methods
+provide better performance: 
+
+```python
+wanted = df.at[2,'Surname']
+wanted = df.iat[2,1]
+```
+
 
 ## Filtering Data
 
@@ -149,7 +285,7 @@ You can filter the output using a condition inside the selection brackets:
 df[df["Date of Birth"] < '01/01/1970']
 ```
 
-The `isin()` function can be used to check for multiple conditions on 
+The `isin()` method can be used to check for multiple conditions on 
 a column:
 
 ```python
@@ -162,62 +298,85 @@ You can also use the 'or' operator to acheve the same result:
 df[(df["Surname"] == "Jones") | (df["Surname"] == "Smith")]
 ```
 
+The **AND Operator** `(&)` can be used to specify multiple conditions
+that should all return `True`. The **Negation Operator** `(~)` can 
+be used to negate the return value of a condition: 
+
+```python
+df[~(df.Surname == 'Jameson')]
+```
+
 To filter out rows where a particular column has Null values, use the
-`notna()` function:
+`notna()` method:
 
 ```
 df[df["Executors"].notna()]
 ```
 
-If you need to filter both rows and columns use the `loc` or `iloc` 
-operators before the selection `[]` brackets: 
+We can also use strings and regular expressions: 
 
 ```python
-df.loc[df["Surname"] == "Jones", "Forename"]
+# contains 'son' anywhere in the string
+df[df.Surname.str.contains('son')]
+
+## contains 'son' at the end of the string
+df[df.Surname.str.contains(r'son$')]
+
+## contains 'Jeff' or 'James' at the beginning of the string
+df[df.Surname.str.contains(r'^Jeff|James')]
 ```
 
-The first parameter for `loc` specifies the row selection criteria, 
-and the second parameter specifies the columns to select. The `iloc`
-operator allows you to specify rows and columns by their index value. 
-For example to extract the first 2 rows, and display columns 1 and 4
-use:
+To filter numeric values with a lower and upper range use `between`:
 
 ```python
-df.iloc[0:2, [0,3]]
+df[df.Age.between(10,32, inclusive='both')]
 ```
 
-Both `loc()` and `iloc()` can be used to change the values of elements in the
-DataFrame. To change the value of all items in column four to 'anonymised' use: 
-
-```python
-df.iloc[:, 3] = "anonymised"
-print(df["Surname"])
-```
-
-To change the values in rows 1 and 2 for column three use:
-
-```python
-df.iloc[0:2, 2] = 'unknown'
-```
+These filtering techniques can also be used for row labels in both
+the `loc` or `iloc` operators.
 
 ## Derived Data
 
-You can add new columns to a data frame using assignments:
+To avoid altering our original data we can use `copy` to create
+a new copy of the DataFrame:
+
+```python
+df_clean = df.copy()
+```
+
+You can add new columns to a DataFrame using assignments:
 
 ```python
 df["Forename Lower Case"] = df["Forename"].str.lower()
 
-print(df[["Forename", "Forename Lower Case"]])
+df['Retired'] = df.Age > 67
 ```
 
-Mathematical and logical operators can be used on the right-hand side
-of the assignment:
+The `assign` method allows us to add multiple columns at once. However,
+`assign` does not change the original DataFrame, but returns a new one. 
+If you want to change the original, just assign the return value back to 
+the original DataFrame: 
 
 ```python
-df["Died at Home Town"] = df["Place of Birth"] == df["Place of Death"]
+df = df.assign(
+    is_retired=df.Age >= 67,
+    is_working_age=(df.Age >= 18) & (df.Age < 67),
+    is_child=df.Age < 18
+)
 ```
 
-The `rename()` function can be used to rename columns:
+The same `assign` statement can be written with `lambda` functions: 
+
+```python
+df = df.assign(
+    is_retired=lambda x: x.Age >= 67,
+    is_working_age=lambda x: x.Age.between(18,67,inclusive='left'),
+    is_child=lambda x: x.Age < 18
+)
+```
+
+
+The `rename()` method can be used to rename columns:
 
 ```python
 df_renamed = df.rename(
@@ -229,13 +388,91 @@ df_renamed = df.rename(
 )
 ```
 
-## Data Cleansing
+## Data Joins
 
-Use the `drop()` function to remove unwanted columns:
+The `concat()` method can be used to combine two tables with a similar structure.
+You can specify an axis of '0' to add the second DataFrame as new rows, or an 
+axis of '1' to add the DataFrame as new columns. 
+
+To join the rows of two tables use:
 
 ```python
-df.drop(['Last_Updated', 'Android_Ver'], axis=1, inplace=True)
+disk_data = pd.concat([disk_data_server_1, disk_data_server_2], axis=0)
 ```
+
+If either DataFrame contains columns not found in the other, these will be
+added as new columns in the new DataFrame, and the rows where these columns
+did not exist, will be filled with `NaN`. This behaviour can be change by
+specifying the join type as 'inner': which only keeps columns that are common
+to the input DataFrames. 
+
+The 'ignore_index' option can be used to create a new index for the new 
+DataFrame. If you wish to keep the original indices from both input DataFrames, 
+you can optionally add an additional (hierarchical) row index to identify which 
+row came from which input DataFrame:
+
+```python
+disk_data = pd.concat([disk_data_server_1, disk_data_server_2], axis=0, keys=["srv1", "srv2"])
+```
+
+This produces a DataFrame with a *multi-index*. To access entries by index value, 
+supply a tuple or list of tuples: 
+
+```python
+disk_data.loc[[('srv2',0),('srv2',1)],:]
+```
+
+When using `concat` in a columnwise join (`axis=1`), Pandas uses the row indexes 
+to make the joins. For rows that don't share a common index, values are filled
+with `NaN`. 
+
+## Data Cleansing
+
+Use the `drop()` method to remove unwanted rows or columns. Set `inplace=True`
+to alter the current DataFrame or use assignment to capture the resulting 
+DataFrame. 
+
+`drop` defaults to removing rows (`axis=0`), but we can also drop columns either
+by specifying `axis=1` or by providing a list to the `columns` parameter: 
+
+```python
+# creates new dataframe and leaves the original unchanged
+nameless_df = df.drop(columns=['Forename', 'Surname'])
+
+# affects the original dataframe
+df.drop(['Forename', 'Surname'], axis=1, inplace=True)
+```
+
+We can also use `del df['column_name']` to remove a specific column from 
+a DataFrame. `pop` can also be used to remove a column and save this to 
+a Series. If the column contains Boolean values, then this can later be
+used to filter the DataFrame, even though the column no longer exists in 
+the DataFrame. This works because the Series has the same index as the 
+DataFrame:
+
+```python
+is_retired = df.pop('Retired')
+
+df['Retired'] # produces a key-error
+
+retired_df = df[is_retired].copy()
+not_retired_df = df[~is_retired].copy()
+```
+
+This can be useful to filter a DataFrame, without storing the filter column in
+the DataFrame. The `copy` method is provided, to create new DataFrames that
+can be worked on independantly of the original. 
+
+The filter Series does not have to contain Booleans, but can be used to
+create a Boolean result:
+
+```python
+where_died = df.pop('Place of Death')
+
+df[where_died == 'Norfolk']
+```
+
+To drop rows we need to provide a list of indices: `df.drop([1,2], inplace=True)`.
 
 Use `isna()` to find rows with 'NaN' vaules and `dropna()` to remove rows 
 with 'NaN' values in the selected columns:
@@ -273,7 +510,7 @@ df_clean = df_clean[df_clean.Installs > 300]
 
 ## Aggregate Functions
 
-Pandas provides access to aggregate functions that can be applied to one or more
+Pandas provides access to aggregate methods that can be applied to one or more
 columns:
 
 ```python
@@ -281,7 +518,7 @@ print(df[["Date of Death", "Date of Publication"]].max())
 print(df[["Date of Death", "Date of Publication"]].min())
 ```
 
-The `agg()` function allows you to apply multiple aggregates to a DataFrame:
+The `agg()` method allows you to apply multiple aggregates to a DataFrame:
 
 ```python
 df_aggregations = df.agg(
@@ -299,37 +536,22 @@ Use `group_by()` to group aggregates:
 religions = df[["Nationality", "Religion"]].groupby("Religion").count()
 ```
 
-Data can be sorted using the `sort_values()` or `sort_index()` functions:
+Data can be sorted using the `sort_values()` or `sort_index()` methods:
 
 ```python
 print(df.sort_values(by=["Date of Birth", "Place of Birth"], ascending=True)[["Date of Birth", "Place of Birth"]])
 ```
 
-The `pivot()` function can be used to reshape data, specifying columns and values. 
+The `pivot()` method can be used to reshape data, specifying columns and values. 
 
 ```python
 df.pivot(index='DATE', columns='LANGUAGE', values='POSTS')
 ```
 
-The `pivot_table()` function supports aggregation. The reverse of `pivot()` is `melt()`.
+The `pivot_table()` method supports aggregation. The reverse of `pivot()` is `melt()`.
 
-## Data Joins
 
-The `concat()` function can be used to combine two tables with a similar structure.
-To join the rows of two tables with identical column names, use:
-
-```python
-disk_data = pd.concat([disk_data_server_1, disk_data_server_2], axis=0)
-```
-
-To identify which row came from which DataFrame, you can add an additional 
-(hierarchical) row index:
-
-```python
-disk_data = pd.concat([disk_data_server_1, disk_data_server_2], axis=0, keys=["srv1", "srv2"])
-```
-
-The merge function works similar to an SQL JOIN statement, producing a DataFrame 
+The `merge` method works similar to an SQL JOIN statement, producing a DataFrame 
 that results from combining DataFrames using a common Series:
 
 ```python
@@ -346,7 +568,7 @@ patient_result_data = pd.merge(["patient", "pathology"],
 
 ## Working with Datetime Values
 
-Use the `to_datetime()` function to work with datetime data in your columns.:
+Use the `to_datetime()` method to work with datetime data in your columns.:
 Use the `dayfirst` parameter for dates in "%d/%m/%Y" format. 
 
 ```
@@ -360,9 +582,9 @@ print(df.groupby(df["Date of Birth"].dt.year)["Date of Birth"].count())
 df["Age"] = df["Date of Death"].dt.year - df["Date of Birth"].dt.year
 ```
 
-Converting columns to DateTime objects, provides access to utility functions
+Converting columns to DateTime objects, provides access to utility methods
 to extract 'year', 'month', 'day', 'weekday' and perform calculations via 
-the `dt()` methods. If you set the index (using the `set_index()` function)
+the `dt()` methods. If you set the index (using the `set_index()` method)
 to a DateTime object, then you can use the same methods on the index. 
 
 ```python
@@ -401,7 +623,7 @@ df["Gender"] = df["Sex"].replace({"male": "m", "female": "f"})
 To create a graph of a DataFrame use the `plot()` method. Pandas creates
 a line plot by default for each of the Series in a DataFrame 
 that has numeric values. All the plots created by Pandas are `Matplotlib`
-objects. The `matplotlib.pyplot` library provides the `show()` function 
+objects. The `matplotlib.pyplot` library provides the `show()` method 
 to display the graph: 
 
 ```python
@@ -610,15 +832,15 @@ fig.show()
 
 Which produces:<br>
 
-![doughnut](./images/doughnut.png)
+![doughnut](../images/doughnut.png)
 
 ## Row Comprehensions
 
 The `to_dict()` method of a DataFrame will produce a dictionary mapping the column names to 
 an array of the column values. If you want a dictionary mapping row values to other row values
-you can use the `iterrows()` function. 
+you can use the `iterrows()` method. 
 
-The `iterrows()` function returns a list of tuples containing the index and row values for 
+The `iterrows()` method returns a list of tuples containing the index and row values for 
 each row. This can be used in a comprehension to create a new dictionary:
 
 ```python

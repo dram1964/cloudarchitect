@@ -1,15 +1,15 @@
 # Core Services
 
-Moved to [Azure Compute](/azure/compute)
+Moved to [Azure Compute](../compute.md)
 
 ## Networking
 
-Moved to [Azure Networking](/azure/networking)
+Moved to [Azure Networking](../networking.md)
 
 
 ## Storage
 
-Moved to [Azure Storage](/azure/storage)
+Moved to [Azure Storage](../storage.md)
 
 ## Mobile
 
