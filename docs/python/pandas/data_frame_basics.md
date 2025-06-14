@@ -1,4 +1,4 @@
-# Notes on Pandas
+# DataFrame Basics
 
 Data in Pandas is managed via Series and DataFrame objects. 
 
@@ -226,14 +226,6 @@ df[["Place of Death", "Date of Birth"]][5:15]
 df[5:15][["Place of Death", "Date of Birth"]]
 ```
 
-For date indexes, slicing can also be done using dateparts or ranges: 
-
-```python
-df[2024]
-df[2024-05]
-df[2024-01:2024-04]
-```
-
 However, using slicing and selection to assign values to a DataFrame
 is not the recommended approach: instead you should use the `loc` or 
 `iloc` methods. `loc` and `iloc` accept two `labels`: 
@@ -330,61 +322,36 @@ To filter numeric values with a lower and upper range use `between`:
 df[df.Age.between(10,32, inclusive='both')]
 ```
 
+`pop` can be used to remove a column and save this to 
+a Series. If the column contains Boolean values, then this can later be
+used to filter the DataFrame, even though the column no longer exists in 
+the DataFrame. This works because the Series has the same index as the 
+DataFrame:
+
+```python
+is_retired = df.pop('Retired')
+
+df['Retired'] # produces a key-error
+
+retired_df = df[is_retired].copy()
+not_retired_df = df[~is_retired].copy()
+```
+
+This can be useful to filter a DataFrame, without storing the filter column in
+the DataFrame. The `copy` method is provided, to create new DataFrames that
+can be worked on independantly of the original. 
+
+The filter Series does not have to contain Booleans, but can be used to
+create a Boolean result:
+
+```python
+where_died = df.pop('Place of Death')
+
+df[where_died == 'Norfolk']
+```
+
 These filtering techniques can also be used for row labels in both
 the `loc` or `iloc` operators.
-
-## Derived Data
-
-To avoid altering our original data we can use `copy` to create
-a new copy of the DataFrame:
-
-```python
-df_clean = df.copy()
-```
-
-You can add new columns to a DataFrame using assignments:
-
-```python
-df["Forename Lower Case"] = df["Forename"].str.lower()
-
-df['Retired'] = df.Age > 67
-```
-
-The `assign` method allows us to add multiple columns at once. However,
-`assign` does not change the original DataFrame, but returns a new one. 
-If you want to change the original, just assign the return value back to 
-the original DataFrame: 
-
-```python
-df = df.assign(
-    is_retired=df.Age >= 67,
-    is_working_age=(df.Age >= 18) & (df.Age < 67),
-    is_child=df.Age < 18
-)
-```
-
-The same `assign` statement can be written with `lambda` functions: 
-
-```python
-df = df.assign(
-    is_retired=lambda x: x.Age >= 67,
-    is_working_age=lambda x: x.Age.between(18,67,inclusive='left'),
-    is_child=lambda x: x.Age < 18
-)
-```
-
-
-The `rename()` method can be used to rename columns:
-
-```python
-df_renamed = df.rename(
-    columns={
-        "Date of Publication": "publication_date",
-        "Date of Death": "death_date",
-        "Date of Birth": "birth_date",
-    }
-)
-```
 
 ## Data Joins
 

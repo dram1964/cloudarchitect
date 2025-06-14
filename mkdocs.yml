@@ -56,7 +56,7 @@ nav:
   - 'Python': 
     - 'venv': 'python/venv.md'
     - 'Pandas': 
-      - 'Data Collection': 'python/pandas/data_collection.md'
-      - 'Data Wrangling': 'python/pandas/pandas.md'
+      - 'DataFrame Basics': 'python/pandas/data_frame_basics.md'
+      - 'Data Wrangling': 'python/pandas/data_wrangling.md'
     - 'Jupyter': 'python/jupyter.md'
 
