@@ -123,6 +123,21 @@ nameless_df = df.drop(columns=['Forename', 'Surname'])
 df.drop(['Forename', 'Surname'], axis=1, inplace=True)
 ```
 
+`dropna` can be used to drop columns by specifying the axis, and a 
+threshold of rows that contain null values: 
+
+```
+df_clean = df.dropna(
+    axis='columns',
+    thresh=3 # keep if 3 or more non-null values
+)
+
+df_clean = df.dropna(
+    axis=1,
+    thresh=df.shape[0]*.75 # keep if 75% or more non-null values
+)
+```
+
 We can also use `del df['column_name']` to remove a specific column from 
 a DataFrame. 
 
@@ -160,7 +175,7 @@ df2 = df2.tz_localize('CET')
 df2 = df2.tz_convert('UTC')
 ```
 
-A Datetime Index can be used to slice a DataFrame by dates, but this only
+A DatetimeIndex or a PeriodIndex can be used to slice a DataFrame by dates, but this only
 works if your Datetime Index has been sorted first: 
 
 ```python
@@ -170,6 +185,7 @@ df_dated.sort_index(inplace=True)
 df_dated['1964':'2001']
 
 df_dated['2001-05':'2020']
+df_dated['200105':'2020']
 
 df_dated['1980': '2025-01-01']
 
@@ -187,13 +203,19 @@ Use `sort_index` to sort data by index value. Both `sort_index` and
 to keep the sorted data, or use `inplace=True`. 
 
 `reset_index` will copy the current index on a DataFrame to a new 
-column (named 'index'), and create a new RangeIndex for the DataFrame. 
+column (preserving it's current name), and create a new RangeIndex 
+for the DataFrame. 
 
 `set_index` can be used to drop the current index, and replace it
 with one or more columns from the DataFrame. Rows from a MultiIndex are
 accessed using tuples: `(outer_index, inner_index)`. If you set a MultiIndex, 
 you can undo this later with `unstack`. The `unstack` method will move 
 the innermost index column to the DataFrame columns. 
+
+Note that `df.set_index('column_name', inplace=True)` works differently
+to `df.index = df.column_name`: `df.index` will **copy** the column from the 
+data and use this as the index, whereas `set_index` will **move** the column
+from the data and use this as the index.
 
 `reindex` can be used to align the DataFrame to a new index. Where the
 DataFrame is missing values for the new index, you can pick a method
@@ -245,25 +267,47 @@ same statement.
 
 To drop rows we need to provide a list of indices: `df.drop([1,2], inplace=True)`.
 
-Use `isna()` to find rows with 'NaN' vaules and `dropna()` to remove rows 
-with 'NaN' values in the selected columns:
+Use `isna` to find rows with null values in a specified column(s):
 
 ```python
-df_clean = df.dropna(subset=['Rating'])
+df_null_rating_or_age = df[df.Rating.isna() | df.Age.isna()]
+```
+
+If used on the DataFrame, `isna` will return a DataFrame with the values 
+replaced with TRUE or FALSE to indicate null or non-null values. 
+
+If you use `dropna` on the DataFrame, this will return a DataFrame containing only rows 
+where none of the values are null: in other words, **if any value in the row is 
+null, then it will be dropped**. This behaviour can be changed using the `how` 
+parameter. The default behaviour is `any`: but you can set the parameter to `all`, 
+so that only rows where all values are null are dropped. Combining this with the
+`subset` parameter allows you to drop only rows where all the values in the 
+specified columns are null:
+
+```python
+## drop rows where the subset columns are all null
+df_clean = df.dropna(how=all, subset=['home', 'var', 'lib'])
+
+## drop rows where there is a null value in any of the subset columns
+df_clean = df.dropna(how=any, subset=['home', 'var', 'lib'])
 ```
 
 `fillna` can be used replace `NaN` values: 
 
 ```
-df.assign(
-    salary=lambda x: x.salary.fillna(0),
+df_clean = df.assign(
+    salary=lambda x: x.salary.fillna('0.00'),
     free_space=lambda x: x.free_space.fillna(method='ffill')
 )
 
+df_clean.loc[:, 'pension'].fillna('0.00', inplace=True)
+```
+
 Use `inplace=True` if you don't want to create a new dataframe.
 
-Use `duplicated` to find duplicate rows and `drop_duplicates` to remove
-the duplicated rows (keeping the first occurrence):
+`duplicated` returns all duplicated rows, apart from the first occurrence of the row. 
+The `subset` parameter can be used to specify which columns to use for the comparison.
+Use `drop_duplicates` to remove the duplicated rows (keeping the first occurrence):
 
 ```python
 df_clean = df.drop_duplicates(subset = ['App', 'Type', 'Price'])
