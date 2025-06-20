@@ -131,12 +131,19 @@ conn = create_engine(psql_connection_string)
 
 query = '''
 SELECT * FROM
-"schema_name"."table_name"
+"monitoring"."collect_data"
 WHERE collected_date > CURRENT_DATE - INTERVAL '60 days'
 ORDER BY collected_date desc
 '''
 
-df = pd.read_sql_query(query,con=conn)
+query_df = pd.read_sql_query(query,con=conn)
+
+table_df = pd.read_sql_table(
+    'collect_data',
+    schema='monitoring',
+    con=conn,
+    index_col='collected_date',
+)
 ```
 
 DataFrames can also be written to external files 
@@ -353,7 +360,20 @@ df[where_died == 'Norfolk']
 These filtering techniques can also be used for row labels in both
 the `loc` or `iloc` operators.
 
-## Data Joins
+## DataFrame Queries
+
+Pandas provides the `query` method to filter data, instead of using
+a Boolean mask. The `query` method allows more complex filters to 
+be used with less typing: 
+
+```python
+df = pd.read_csv('titanic.csv')
+
+df[(df.Survived == 1) & (df.Sex == 'male')].equals(
+    df.query('Survived == 1 & Sex == "male"'))
+```
+
+## Concatenate DataFrames
 
 The `concat()` method can be used to combine two tables with a similar structure.
 You can specify an axis of '0' to add the second DataFrame as new rows, or an 
