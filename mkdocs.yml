@@ -59,6 +59,7 @@ nav:
       - 'DataFrame Basics': 'python/pandas/data_frame_basics.md'
       - 'Data Wrangling': 'python/pandas/data_wrangling.md'
       - 'Data Aggregation': 'python/pandas/data_aggregation.md'
+      - 'Visualisation': 'python/pandas/data_visualisation.md'
       - 'Statistics 101': 'python/pandas/statistics_101.md'
     - 'Jupyter': 'python/jupyter.md'
 

@@ -104,259 +104,126 @@ Pandas provides access to aggregate methods that can be applied to one or more
 columns:
 
 ```python
-print(df[["Date of Death", "Date of Publication"]].max())
-print(df[["Date of Death", "Date of Publication"]].min())
+df[['CostInBillingCurrency', 'EffectivePrice', 'Quantity']].sum()
 ```
 
-The `agg()` method allows you to apply multiple aggregates to a DataFrame:
+Additional aggregate functions include `mean`, `count`, `min`, `max` and `cumsum`. 
+
+The `agg` method allows you to apply multiple aggregates to multiple 
+columns in a DataFrame:
 
 ```python
-df_aggregations = df.agg(
-    {
-        "Date of Death": ["min", "max", "count", ],
-        "Date of Birth": ["count"],
-        "Date of Publication": ["max"]
-    }
-)
+df.agg({
+    'CostInBillingCurrency': ['sum', 'mean'],
+    'EffectivePrice': ['min', 'max', 'mean'],
+    'Quantity': ['sum', 'min', 'max'],
+})
 ```
 
-Use `group_by()` to group aggregates:
+The `groupby` method allows you to run aggregates after grouping
+rows of data: 
 
 ```python
-religions = df[["Nationality", "Religion"]].groupby("Religion").count()
+df.groupby('ResourceGroup').sum()
 ```
 
-Data can be sorted using the `sort_values()` or `sort_index()` methods:
+However, before applying the aggregate function, it would be sensible to 
+select the columns that you wish to apply the function to, otherwise
+you'll be applying the function on all columns in the DataFrame: 
 
 ```python
-print(df.sort_values(by=["Date of Birth", "Place of Birth"], ascending=True)[["Date of Birth", "Place of Birth"]])
+df[['ResourceGroup', 'CostInBillingCurrency']].groupby('ResourceGroup').sum()
+```
+
+Alternatively, the `agg` method can be combined with `groupby` to select the
+columns and the specific aggregation needed: 
+
+```python
+
+df[
+    ['MeterSubCategory', 'EffectivePrice', 'Quantity', 'CostInBillingCurrency']
+].groupby(
+    ['MeterSubCategory', 'EffectivePrice']
+).agg(['sum', 'max'])
+
+df.groupby(['MeterSubCategory', 'EffectivePrice']
+).agg({
+    'Quantity': 'sum',
+    'CostInBillingCurrency': 'sum',
+})
+```
+
+Note that `agg` accepts an array if you want to supply the same aggregates to the 
+columns, or a dictionary if you want to specify which aggregations to apply to 
+each column. 
+
+Using multiple aggregates results in a MultiIndex in the columns: 
+
+```python
+df_agg = df[
+    ['MeterSubCategory', 'EffectivePrice', 'Quantity', 'CostInBillingCurrency']
+].groupby(
+    ['MeterSubCategory', 'EffectivePrice']
+).agg(['sum', 'max'])
+
+df_agg.columns
+
+MultiIndex([(             'Quantity', 'sum'),
+            (             'Quantity', 'max'),
+            ('CostInBillingCurrency', 'sum'),
+            ('CostInBillingCurrency', 'max')],
+           )
+```
+
+However, you can remove this hierarchical index, by processing the column tuples into
+an array of scalars: 
+
+```
+df_agg.columns = ['_'.join(tuple_col) for tuple_col in df_agg.columns]
+```
+
+You can include a DateTimeIndex or PeriodIndex in the `groupby`, 
+and sort the output by values or index: 
+
+```python
+df.groupby([df.ResourceGroup, df.index.month]).agg({
+    'CostInBillingCurrency': 'sum'
+}).sort_values('CostInBillingCurrency')
+
+df.groupby([df.ResourceGroup, df.index.month]).agg({
+    'CostInBillingCurrency': 'sum'
+}).sort_index()
+
 ```
 
 You can select the largest or smallest values for a group of columns using
 `nlargest` or `nsmallest`: 
 
 ```python
-df.nlargest(n=10, columns=['Nationality', 'Religion']
+df.groupby([df.ResourceGroup, df.index.month]).agg({
+    'CostInBillingCurrency': 'sum'
+}).nlargest(n=10, columns=['CostInBillingCurrency'])
 ```
 
-## Matplotlib
-
-To create a graph of a DataFrame use the `plot()` method. Pandas creates
-a line plot by default for each of the Series in a DataFrame 
-that has numeric values. All the plots created by Pandas are `Matplotlib`
-objects. The `matplotlib.pyplot` library provides the `show()` method 
-to display the graph: 
+The `groupby` method accepts `Grouper` objects: for a DataFrame with a DatetimeIndex, 
+you can set a quarterly grouper: 
 
 ```python
-import pandas as pd
-import matplotlib.pyplot as plt
-
-df = pd.read_csv("ukgovunclaimedestates.csv", parse_dates=True)
-
-religions = df["Religion"].groupby(df["Religion"]).count()
-
-religions.plot()
-
-plt.show()
+df['CostInBillingCurrency'].groupby(pd.Grouper(freq='QE')).sum()
 ```
 
-Use selection criteria on your DataFrame to choose which Series to plot.
-In JupyterLab, you can specify the x and y axes for your plot:
+By selecting the frequency in the Grouper, you can aggregate over time
+periods in a DatetimeIndex: 
 
 ```python
-plt.plot(df.index, df['java'])
+df.loc['2024-12-01': '2024-12-15', 'CostInBillingCurrency'].groupby(pd.Grouper(freq='D')).sum()
 ```
 
-You can use slicing to drop elements from the plot:
+The `resample` method allows you to aggregrate data to a different granularity: 
 
 ```python
-plt.plot(df.index[:-1], df['java'][:-1])
+weekly_df = df.resample('1W').agg({
+    'CostInBillingCurrency': 'sum',
+})
 ```
-
-You can also plot mulitple columns on the same graph, and add some graph
-formating:
-
-```python
-plt.figure(figsize=(16,10))
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
-plt.xlabel('Date', fontsize=14)
-plt.ylabel('No of Posts', fontsize=14)
-plt.ylim(0,35000)
-
-plt.plot(df.index, df['java'])
-plt.plot(df.index, df['python'])
-```
-
-To plot multiple columns use a `for` loop:
-
-```python
-plt.figure(figsize=(16,10))
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
-plt.xlabel('Date', fontsize=14)
-plt.ylabel('No of Posts', fontsize=14)
-plt.ylim(0,35000)
-
-for column in df.columns:
-    plt.plot(df.index, df[column], linewidth=3, label=df[column].name)
-
-plt.legend(fontsize=14)
-```
-
-For time series data you can specify a rolling mean to smooth out the data:
-instead of plotting the value of each data point, you can specify a window 
-to calculate an average value for each data point based on the values either
-side of the data point:
-
-```python
-df['rolling_mem'] = df.mem_used_percent.rolling('3D').mean()
-```
-
-To calculate a rolling average, your time-series data must be monotonic: 
-that is the index must change in equal steps. Missing dates are not allowed.
-Check for monotonicity using either `df.index.is_monotonic_increasing` or
-`df.index.is_monotonic_decreasing`.
-
-Plotting two columns with varying value-ranges can look untidy and make
-trend-spotting difficult. Instead you can specify two different y-axes
-for each plot to make comparison easier:
-
-```python
-ax1 = plt.gca() # gets the current axis
-ax2 = ax1.twinx() # create another axis that shares the same x-axis
-
-ax1.plot(sets_by_year.index[:-2], sets_by_year.set_num[:-2], color='g')
-ax2.plot(themes_by_year.index[:-2], themes_by_year.nr_themes[:-2], color='b')
-
-ax1.set_xlabel('Year')
-ax1.set_ylabel('Number of Sets', color='g')
-ax2.set_ylabel('Number of Themes', color='b')
-```
-
-If your xticks overlap, you can specify a rotation to make them readable:
-
-```python
-plt.xticks(fontsize=14, rotation=45)
-```
-
-You can also use locator functions for marking the x- and y- axes:
-
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-
-df_unemployment = pd.read_csv('UE Benefits Search vs UE Rate 2004-19.csv')
-df_unemployment['MONTH'] = pd.to_datetime(df_unemployment['MONTH'])
-
-roll_df = df_unemployment[['UE_BENEFITS_WEB_SEARCH', 'UNRATE']].rolling(window=6).mean()
-roll_df['month'] = df_unemployment['MONTH']
-
-
-plt.figure(figsize=(16,10))
-plt.title('Rolling Web Searches vs Unemployment Rate', fontsize=20)
-plt.xticks(fontsize=14, rotation=45)
-plt.yticks(fontsize=14)
-
-ax1 = plt.gca()
-ax2 = ax1.twinx()
-ax1.grid(color='gray', linestyle='--')
-
-ax1.set_ylabel('Web Searches', fontsize=16, color='indianred')
-ax2.set_ylabel('Unemployment Rate', fontsize=16, color='cadetblue')
-
-ax1.set_xlim(roll_df.month[5:].min(), roll_df.month[5:].max())
-
-years = mdates.YearLocator()
-months = mdates.MonthLocator()
-years_fmt = mdates.DateFormatter('%Y')
-ax1.xaxis.set_major_locator(years)
-ax1.xaxis.set_major_formatter(years_fmt)
-ax1.xaxis.set_minor_locator(months)
-
-ax1.plot(roll_df.month[5:], roll_df.UE_BENEFITS_WEB_SEARCH[5:], color='indianred', linewidth=3, marker='o')
-ax2.plot(roll_df.month[5:], df_unemployment.UNRATE[5:], color='cadetblue', linewidth=3)
-```
-
-
-
-Pandas provides a number of graph types including line, area, bar, pie and scatter:
-
-- `plt.plot` for a line chart
-- `plt.scatter` for a scatter plot
-- `plt.bar` for a bar chart
-
-
-## Plotly
-
-Bar charts are a good way to visualise 'categorical' data. You can use 
-`value_counts()` to quickly create categorical data:
-
-```python
-ratings = df.value_counts('Content_Rating')
-```
-
-Given a dataframe that contains the following data:
-
-```
-Content_Rating
-Everyone           6621
-Teen                912
-Mature 17+          357
-Everyone 10+        305
-Adults only 18+       3
-Unrated               1
-Name: count, dtype: int64
-```
-
-we can present this as a pie chart using plotly:
-
-```python
-fig = px.pie(
-    labels=ratings.index,
-    values=ratings.values,
-    names=ratings.index,
-    title="Content Rating"
-)
-fig.show()
-```
-
-We can change the location of the text on the pie chart using `update_traces()`:
-
-```python
-fig = px.pie(
-    labels=ratings.index,
-    values=ratings.values,
-    title='Content Rating',
-    names=ratings.index,
-)
-fig.update_traces(
-    textposition='outside', 
-    textinfo='percent+label'
-)
-fig.show()
-```
-
-To format the pie chart as a 'doughnut chart' add the 'hole' parameter:
-
-```python
-fig = px.pie(
-    labels=ratings.index,
-    values=ratings.values,
-    title='Content Rating',
-    names=ratings.index,
-    hole=0.4
-)
-fig.update_traces(
-    textposition='inside',
-    textfont_size=15,
-    textinfo='percent'
-)
-fig.show()
-```
-
-Which produces:<br>
-
-![doughnut](../images/doughnut.png)
 

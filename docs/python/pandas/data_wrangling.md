@@ -85,7 +85,7 @@ df_clean['Installs'] = pd.to_numeric(df_clean['Installs'])
 ```
 
 `astype` can be used to perform some type conversions. Float64 values
-can be converted to Int64 values. No rounding is performed, everything
+can be converted to Int64 values (`astype(int))`. No rounding is performed, everything
 after the decimal point is lost: 
 
 ```python
@@ -99,6 +99,25 @@ data = {
 
 df1 = pd.DataFrame(data)
 df1['sats_score_truncated'] = df1.sats_score.astype('int')
+```
+
+Rather than changing the precision of your Float64 objects, you can change the display format of Float64 values, to show only the first 2 decimal places: 
+
+```python
+pd.set_option('display.float_format', lambda x: '%.2f' % x)
+# Alternate method
+pd.options.display.float_format = "{:,.2f}".format
+
+```
+
+While this will change the formatting for pandas objects such as DataFrames or Series, `print` statements
+and calculations will still display with scientific-precision. To alter this behaviour use `round` or
+a format: 
+
+```python
+df.CostInBillingCurrency.sum().round(2)
+# Alternate method
+'{:,.2f}'.format(df.CostInBillingCurrency.sum())
 ```
 
 The marital status column can be converted from an 'Object' type to a 'Category' type
@@ -233,6 +252,20 @@ You can add new columns to a DataFrame using assignments:
 df["Forename Lower Case"] = df["Forename"].str.lower()
 
 df['Retired'] = df.Age > 67
+```
+
+Use the `map` function to apply a dictionary lookup to add a column:
+
+```python
+
+workspace_names = {
+    'rg1': 'project one',
+    'rg2': 'project_two',
+    ...
+    'rgN': 'project_N',
+}
+
+df['ProjectName'] = df['ResourceGroup'].map(workspace_names)
 ```
 
 The `assign` method allows us to add multiple columns at once. However,
