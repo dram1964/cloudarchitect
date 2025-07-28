@@ -143,3 +143,20 @@ You can also pipe the list of IPs to lookup the hostnames:
 
     sed -nE 's/.* h=(\d+\.\d+\.\d+\.\d+).*$/\1/p' weblog.txt | \
     sort -u | awk '{ cmd = "dig +short -x " $1; system(cmd) }'
+
+## Port Tunnelling
+
+The `ssh` command is typically used to connect to the SSH server on a remote 
+server using port 22. However, you can also connect to other ports on the 
+server, using `ssh` to tunnel the connection. For instance, if you have 
+a web application on a remote server, listening on port 8000, you can 
+create a tunnel to that port, and then connect to the tunnel on your local
+machine. To tunnel port 8000 from the remote server to the local server, use:
+
+```bash
+ssh -i <path_to_private_key> -L 8000:localhost:8000 ${username}@${hostname}
+```
+
+This command will allow you to open `http://localhost:8000` via a browser. 
+Although the connection is `http` traffic between your machine and the remote
+server is encrypted by the SSH tunnel. 
