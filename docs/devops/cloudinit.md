@@ -93,12 +93,14 @@ cloud-init status --wait
 ```
 
 Cloud-init log files are kept in `/var/log/cloud-init.log`, `/var/log/cloud-init-output.log`
-and `/run/cloud-init`.
+and `/run/cloud-init`. Search `/var/log/cloud-init.log` for `part-00` to find
+records related to user cloud-init script messages. 
 
 Cloud-init configuration files are found in `/etc/cloud/cloud.cfg` and `/etc/cloud/cloud.cfg.d/*.cfg`.
 
 The `/var/lib/cloud/instance` directory points to the most recently used instance-id directory and
-contains the the data received from the datasources including user and vendor data. It also contains
+contains the the data received from the datasources including user and vendor data. User scripts are found
+at `/var/lib/cloud/instance/scripts/`. It also contains
 a datasource file with information about the datasource used. You can also run the `cloud-id` command
 to find out which datasource is being used. 
 
