@@ -1,0 +1,2135 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/devops/git_commands/">
+      
+      
+        <link rel="prev" href="../devops/">
+      
+      
+        <link rel="next" href="../github_actions/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Git Client - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-a-repository" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git Client
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/az104/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/cli_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="getting-a-repository">Getting a Repository</h1>
+<p>Turn an existing local directory into a git repository:</p>
+<p><code>git init</code></p>
+<p>Add a <strong>.gitignore</strong> to exclude files from tracking by Git
+Clone a repository with:</p>
+<p><code>git clone &lt;repository_url&gt;</code></p>
+<p>Clone takes a full copy of all the data the remote repository has. 
+To see all the branches of the repository, use:</p>
+<p><code>git branch -a</code></p>
+<h1 id="recording-changes">Recording Changes</h1>
+<p>To start tracking changes to a file, use:</p>
+<p><code>git add &lt;filename&gt;</code></p>
+<p>To see what you've changed but not yet staged:</p>
+<p><code>git diff</code></p>
+<p>To see what you've staged but not yet committed:</p>
+<p><code>git diff --staged</code></p>
+<p>To unstage a file</p>
+<p><code>git reset HEAD &lt;filename&gt;</code></p>
+<p>Or</p>
+<p><code>git restore --staged &lt;filename&gt;</code></p>
+<p>Commit staged changes with a commit message:</p>
+<p><code>git commit -m "Commit message"</code></p>
+<p>To amend the previous commit, stage the additional files and then use:</p>
+<p><code>git commit --amend</code></p>
+<p>To discard changes to a file since the last commit:</p>
+<p><code>git checkout -- &lt;filename&gt;</code></p>
+<p>Newer version of above command</p>
+<p><code>git restore &lt;filename&gt;</code></p>
+<p>To remove a file from the staging area and your local directory:</p>
+<p><code>git rm &lt;filename&gt;</code></p>
+<p>To remove a file from the staging area but keep it in your local directory:</p>
+<p><code>git rm --cached &lt;filename&gt;</code></p>
+<p>To remove all files matching a pattern (the wildcard needs to be escaped with backslash):</p>
+<p><code>git rm data/\*.csv</code></p>
+<p>To rename a file:</p>
+<p><code>git mv &lt;filename.old&gt; &lt;filename.new&gt;</code></p>
+<h1 id="viewing-changes">Viewing Changes</h1>
+<p>To view the history of commits:</p>
+<p><code>git log</code></p>
+<p>To view the changes associated with the last two commits:</p>
+<p><code>git log -p -2</code></p>
+<p>To view changes for a particular file:</p>
+<p><code>git log -- &lt;path_to_file&gt;</code></p>
+<p>To view all commits for current branch with one line per commit:</p>
+<p><code>git log --oneline</code></p>
+<p>To view all commits for all branches with one line per commit:</p>
+<p><code>git log --oneline --all</code></p>
+<h1 id="working-with-remotes">Working with Remotes</h1>
+<p>You can query the remote servers configured for your local copy with:</p>
+<p><code>git remote -v</code></p>
+<p>For a single remote you will receive two URLs: one for <strong>fetch</strong> and one for <strong>push</strong>
+After cloning a repository the default remote is named <strong>origin</strong>. You can add additional
+remotes:</p>
+<p><code>git remote add &lt;abbreviaion&gt; &lt;URL&gt;</code></p>
+<p>You can then fetch from the new remote:</p>
+<p><code>git fetch &lt;abbreviaion&gt;</code></p>
+<p>You can then checkout the new remote or merge it into one of your branches</p>
+<p><code>git checkout abbreviation/master</code></p>
+<p>The fetch command pulls all the data from the specified remote. <code>git fetch origin</code>
+will pull any new data from the origin since you last cloned it. Fetch will not 
+automatically merge the data with your own work. If your current branch is set up to track a 
+remote branch <code>git pull</code> will fetch and merge that branch to your current branch
+To push your changes use</p>
+<p><code>git push origin master</code></p>
+<p>This will not work if someone else has pushed to origin/master since you cloned it. You will
+first need to fetch their work and merge this into yours before you can push successfully
+To inspect the remote branch, use:</p>
+<p><code>git remote show origin</code></p>
+<p>The output of this command will show you:</p>
+<ul>
+<li>which local branches are tracking which remote branches</li>
+<li>which remote branches you don't currently have</li>
+<li>which local branches no longer exist on the remote (stale branches)</li>
+</ul>
+<p>Running <code>git fetch origin</code> will collect the remote branches that you don't currently 
+have and <code>git remote prune</code> or <code>git remote prune origin</code> to remove stale branches.</p>
+<h1 id="tagging">Tagging</h1>
+<p>To add a tag to the current commit:</p>
+<p><code>git tag -a v0.1 -m "Tag message"</code></p>
+<p>Add a tag to a specific commit</p>
+<p><code>git tag -a v0.2 &lt;commit checksum&gt;</code></p>
+<p>List tags</p>
+<p><code>git tag</code></p>
+<p>Tags are not automatically transferred to the remote. They need to be explicitly mentioned:</p>
+<p><code>git push origin v0.2</code></p>
+<p>To push all tags:</p>
+<p><code>git push origin --tags</code></p>
+<p>Tags can be removed using:</p>
+<p><code>git tag -d v0.2</code></p>
+<p>To delete the tag from a remote use:</p>
+<p><code>git push origin --delete &lt;tagname&gt;</code></p>
+<p>Show the commit annotated with a specific tag:</p>
+<p><code>git show v0.1</code></p>
+<h1 id="branches">Branches</h1>
+<p>Commits are pointers to the snapshots for the objects that had been staged. The commit also contains commit metatdata (author, email, committer) and a pointer to the previous commit. The pointer 
+points to the root tree for the commit, which contains pointers to the blobs stored with the commit. A branch in Git is simply a pointer to a commit. Each time you commit on a branch, the branch 
+pointer moves forward to the current commit. Creating a new branch, creates a new pointer to the 
+current commit. A special pointer called <strong>HEAD</strong> is maintained to represent the current 
+branch that you are on. 
+There are multiple ways to create and switch to a new branch. This can be done in two steps:</p>
+<pre><code>    git branch &lt;branchname&gt;
+    git checkout &lt;branchname&gt;
+</code></pre>
+<p>Or either of the following can be used:</p>
+<ul>
+<li><code>git checkout -b &lt;branchname&gt;</code></li>
+<li><code>git switch -c &lt;branchname&gt;</code></li>
+</ul>
+<p>To switch to an existing branch use either one of:</p>
+<ul>
+<li><code>git checkout &lt;branchname&gt;</code></li>
+<li><code>git switch &lt;branchname&gt;</code></li>
+</ul>
+<p>New branches will have their commit pointer pointing to the same commit as the branch it 
+was created from. When new commits are added to the branch, the pointer is moved on to a 
+new commit. To bring these commits into another branch you can use the merge subcommand</p>
+<pre><code>git switch -c feature123
+### edit and commit some files
+git switch main
+git merge feature123
+</code></pre>
+<p>Providing no changes have been made in <strong>main</strong> the git merge will create a fast-forward
+merge: where the commits from the merged branch are added to the commits on the <strong>main</strong>
+branch and the pointer from <strong>main</strong> is moved to the last commit from the merged branch.</p>
+<p>If the <strong>main</strong> branch has commits after the branch to be merged was created, the current
+branch of <strong>main</strong> is no longer a direct ancestor of the commits on the branch to be merged-in.
+In this case, Git creates a new snapshot that points to the latest commits on both branches and 
+incorporates the changes from both branches. This is known as a merge commit.</p>
+<p>Occaisionally, conflicts will occur during merge commits. This happens when both branches have
+made changes to the same file. In this case, <code>git merge</code> will report the conflict and
+the merge commit will be paused. Run <code>git status</code> to see which files need manual 
+attention. The file will contain the conflicting lines from both files. After the conflicts have 
+been resolved, the merge commit can be completed using <code>git add</code> followed by
+<code>git commit</code>. </p>
+<p>The <code>git branch</code> subcommand contains lots of useful options for managing your branches. The 
+<code>--merged</code> switch shows branches that have been merged into the current branch and 
+the <code>--no-merged</code> command shows branches that have not yet been merged in. To 
+delete a branch, use:</p>
+<p><code>git branch -d &lt;branchname&gt;</code></p>
+<p>If the branch to be deleted contains work that has not yet been merged in, the command will 
+fail. You can still force the delete using:</p>
+<p><code>git branch -D &lt;branchname&gt;</code></p>
+<p>Use the <code>--move</code> switch to rename a branch:</p>
+<p><code>git branch --move &lt;old_name&gt; &lt;new-name&gt;</code></p>
+<p>This will change the name of the local copy of the branch. To replicate this on the 
+server you will need to both push the new branch name and delete the old branch name on the 
+remote:</p>
+<pre><code>git push -u origin &lt;new-name&gt;
+git push origin --delete &lt;old_name&gt;
+</code></pre>
+<p>Care should be taken when re-naming and deleting remote branches that may be in use or ancestors
+for other branches held locally elsewhere. Also, if pipelines depend on the branch to be renamed, 
+these scripts will also need to be adjusted for the new name
+Remote tracking branches are local references to the state of remote branches at the time that
+you last pulled them. To synchronise your remote tracking branches use:</p>
+<p><code>git fetch &lt;remotename&gt;</code></p>
+<p>When you want to share a local branch, you can push that up to the server:</p>
+<p><code>git push &lt;remotename&gt; &lt;branchname&gt;</code></p>
+<p>This will allow others to pull the branch from the server using:</p>
+<p><code>git fetch origin</code></p>
+<p>To create a local copy of the new branch, you will need to checkout the branch:</p>
+<p><code>git checkout -b &lt;branchname&gt; &lt;origin/branchname&gt;</code></p>
+<p>If the local branch does not already exists and exists on only one remote, 
+this command can be shortened to:</p>
+<p><code>git checkout &lt;branchname&gt;</code></p>
+<p>The <code>-b</code> option allows you to specify an alternative name for the tracking branch
+To see the difference between your local tracking branches and the remote branches at the
+time you last fetched them, use:</p>
+<p><code>git branch -vv</code></p>
+<p>To see the difference between your local tracking branches and the current state of the remotes, 
+you will need to fetch them first:</p>
+<pre><code>git fetch -all 
+git branch -vv
+</code></pre>
+<p>Fetching a remote tracking branch will not update your local working directory. You will need 
+to merge the remote tracking branch into your working directory manually:</p>
+<p><code>git merge &lt;origin/branchname&gt;</code></p>
+<p>Alternatively <code>git pull</code> does both a fetch and a merge</p>
+<h1 id="rebasing">Rebasing</h1>
+<p>When two branches have divergent commit histories, then a merge commit will create a new 
+snapshot from the most recent commits on both branches and the most recent common ancestor commit for both branches. An alternative approach is the available using the <code>rebase</code> command. 
+Rebase will:</p>
+<ul>
+<li>stash away the divergent commits from the current branch</li>
+<li>rewind the current branch to the common ancestor for both branches</li>
+<li>apply the commits from the source branch</li>
+<li>re-apply the commits that were previously stashed away</li>
+</ul>
+<p>To rebase the <strong>feature1</strong> branch to the main branch:</p>
+<pre><code>git checkout feature1
+git rebase main
+</code></pre>
+<p>The <strong>feature1</strong> branch will now have the commit history from <strong>main</strong>, 
+with the additional commits from <strong>feature1</strong> appended. When you are ready to merge 
+<strong>feature1</strong> back to <strong>main</strong> a fast-forward merge will suffice:</p>
+<pre><code>git checkout main
+git merge feature1
+</code></pre>
+<p>Rebasing is typically used to where you want to cleanly apply your commits to a remote branch. 
+You can rebase your local branch to the remote branch and then create a pull request, so that
+when the request is approved, the new commits can be applied without fear of merge conflicts.
+Rebasing whilst keeping all the changes applied in a branch will result in new commits being 
+created when the original commits are re-applied. This could cause a problem if someone else 
+has created work based on your original branch. The simple lesson from all this is <strong>never rebase anything that you've pushed somewhere else.</strong></p>
+<h1 id="reversing-changes">Reversing Changes</h1>
+<p>HEAD is the symbolic name for the currently checked out commit. HEAD is normally attached to a branch
+but you can attach it to a commit:</p>
+<p><code>git checkout commit_hash</code></p>
+<p>Since commit hashes are awkward to work with, you can use relative refs to move around: </p>
+<ul>
+<li>Use the carat symbol to move up one commit at a time</li>
+<li>Use the tilde symbol followed by an integer to move upwards that integer number of time</li>
+</ul>
+<p>Thus you can move HEAD using relative refs. The following code moves HEAD back two commits before the $current_commit:</p>
+<pre><code>git checkout $current_commit
+git checkout HEAD^
+git checkout HEAD^
+</code></pre>
+<p>The same effect can be produced with:</p>
+<p><code>git checkout HEAD~2</code></p>
+<p>Instead of moving HEAD, you can reassign a branch to to a previous commit:</p>
+<p><code>git branch -f main HEAD~3</code></p>
+<p>This will move the main branch to three commits behind HEAD. Or you can move the branch forward to a specific commit hash:</p>
+<p><code>git branch -f main $specific_commit</code></p>
+<p>You can reverse changes by moving a branch reference backwards in time to an older commit:</p>
+<p><code>git reset HEAD~1</code></p>
+<p>'reset' works for local branches on your own machine. To reverse changes for remote branches 
+that others are using, use 'revert':</p>
+<p><code>git revert HEAD</code></p>
+<p>'revert' appends a new commit that has the effect of undoing the previous commit. This commit can be 
+pushed to the remote for others to pull</p>
+<h1 id="cherry-picking">Cherry Picking</h1>
+<p>Git cherry-pick allows you to incorporate changes from another branch into the current branch:</p>
+<p><code>git cherry-pick commit_hash1, commit_hash3, ..., commit_hashN</code></p>
+<p>The above commands appends the selected commits to the commits on the current branch
+An interactive rebase allows you to reorder or omit commits from the current branch:</p>
+<p><code>git rebase -i HEAD~7</code></p>
+<p>The above command moves you back in the commit tree by seven commits and then allows you to reorder or 
+omit commits. You can even change the commit message if you wish</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

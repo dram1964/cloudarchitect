@@ -1,0 +1,3147 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/networking/">
+      
+      
+        <link rel="prev" href="../monitor/">
+      
+      
+        <link rel="next" href="../storage/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Azure Networking - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#azure-networking" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Azure Networking
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../az104/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#virtual-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual Networks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-security-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Security Groups
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Firewall
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vnet-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNet Routing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Endpoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#private-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Private Link
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure DNS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vnet-peering" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNet Peering
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vpn-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      VPN Gateway
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressroute-and-vwan" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpressRoute and VWAN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-watcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Watcher
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Balancer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Gateway
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-content-delivery-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Content Delivery Network
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-ddos-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure DDoS Protection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-traffic-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Traffic Manager
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resticting-access-to-paas-resource-with-service-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resticting Access to PaaS Resource with Service Endpoints
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/git_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#virtual-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual Networks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-security-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Security Groups
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Firewall
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vnet-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNet Routing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Endpoints
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#private-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      Private Link
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure DNS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vnet-peering" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNet Peering
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vpn-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      VPN Gateway
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressroute-and-vwan" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpressRoute and VWAN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-watcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Watcher
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Balancer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Gateway
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-content-delivery-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Content Delivery Network
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-ddos-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure DDoS Protection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-traffic-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Traffic Manager
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resticting-access-to-paas-resource-with-service-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resticting Access to PaaS Resource with Service Endpoints
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="azure-networking">Azure Networking</h1>
+<h2 id="virtual-networks">Virtual Networks</h2>
+<p><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview">Microsoft VNet Docs</a></p>
+<p>Azure Virtual Network (VNet) is a logical isolation of the Azure Cloud dedicated to your 
+subscription. Azure VNet is an IaaS resource, providing a software-defined private network. </p>
+<ul>
+<li>VNets belong to a resource group and can only be part of one Region</li>
+<li>Traffic entering VNet and region is not billed: only traffic leaving the VNet and Region is billed</li>
+<li>External VNet routing is either:<ul>
+<li>Hot-Potato routing: packet is passed to the internet as soon as possible</li>
+<li>Cold-Potato routing: packets stay on Microsoft network as long as possible. This means packet is handed to an Edge Point of Presence to be delivered to its final destination. Cold-Potato routing ensures the packets spends the least time on the internet, and results in fast delivery and lower latency</li>
+</ul>
+</li>
+<li>Internet communication - VMs can connect to the internet by default. To connect to the VM from the internet you can assign a Public IP address or put the VM behind a public load balancer</li>
+<li>Communication between Azure resources - some services (VMs, App Services, AKS, VMSS) can communicate via the Virtual Network. Other services (CosmosDB, Service Bus, Key Vault, Storage Accounts, Azure SQL Db) require Service Endpoints</li>
+<li>Address Space - the address space for each VNet needs to be unique in your subscription and for any other network that you wish to connect to</li>
+<li>NAT Gateway - you can configure a subnet to use a static outbound IP address when accessing the internet</li>
+<li>Bastion Host - can be enabled for the VNet</li>
+<li>DDoS Protection - can be enabled for the VNet</li>
+<li>Subnet Delegation - designate a subnet to be used for a dedicated service</li>
+</ul>
+<p>Each VNet has its own CIDR address block and can be either isoloted or linked to other 
+VNets and on-prem networks as long as the CIDR blocks do not overlap. </p>
+<p>Control traffic into a VNet using a VPN Gateway, an NSG or a firewall</p>
+<ul>
+<li>A firewall can control access to multiple VNets across multiple subscriptions</li>
+<li>A VPN Gateway can only be applied to a single VNet</li>
+<li>NSGs are applied at the Subnet or Device level</li>
+</ul>
+<p>The virtual network can be segmented into subnets 
+(<strong>use ipcalc to help with subnet addressing</strong>). Azure reserves the first 4 and the last IP 
+address from each subnet. For the 192.168.1.0/24 subnet, the reservations are:</p>
+<ol>
+<li>192.168.1.0 - network address</li>
+<li>192.168.1.1 - default gateway</li>
+<li>192.168.1.2 and 192.168.1.3 - azure DNS</li>
+<li>192.168.1.255 - broadcast address</li>
+</ol>
+<p>Address can be either private (for use within the VNet) or public (for communication over the
+internet and with public-facing Azure resources). Public IP addresses can be asssigned to:</p>
+<ul>
+<li>Virtual Machines</li>
+<li>Load Balancers</li>
+<li>VPN Gateways</li>
+<li>Application Gateways</li>
+</ul>
+<p>Public IPs come in two SKUs. The Standard SKU only supports static assignment, is only available
+for network interfaces, load balancers, application gateways and VPN gateways. Standard SKU provides 
+zone-redundancy and is closed to inbound traffic by default (an NSG must be configured to allow
+inbound traffic). </p>
+<p>Public IP Address prefixes are a reserved, static range of public IP addresses. Address prefixes
+are region-dependant and can be associated to availability zones within the region. </p>
+<p>Private IPs are assigned from the subnet range that the resource is deployed to. Private IPs
+support static or dynamic assignment to:</p>
+<ul>
+<li>Virtual Machines</li>
+<li>Load Balancers (front-end config)</li>
+<li>Application Gateways (front-end config)</li>
+</ul>
+<h2 id="network-security-groups">Network Security Groups</h2>
+<p>NSGs are used to limit traffic to resources in a virtual network. An NSG contains rules that
+allow or deny inbound or outbound traffic. NSGs can be assigned to one or more subnets or NICs. 
+Inbound traffic is evaluated at the subnet first, then at the NIC. This is reversed for outbound
+traffic. For the traffic to be allowed, the NSGs must contain an 'allow' rule at both levels. </p>
+<p>The default rules in an NSG:</p>
+<ul>
+<li>Deny all inbound traffic except from the VNet and Azure Load Balancers</li>
+<li>Allow outbound traffic to the VNet and the Internet</li>
+</ul>
+<p>NSGs filter traffic to and from Azure resources within a VNet. Rules are defined by specifying:</p>
+<ul>
+<li>Source of traffic</li>
+<li>Source port of traffic</li>
+<li>Destination of traffic</li>
+<li>Destination port of traffic</li>
+<li>Protocol used</li>
+</ul>
+<p>Rules are assigned an action (either allow or deny) and a priority to determine the order in 
+which they are processed. Higher priority rules override the lower priority rules. NSGs can be 
+associated with multiple Subnets and NICs, but a Subnet and NIC can only have one NSG associated.
+NSGs can only be associated to resources in the same region and subscription. Firewalls are 
+required to filter traffic across multiple subscriptions</p>
+<ul>
+<li>Use <code>az network nsg list</code> command to list NSGs</li>
+<li>Use <code>az network nsg rule list</code> to inspect NSG rules</li>
+</ul>
+<p>Application Security Groups logically group Virtual Machines by workload: NICs for 
+specific VMs can be assigned to the appropriate ASG. The ASGs can then 
+be used as source or destination in an NSG. This allows you 
+to control traffic to the servers without needing to specify specific IP addresses. For example, 
+an NSG can allow internet inbound to the Web Servers ASG, allow the Web Servers to communicate 
+with the Database servers, and deny other traffic to reach the Database servers. 
+Members of an ASG must be on the same VNet. When NSG rules refer to two ASGs, they must 
+both be on the same VNet. Only 3,000 ASGs allowed per subscription</p>
+<h2 id="azure-firewall"><a href="https://learn.microsoft.com/en-us/azure/firewall/">Azure Firewall</a></h2>
+<ul>
+<li>Uses a static, public IP for your virtual network resources</li>
+<li>Integrated with Azure Monitor to enable logging and analytics</li>
+<li>User-Defined Routing used to control traffic</li>
+<li>Inbound and Outbound Filtering rules</li>
+<li>Application rules - allowed FQDNs that can be accessed from a subnet</li>
+<li>Inbound Destination Network Address Translation (DNAT)</li>
+<li>Outbound Source Network Address Translation (SNAT)</li>
+<li>Normally Deployed to a central VNet to control general network access</li>
+<li>
+<p>Premium SKU adds:</p>
+<ul>
+<li>TLS inspection</li>
+<li>Intrusion Detection Systems</li>
+<li>Intrusion Prevention Systems</li>
+<li>URL Filtering</li>
+<li>Web Categories</li>
+</ul>
+</li>
+<li>
+<p>Third-Party NVAs are available via the Azure Marketplace as an alternative to Azure Firewall</p>
+</li>
+</ul>
+<p>Azure Firewall is a stateful firewall (analyses connections not just individual packets) 
+with high availability and unrestricted scalability. Used 
+to protect your VNets across subscriptions. Availability zones are configured during deployment. </p>
+<p>Application rules allow you to restrict traffic using FQDNs. Filtering rules can be specified
+with IP addresses, ports and protocols. Threat-intelligence feed from Microsoft can be used
+to filter traffic from known malicious sources. By default, Azure Firewall blocks all traffic
+unless you enable it. </p>
+<p>A hub-and-spoke model is recommended for implementing Azure Firewall. The Firewall should be 
+placed in the hub VNet to filter traffic to and from peers and the on-prem network. </p>
+<ol>
+<li>DNAT Rules - DNAT (Destination Network Address Translation) rules are used to translate your Firewall Public IP and port to a private IP and port. NAT rules must be accompanied by a matching network rule that allows the traffic. NAT rules are useful for publishing SSH, RDP or non-HTTP/S applications to the internet. </li>
+<li>Network Rules - Specifies the ip addresses, ports and protocols to allow for non-HTTP/S traffic (although http(s) traffic can be targetted using port numbers 80 and 443) </li>
+<li>Application Rules - Specify FQDNs or FQDN tags that can be accessed from a subnet. </li>
+</ol>
+<p>DNAT rules are examined first, then Network rules and finally Application rules irrespective 
+of the priority assigned to the rules. Rules are organised into Rule Collections and Rule 
+Collection Groups. Rules in a rule Collection must be of the same type. Rule Collection Groups
+can contain Rule Collections of different type. Rule Collections in a Rule Collection Group and
+Rules in a Rule Collection are processed by priority with 100 being the highest priority 
+and 65,000 being the lowest. However, the DNAT-Network-Application processing is order is also 
+preserved, so the processing order will be:</p>
+<ol>
+<li>DNAT Rule Collection Group</li>
+<li>DNAT Rule Collection</li>
+<li>Network Rule Collection Group</li>
+<li>Network Rule Collection</li>
+<li>Application Rule Collection Group</li>
+<li>Application Rule Collection</li>
+</ol>
+<p>Network rules and application rules are terminating: if a matching rule is found, no subsequent
+rules are processed. </p>
+<p>If Threat Intelligence filtering is enabled, these rules are highest priority and processed 
+before network and application rules. If IDPS is configured in <em>Alert and Deny</em> mode, these 
+rules are applied after the network and application rules have been processed. </p>
+<p>You can temporarily stop a deployed firewall by executing: </p>
+<pre><code>az network firewall ip-config delete -f $FW_NAME -g $RG_NAME -n $CONFIG_NAME
+</code></pre>
+<p>This will reduce the costs of running the firewall. To re-enable the firewall, you can re-apply 
+your terraform code or manually run: </p>
+<pre><code>az network firewall ip-config create -f $FW_NAME -g $RG_NAME -n $CONFIG_NAME --public-ip-address $PIP_NAME --vnet-name $VNET_NAME
+</code></pre>
+<h2 id="vnet-routing">VNet Routing</h2>
+<p>Azure automatically creates system routes and assigns the routes to each subnet in a VNet.
+System routes cannot be created or deleted manually, but the can be over-ridden with 
+Custom Routes. Each route consists of an address prefix and a next hop. The following
+default routes are added to each subnet in a VNet</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Address Prefix</th>
+<th>Next Hop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td>VNet address space</td>
+<td>Virtual Network</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>0.0.0.0/0</td>
+<td>Internet</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>10.0.0.0/8</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>172.16.0.0/12</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>192.168.0.0/16</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>100.64.0.0/10</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<p>The Virtual Network next-hop rule for the VNet address spaces, ensures that all traffic is 
+routed within the VNet. Azure creates a route for each address range defined in the 
+VNet address space. Subnets are within the VNet address space and therefore subnet routing 
+is also handled by the VNet routes.</p>
+<p>The Internet next-hop rule, means that all traffic not covered by the Virtual Network rule, 
+is routed via the internet. If the traffic is to an Azure service then this is routed over 
+the Azure backbone. </p>
+<p>The None next-hop rules means that all traffic to these addresses are dropped, unless you 
+have used these addresses in a VNet, in which case the Virtual Network rule will be used to 
+replace the None rule. </p>
+<p>Additional Routes are added when specific Azure features are used:</p>
+<ol>
+<li>VNet Peering: a route is added for each address space within the VNets of the peering</li>
+<li>
+<p>Virtual Network Gateway: when using a Virtual Network Gateway, routes are added to the VNet with a next-hop type of Virtual Network Gateway. The source is also 'Virtual Network Gateway' because the gateway adds the routes to the subnet. The address prefixes are either:</p>
+<ul>
+<li>propogated from on-prem via BGP or</li>
+<li>configured locally on the local network gateway</li>
+</ul>
+</li>
+<li>
+<p>Virtual Network Service Endpoint: the public IP addresses for certain services are added to the route table when you enable a service endpoint to a service. Service endpoints are enabled for individual subnets within a virtual network, so the route is only added to the subnet the service endpoint belongs to. The public IP addresses of Azure services change periodically and these are automatically updated in the route tables. </p>
+</li>
+</ol>
+<p>Custom routes can be created to change the default behaviour provided by System Routes. For
+instance, when you want to direct traffic to a Virtual Network Applicance such as a Firewall. 
+Custom routes can be created in a route table or by exchanging BGP routes with on-prem gateways.
+Route Tables can be associated to zero or more VNet subnets. Each subnet can have no more than 
+one route table associated. User-defined routes are combined with the default routes, and the 
+user-defined routes take precedence. The next-hop types for custom routes are: </p>
+<ol>
+<li>
+<p>Virtual Appliance: a virtual machine running a network applicance, for example a firewall. For Virtual Appliance next-hop rules, you also need to specify an next-hop IP address which can be one of:</p>
+<ul>
+<li>a private IP address for the appliance</li>
+<li>a private IP address for an Azure internal load balancer</li>
+</ul>
+</li>
+<li>
+<p>Virtual Network Gateway. The Virtual Network Gateway must be created with type <em>VPN</em>. You can not use a Virtual Network Gateway of type <em>ExpressRoute</em> in a custom route, as ExpressRoute gateways must use BGP</p>
+</li>
+<li>None: drops all traffic for the specified address prefix</li>
+<li>Virtual Network: when you need to override the routing within a virtual network.</li>
+<li>Internet: used to explicitly route traffic over the internet, or to route traffic to Azure services with a Public IP via the Azure backbone</li>
+</ol>
+<p>You can not use VNet-Peering or VirtualNetworkServiceEndpoint as the next-hop type in 
+user-defined routes, as these are created automatically by Azure when VNet-Peerings or Service 
+Endpoints are created.</p>
+<p>Service Tags can be used to specify address-prefixes in custom routes. Service Tags are groupings
+of IP addresses for specific Azure services. Service Tags are automatically updated when the IP 
+address prefixes change. Routes with explicit IP-prefixes are given precedence over routes using
+service tags. Where more than one service tag has matching IP prefixes, precedence is decided in
+this order:</p>
+<ol>
+<li>Regional Tags</li>
+<li>Top Level Tags (i.e. service type)</li>
+<li>AzureCloud Regional Tags</li>
+<li>AzureCloud Tags</li>
+</ol>
+<p>Azure uses the most-specific route if two matching routes existing in the routing table. Otherwise
+custom routes are used before BGP routes and BGP routes are chosen before system routes. </p>
+<p>The default system-route for 0.0.0.0/0 routes all traffic over the internet (or the Azure Backbone
+for Azure Services) if no other matching rule is encountered. You can override this with a 
+custom route that sets the next-hop as either a Virtual Appliance or a Virtual Network Gateway.
+This means that traffic to Azure Services will also be routed to the Virtual Appliance or 
+Network Gateway unless you enable Service Endpoints for the service. Service Endpoints will 
+create routes for the service which will take precedence over the default route. </p>
+<p>Also, if you override the default 0.0.0.0/0 route, then you will no longer be able to directly 
+access resources on that subnet from the Internet. Indirect access to the resource is still 
+possible if inbound traffic passed through the device specified as the next-hop type for the rule.
+If the next-hop type is <em>Virtual Appliance</em> then this must:</p>
+<ul>
+<li>Be accessible from the internet</li>
+<li>Have a public IP address</li>
+<li>Not have any NSG rule associated to it that denies connection to the target</li>
+<li>Not deny the connection</li>
+<li>Be able to NAT and forward the traffic or be able to proxy the connection</li>
+</ul>
+<p>If the next-hop type is <em>Express Route</em>, then your on-prem gateway can NAT-and-forward or proxy 
+the connection using ExpressRoute private peering. </p>
+<p>If using a VPN-gateway, don't create a 0.0.0.0/0 custom-route in the Gateway subnet as this 
+will prevent the VPN-gateway from working. </p>
+<p><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview#routing-example">Routing Example</a></p>
+<h2 id="service-endpoints"><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview">Service Endpoints</a></h2>
+<p>Service Endpoints allow you to secure Azure service resources to only your VNets.
+This is a two-step process of: </p>
+<ol>
+<li>Enable a service endpoint in a subnet</li>
+<li>Configure the service to only allow connections from the specified VNets</li>
+</ol>
+<pre><code class="language-bash"># Enable a service endpoint in a subnet
+az network vnet subnet update \
+  --resource-group $RG_NAME --vnet-name $VNET_NAME --name subnet-1 \
+  --service-endpoints &quot;Microsoft.Storage.Global&quot;
+
+# Set default Deny rule on Service
+az storage account update \
+  --resource-group $RG_NAME --name $SA_NAME \
+  --default-action Deny
+
+# Add network rule to allow access from the subnet
+subnetid=$(az network vnet subnet show --resource-group $RG_NAME --vnet-name $VNET_NAME --name subnet-1 --query id --output tsv)
+az storage account network-rule add \
+  --resource-group $RG_NAME --account-name $SA_NAME --subnet $subnetid
+</code></pre>
+<p>The endpoint extends the VNet identity to the service resource and allows resources in 
+the VNet to access the service using private IP addresses. Because the endpoint uses the 
+VNet identity, rather than its address range, endpoints for a service can be added to 
+multiple VNets even where their addresses overlap.</p>
+<p>If you want to inspect or filter the traffic sent to 
+the Azure service, you can apply the service endpoint to the VNA subnet, and then route traffic
+from the VNet through the VNA. </p>
+<p>Service Endpoints are <a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoints-overview?source=recommendations">available for</a>:</p>
+<ul>
+<li>Storage</li>
+<li>SQL</li>
+<li>CosmosDB</li>
+<li>Synapse</li>
+<li>KeyVault</li>
+<li>Cognitive Services</li>
+<li>Container Registry</li>
+<li>EventHub</li>
+<li>ServiceBus</li>
+<li>App Service</li>
+</ul>
+<p>Endpoints are enabled on subnets configured in the VNet. For Azure SQL and Data Lake Storage, 
+the endpoint only applies to traffic within the same region. Service Endpoints ensure that 
+traffic from the VNet to the service travels on the Azure Backbone only.</p>
+<p>By default, Azure services secured by service endpoints will not be reachable from on-premises
+devices. You can allow access to the service from Public IPs using the firewall configuration 
+for the service.</p>
+<p>With Service Endpoints, DNS entries for Azure services continue to the Public IP Addresses 
+assigned to the service. </p>
+<p>There is no additional charge for using service endpoints and there is no limit on the number
+of service endpoints in a virtual network.</p>
+<h2 id="private-link"><a href="https://learn.microsoft.com/en-us/azure/private-link/private-link-overview?toc=%2Fazure%2Fvirtual-network%2Ftoc.json">Private Link</a></h2>
+<p>Private Link provides a method to access Azure PAAS, customer-owned or partner services privately 
+without using the public internet. Private Link allows private access to services in other Regions.
+Private endpoints are accessible using private peering or VPN tunnels from on-prem or peered 
+VNets. </p>
+<p>Private Link is used to map the private endpoint to the PAAS service, thus bringing the 
+service into your private virtual network. </p>
+<p>Azure PaaS services are normally deployed with a Public IP address. When you access these 
+services from an Azure VNet via a Public IP, traffic is routed over the internet.</p>
+<p>Private Link allows you to replace the Public IP address for the service with a private 
+network interface. The private network interface is a private endpoint which is assigned an 
+IP address from the range assigned to your subnet. </p>
+<pre><code class="language-bash">az network private-link-service create \
+  --resource-group test-rg --name private-link-service \
+  --vnet-name vnet-1 --subnet subnet-1 \
+  --lb-name load-balancer --lb-frontend-ip-configs frontend \
+  --location uksouth
+
+export resourceid=$(az network private-link-service show --name private-link-service --resource-group test-rg --query id --output tsv)
+
+az network private-endpoint create \
+  --connection-name connection-1 --name private-endpoint \
+  --private-connection-resource-id $resourceid \
+  --resource-group test-rg \
+  --vnet-name vnet-pe --subnet subnet-pe \
+  --manual-request false 
+</code></pre>
+<p>Private Link Services also allows you to create private endpoints for your own custom Azure services. 
+The custom service must be placed behind an Azure Standard Load Balancer and the private endpoint is 
+attached to the Load Balancer's front-end IP configuration. When you create your own 
+Private Link Service it is assigned a unique name (<em>prefix.guid.suffix</em>). This name can then be 
+used by consumers of the service to establish a private endpoint connection to the service 
+in their own VNets. </p>
+<p>Private endpoints are mapped to your Azure virtual networks, so that the services appear to be
+part of the VNet. Private Link allows private access even across Regions. All traffic is 
+routed using the Azure Backbone and therefore does not pass over the Internet. Once
+Private Link is enabled for the service, the public endpoint for the service can be disabled
+to prevent any public access. </p>
+<p>Peered virtual networks can also access Private Link resources and on-premise networks can also 
+use the Private Link connections via ExpressRoute or VPN Gateway. </p>
+<p>If you configure the private endpoints to integrate with your private DNS zone, then the FQDN is
+automatically assigned to the private endpoint. </p>
+<p>Private endpoints are charged per hour and per GB of inbound and outbound traffic. </p>
+<h2 id="azure-dns"><a href="https://learn.microsoft.com/en-us/azure/dns/">Azure DNS</a></h2>
+<p>When a tenant is created, an initial domain name is assigned in the '.onmicrosoft.com' space. 
+You can add a domain name with Azure DNS to a subscription and resource group. Use 
+<a href="https://wwww.godaddy.com/domains/domain-name-search">GoDaddy</a> to search
+for un-used domain name. You can then delegate the zone to Azure DNS by setting up
+NS records to point to Azure DNS servers. You can then add A records for the public IPs of 
+your VMs and use the name servers listed in the NS records to resolve the VM IP addresses. </p>
+<p>To use your own DNS servers, the custom domain name 
+must be added to your directory and verified. Verification is performed by adding a 
+TXT or MX record to the domain.  Azure will then 
+query the domain for this record. If successful, the domain name is then added to the 
+subscription and resources can be configured to use this domain. </p>
+<p>Azure DNS provides a secure DNS service to manage and resolve domain names in a virtual 
+network. A DNS zone hosts DNS records for a domain: to host your domain in Azure you need 
+to create a DNS zone for that domain name. DNS zones are added to resource groups. The DNS 
+zone name must be unique in the resource group, but can be used in other resource groups and 
+subscriptions. The root/parent domain is registered at the registrar and pointed to Azure DNS.
+Child Domains are registered in Azure DNS directly.</p>
+<p>You do not need to own the domain name to host the domain in Azure: but you do need to own the
+domain to configure the domain.</p>
+<p>To delegate your domain to Azure DNS, you need to update the parent domain with the NS records
+from your Azure DNS zone. </p>
+<p>Private DNS zones enable you to use your own custom domain names (e.g. contoso.org) 
+and provides name resolution for VMs within a virtual network and between virtual networks. 
+The Private DNS zone needs to be linked to the VNet(s). When the VNet link is created, 
+you can enable 'auto registration' for connected devices. DNS records for the private zone
+are not viewable or retrievable, but the records are registered and will resolve. </p>
+<p>For a single VNet, when you create a Private Zone and link it to the VNet, VMs in the VNet can 
+carry out dns forward (name to IP) and reverse (IP to name) resolution for the private IP addresses
+of the VMs. </p>
+<p>For multiple VNets linked to a common private DNS zone, forward DNS lookups are resolved, but
+reverse DNS lookups are only resolved for addresses in the same VNet.</p>
+<p>Alias Records can be added to Azure DNS using Azure Resource Names (e.g. the resource 
+name of a Load Balancer public IP address). This way, when the resource IP address updates, the
+DNS record will also dynamically update. </p>
+<h2 id="vnet-peering">VNet Peering</h2>
+<p>VNet Peering allows you to connect two or more VNets so that they appear as
+a single network from a connectivity perspective. There are two types of peering:
+regional for VNets in the same region and; global for VNets in different regions.</p>
+<p>VNet Peering keeps traffic on the Azure Backbone and provides a low-latency, 
+high-bandwidth connection between resources. </p>
+<p>A VPN Gateway can be used in one of the peered VNets to enable the other peers
+to access resources outside the VNet. This would
+typically be used in the Hub VNet of a Hub-and-Spoke model to allow the spokes
+to communicate with on-prem networks via the Hub VPN Gateway. This setup requires
+'Allow Gateway Transit' enabled in the hub VNet and 
+'Allow remote gateways' in the spoke VNets.</p>
+<p>VNet Peering is non-transitive, but you can configure user-defined routes and
+service chaining to provide transitivity. </p>
+<h2 id="vpn-gateway"><a href="https://learn.microsoft.com/en-us/azure/vpn-gateway/">VPN Gateway</a></h2>
+<p>See also <a href="https://learn.microsoft.com/en-us/azure/vpn-gateway/tutorial-site-to-site-portal?source=docs">Create a Site-to-Site VPN connection</a></p>
+<p>A VPN Gateway is used to connect two trusted private networks using an encrypted 
+tunnel over a public, untrusted network. A VPN Gateway can be used to connect 
+Azure VNets and On-prem networks and typically provides up to 1 Gbps bandwidth. </p>
+<p>Only one VPN Gateway can be deployed per VNet, but multiple connections can be made
+to the same VPN Gateway. Connections can be: </p>
+<ul>
+<li>Site to Site </li>
+<li>VNet to VNet</li>
+<li>Point to Site (connects an individual device)</li>
+</ul>
+<p>For a Site-to-Site connection, the following steps are required to configure
+a VPN connection:</p>
+<ol>
+<li>
+<p>Create VNets and Subnets</p>
+<p>requires a reservation from the on-site network address range. Ensure that there is no overlap between on-prem and cloud networks/subnets.</p>
+</li>
+<li>
+<p>Specify the DNS server (optional)</p>
+<p>required for name resolution for resources deployed in the VNet</p>
+</li>
+<li>
+<p>Create the Gateway Subnet</p>
+<p>requires a /28 or /27 CIDR block. The Gateway subnet must be called 'GatewaySubnet'</p>
+</li>
+<li>
+<p>Create the VPN Gateway</p>
+<p>when creating the virtual network gateway you can choose between VPN or ExpressRoute as the gateway type, and route-based or policy-based as the VPN type. Policy-based only supports IKEv1, comes with a Basic SKU only, and provides only one tunnel. Policy-based VPNs direct traffic using IPsec policies. Route-based is the usual choice and uses route table to direct traffic. The SKU will determine the number of tunnels available and the aggregate throughput of the connection. The different SKUs provide between 30-100 S2S connections, 250 to 10,000 P2S connections and 650Mbps to 10.0 Gbps aggregate throughput. During this step you will also be able to choose between active-active or active-standby mode. terraform resource: <code>azurerm_virtual_network_gateway</code></p>
+</li>
+<li>
+<p>Create the Local Network Gateway</p>
+<p>A reference to the On-Prem location. Contains a name for the connection, the IP address or FQDN of the on-prem VPN device, and one or more IP address ranges that define the address range for the on-prem network</p>
+</li>
+<li>
+<p>Configure the On-Prem VPN Device</p>
+<p>Check the <a href="https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpn-devices">list of validated devices</a></p>
+</li>
+<li>
+<p>Create the VPN Connection</p>
+<p>Uses the Local Network Gateway, Virtual Network Gateway and a Pre-Shared Key (PSK). The Shared Key value must match the value used when configuring the on-prem VPN Device in Step 6.</p>
+</li>
+</ol>
+<p>A VPN Gateway consists of two or more VMs deployed to a dedicated Gateway Subnet in the
+VNet. VPN Gateways support Availability Zones. When connecting to a single 
+on-site VPN, the VPN Gateway can be configured in Active/Standby mode, where only
+one instance connects to the on-site VPN device. Failover is automatic and 
+should occur in 10 to 15 seconds for planned maintainence or 60 to 90 seconds 
+for unplanned outtages. If two on-site VPNs are available then the Azure VPN 
+Gateway can be configured in Active/Active mode. </p>
+<ul>
+<li>A VNet can only have one VPN Gateway and the VPN Gateway can only be associated with one VNet.</li>
+<li>VNet address spaces can not overlap with on-prem network address spaces. </li>
+<li>Use a pre-shared key for authentication</li>
+<li>Internet Key Exchange (IKE) is used to set up a security association (an agreement of the encryption) between two endpoints</li>
+<li>IPSec suite used to encrypt/decrypt data based on the security association</li>
+<li>VPN is either:<ol>
+<li>Policy-based<ul>
+<li>Specifies static IP address for encryption through the tunnel</li>
+<li>supports IKEv1 only</li>
+<li>relies on static route definitions</li>
+<li>primarily used where legacy on-prem VPN devices require them</li>
+</ul>
+</li>
+<li>Route-based<ul>
+<li>IPSec tunnel modelled as a network interface or vitual tunnel interface</li>
+<li>IP routing decides whether to use IPSec tunnel</li>
+<li>supports IKEv2</li>
+<li>Can use dynamic routing protocols</li>
+<li>more resilient to creation of new subnets</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Deploy VPN Gateway<ul>
+<li>GatewaySubnet - add a subnet called <strong>GatewaySubnet</strong> to the VNet with a netmask of at least /27</li>
+<li>Public IP address - Basic SKU Public IP needed as target for on-prem VPN device</li>
+<li>Local Network Gateway: defines the on-prem network address spaces that will be connecting to Azure and the on-prem VPN used. The on-prem VPN appliance is defined either by IP Address or FQDN</li>
+<li>Virtual Network Gateway - routes traffic between the VNet and on-prem network</li>
+<li>Connection: creates a logical connection between the Local Network Gateway and the VPN Gateway</li>
+</ul>
+</li>
+<li>VPN gateways can also be used for ExpressRoute failover or in Zone-redundant configuration.</li>
+</ul>
+<p>Terraform Sample Code:</p>
+<pre><code>resource "azurerm_resource_group" "example" {
+name     = "test"
+location = "West US"
+}
+
+resource "azurerm_virtual_network" "example" {
+name                = "test"
+location            = azurerm_resource_group.example.location
+resource_group_name = azurerm_resource_group.example.name
+address_space       = ["10.0.0.0/16"]
+}
+
+resource "azurerm_subnet" "example" {
+name                 = "GatewaySubnet"
+resource_group_name  = azurerm_resource_group.example.name
+virtual_network_name = azurerm_virtual_network.example.name
+address_prefixes     = ["10.0.1.0/24"]
+}
+
+resource "azurerm_local_network_gateway" "onpremise" {
+name                = "onpremise"
+location            = azurerm_resource_group.example.location
+resource_group_name = azurerm_resource_group.example.name
+gateway_address     = "168.62.225.23"
+address_space       = ["10.1.1.0/24"]
+}
+
+resource "azurerm_public_ip" "example" {
+name                = "test"
+location            = azurerm_resource_group.example.location
+resource_group_name = azurerm_resource_group.example.name
+allocation_method   = "Dynamic"
+}
+
+resource "azurerm_virtual_network_gateway" "example" {
+name                = "test"
+location            = azurerm_resource_group.example.location
+resource_group_name = azurerm_resource_group.example.name
+
+type     = "Vpn"
+vpn_type = "RouteBased"
+
+active_active = false
+enable_bgp    = false
+sku           = "Basic"
+
+ip_configuration {
+    public_ip_address_id          = azurerm_public_ip.example.id
+    private_ip_address_allocation = "Dynamic"
+    subnet_id                     = azurerm_subnet.example.id
+}
+}
+
+resource "azurerm_virtual_network_gateway_connection" "onpremise" {
+name                = "onpremise"
+location            = azurerm_resource_group.example.location
+resource_group_name = azurerm_resource_group.example.name
+
+type                       = "IPsec"
+virtual_network_gateway_id = azurerm_virtual_network_gateway.example.id
+local_network_gateway_id   = azurerm_local_network_gateway.onpremise.id
+
+shared_key = "4-v3ry-53cr37-1p53c-5h4r3d-k3y"
+}
+</code></pre>
+<h2 id="expressroute-and-vwan">ExpressRoute and VWAN</h2>
+<p>Use <a href="https://learn.microsoft.com/en-us/azure/expressroute/">Azure ExpressRoute</a> to 
+create private connections between Azure Data Centres and your
+on-prem network: ExpressRoute connections do not go over the public internet. Connection is 
+private but not encrypted.</p>
+<p>ExpressRoute connections can be made through an approved connectivity provider using:</p>
+<ol>
+<li>Colocation: using an Exchange with Azure co-location</li>
+<li>Point-to-Point Ethernet connection</li>
+<li>IPVPN Connection: connect your WAN directly using Multi-Protocol Label Switching (MPLS) VPN</li>
+</ol>
+<p>ExpressRoute provides bandwidth up to 100 Gbps and low latency and is a good option for 
+heavy-duty data transfers such as storage, backups and recovery. ExpressRoute can also be
+used for Hybrid applications such as a Web App in Azure that uses on-prem AD for authentication
+and authorisation. </p>
+<p>ExpressRoute Features:</p>
+<ol>
+<li>Layer 3 connectivity - uses BGP to exchange routes with on-prem routers</li>
+<li>Redundancy - each ExpressRoute connection consists of two BGP connections to two 
+Microsoft Enterprise Edge (MSEE) routers. </li>
+<li>Regional Connectivity - the peering location for the ExpressRoute connection grants access
+to resources in the same geopolitical region. </li>
+<li>Global Connectivity - with ExpressRoute Premium add-on, the connection provides access to 
+resources from all regions, except national clouds</li>
+<li>On-Prem connectivity - on-prem datacenters in different locations can be connected together
+using ExpressRoute circuits if ExpressRoute Global Reach is enable. This way traffic between
+the two datacenters does not need to traverse the public internet.</li>
+</ol>
+<p>ExpressRoute can be used in addition to Site-to-Site VPN: you just need to configure two 
+VPN Gateways: one of type VPN and another of type ExpressRoute. </p>
+<p><a href="https://learn.microsoft.com/en-us/azure/virtual-wan/">Azure Virtual WAN</a> 
+provides a cloud-hosted network hub that provides transitive network 
+connectivity to sites that are connected using combinations of Point-to-Site, Site-to-Site and
+ExpressRoute connections (spokes). Azure VWAN comes in two SKUs: Basic only supports the use
+of Site-to-Site VPN connections; Standard supports all types of VPN connections.</p>
+<h2 id="network-watcher">Network Watcher</h2>
+<p>Add the network watcher agent to a VM:</p>
+<pre><code>Set-AzVMExtension `
+-ResourceGroupName $rgName `
+-Location $location `
+-VMName $vmName `
+-Name 'networkWatcherAgent' `
+-Publisher 'Microsoft.Azure.NetworkWatcher' `
+-Type 'NetworkWatcherAgentWindows' `
+-TypeHandlerVersion '1.4'
+</code></pre>
+<h2 id="load-balancer">Load Balancer</h2>
+<p>Load balancing refers to evenly distrubuting load across a group of backend resources. Azure
+Load Balancer works at Layer 4 (Transport), and therefore uses IP address and Port to route traffic. 
+The load balancer distributes inbound flows that arrive 
+at the front-end to the backend resources according to load-balancing rules and health probes. 
+The backend resources can be either VMs or instances in a VMSS. </p>
+<p>Public load balancers are used to load balance internet traffic to your VMs. 
+The Load Balancer maps public IP address and port of incoming traffic to private IP address and
+port of the VM. Mapping is also provided for the response traffic from the VM (SNAT).</p>
+<p>The default distribution mode for Azure Load Balancer is a five-tuple hash (source ip, source 
+port, destination IP, destination port and protocol). An alternate distribution mode, 
+source IP affinity, is available which uses a two-tuple hash (source IP and destination IP) 
+or a three-tuple hash (source IP, destination IP and protocol). </p>
+<p>Internal load balancers are used to load balance traffic inside a VNet or to load balance traffic
+to Azure resources via a VPN connection. </p>
+<p>Load Balancers aren't physical instances: Load Balancer objects are used to express how 
+Azure configures its infrastructure to meet your requirements.</p>
+<p>Availability Sets protect from hardware failures within a datacentre and provide a 99.95% SLA.
+Availability Zones protect from entire datacentre failure and provide a 99.99% SLA. Availability
+Zones provide redundancy across datacentres in the same Region. </p>
+<p>Load Balancers come in two main SKUs:</p>
+<ul>
+<li>Basic: supports 300 instances in backend pools, HTTP and TCP health probes, no zone redundancy,
+NSGs are optional, no SLA</li>
+<li>Standard: supports 1000 instances in the backend pool, HTTPS, HTTP and TCP health probes, zone-redundant and zonal frontends for inbound and outbound traffic, inbound flows closed by default unless allowed via an NSG, 99.99% SLA</li>
+</ul>
+<p>For the Basic SKU, backend pool devices are limited to machines in a single availability set or VMSS.
+Standard SKU can use any VM in a single VNet, availability set or VMSS.</p>
+<p>Load balancer rules map a given frontend IP:Port to a set of backend IP:Port combinations: before
+configuring the rule, you should create the frontend, backend and health probe. Session
+persistence can be based on:</p>
+<ul>
+<li>None: (default) any VM can handle the request</li>
+<li>Client IP: successive requests from the same IP are handled by the same VM</li>
+<li>Client IP and Protocol: successive requests from the same IP:Port combination are handled by the same VM</li>
+</ul>
+<p>HTTP health probes rely on a 200 Status response from the backend within 31 seconds. TCP probes
+expect a successful connection on a specified port: you can configure Port, Interval and Unhealthy
+Threshold. Guest agent probes can also be used, but only when HTTP/TCP probes are not possible.</p>
+<p>Traffic Manager is a DNS-based load balancer, that provides load-balancing at the Global 
+(cross-regional) level. </p>
+<h2 id="application-gateway">Application Gateway</h2>
+<p>Azure Application Gateway implements load-balancing at Layer 7 (Application), and makes 
+decisions based on attributes of the HTTP request such as the URI path (path-based routing) 
+or address (multi-site routing).
+The backend pool can include VMs, VMSS, App Service and even on-prem servers. Application 
+Gateway uses round-robin to load balance requests and provides the following features:</p>
+<ul>
+<li>Support for HTTP, HTTP/2, HTTPS, and Websockets</li>
+<li>Application firewall: checks requests for common security threats</li>
+<li>End-to-end request encryption</li>
+<li>Autoscaling</li>
+<li>Redirection</li>
+<li>Rewrite HTTP Headers</li>
+<li>Custom Error Pages</li>
+</ul>
+<p>Application Gateway health probes can accept HTTP responses between 200 and 399 to indicate OK. If
+no health probe is configured, App Gateway configures a default the expects a response within 30
+seconds. </p>
+<p>Application Gateway can load balance within a Region: for Global Load Balancing at the 
+Application Layer use Azure Front Door. </p>
+<h2 id="azure-content-delivery-network">Azure Content Delivery Network</h2>
+<ul>
+<li>Includes Web Application Firewall (WAF) service</li>
+</ul>
+<h2 id="azure-ddos-protection">Azure DDoS Protection</h2>
+<ul>
+<li>Discards DDoS traffic at the Azure network edge  </li>
+<li>Protects against over-consumption of resources</li>
+<li>A singel DDoS protection plan is enabled at the tenant level and used across multiple subscriptions</li>
+<li>Default Basic plan is free</li>
+<li>Standard SKU adds protection from:<ul>
+<li>volumetric attacks</li>
+<li>protocol attacks</li>
+<li>resource layer (application) attacks</li>
+</ul>
+</li>
+</ul>
+<h2 id="azure-traffic-manager">Azure Traffic Manager</h2>
+<ul>
+<li>a DNS-Based traffic load balancer</li>
+<li>lets you distribute traffic across global Azure regions</li>
+</ul>
+<h2 id="cli-commands">CLI Commands</h2>
+<pre><code>az network route-table list -o table
+az network route-table list --query "[].[name,resourceGroup,routes[].[addressPrefix,nextHopType, nextHopIpAddress]]
+
+az network nic show-effective-route-table -n $NIC -g $RESOURCE_GROUP
+</code></pre>
+<h2 id="resticting-access-to-paas-resource-with-service-endpoints">Resticting Access to PaaS Resource with Service Endpoints</h2>
+<pre><code>RG_NAME=rg-play-tut001
+VNET_NAME=vnet-play-tut001
+LOCATION=uksouth
+PUBLIC_SNET=snet-public
+PRIVATE_SNET=snet-private
+PRIVATE_NSG=nsg-private
+STORAGE_NAME=stgplaytut001
+FILE_SHARE=fs-play-tut001
+</code></pre>
+<ol>
+<li>
+<p>Create the VNET with Public Subnet</p>
+<pre><code>az group create -n $RG_NAME --location $LOCATION
+
+az network vnet create \
+--name $VNET_NAME \
+--resource-group $RG_NAME \
+--address-prefix 10.0.0.0/16 \
+--subnet-name $PUBLIC_SNET \
+--subnet-prefix 10.0.0.0/24
+</code></pre>
+</li>
+<li>
+<p>List the Services supporting Service Endpoints</p>
+<pre><code>az network vnet list-endpoint-services --location $LOCATION -o table
+</code></pre>
+</li>
+<li>
+<p>Create an Additional Subnet with a Storage Service Endpoint</p>
+<pre><code>az network vnet subnet create \
+--vnet-name $VNET_NAME \
+--resource-group $RG_NAME \
+--name $PRIVATE_SNET \
+--address-prefix 10.0.1.0/24 \
+--service-endpoints Microsoft.Storage
+</code></pre>
+</li>
+<li>
+<p>Restrict Access for the Private Subnet</p>
+<pre><code>az network nsg create \
+--resource-group $RG_NAME \
+--name $PRIVATE_NSG
+
+# add an NSG to the Private Subnet
+az network vnet subnet update \
+--vnet-name $VNET_NAME \
+--name $PRIVATE_SNET \
+--resource-group $RG_NAME \
+--network-security-group $PRIVATE_NSG
+
+# allow outbound access to Storage Public IPs
+az network nsg rule create \
+--resource-group $RG_NAME \
+--nsg-name $PRIVATE_NSG \
+--name Allow-Storage-All \
+--access Allow \
+--protocol "*" \
+--direction Outbound \
+--priority 100 \
+--source-address-prefix "VirtualNetwork" \
+--source-port-range "*" \
+--destination-address-prefix "Storage" \
+--destination-port-range "*"
+
+# deny outbound to all public IP Addresses
+az network nsg rule create \
+--resource-group $RG_NAME \
+--nsg-name $PRIVATE_NSG \
+--name Deny-Internet-All \
+--access Deny \
+--protocol "*" \
+--direction Outbound \
+--priority 110 \
+--source-address-prefix "VirtualNetwork" \
+--source-port-range "*" \
+--destination-address-prefix "Internet" \
+--destination-port-range "*"
+
+# allow SSH inbound
+az network nsg rule create \
+--resource-group $RG_NAME \
+--nsg-name $PRIVATE_NSG \
+--name Allow-SSH-All \
+--access Allow \
+--protocol Tcp \
+--direction Inbound \
+--priority 120 \
+--source-address-prefix "*" \
+--source-port-range "*" \
+--destination-address-prefix "VirtualNetwork" \
+--destination-port-range "22"
+</code></pre>
+</li>
+<li>
+<p>Create a Storage Account</p>
+<pre><code>az storage account create \
+--name $STORAGE_NAME \
+--resource-group $RG_NAME \
+--sku Standard_LRS \
+--kind StorageV2
+
+saConnectionString=$(az storage account show-connection-string \
+--name $STORAGE_NAME \
+--resource-group $RG_NAME \
+--query 'connectionString' \
+--out tsv)
+</code></pre>
+</li>
+<li>
+<p>Create a File Share in the Storage</p>
+<pre><code>az storage share create \
+--name $FILE_SHARE \
+--quota 2048 \
+--connection-string $saConnectionString &gt; /dev/null
+</code></pre>
+</li>
+<li>
+<p>Deny all access to the Storage Account</p>
+<pre><code>az storage account update \
+--name $STORAGE_NAME \
+--resource-group $RG_NAME \
+--default-action Deny
+</code></pre>
+</li>
+<li>
+<p>Allow access to the Storage from the Private Network</p>
+<pre><code>az storage account network-rule add \
+--resource-group $RG_NAME \
+--account-name $STORAGE_NAME \
+--vnet-name $VNET_NAME \
+--subnet $PRIVATE_SNET
+</code></pre>
+</li>
+<li>
+<p>Create VMs on both Subnets</p>
+<pre><code>az vm create \
+--resource-group $RG_NAME \
+--name myVmPublic \
+--image UbuntuLTS \
+--vnet-name $VNET_NAME \
+--subnet $PUBLIC_SNET \
+--generate-ssh-keys
+
+az vm create \
+--resource-group $RG_NAME \
+--name myVmPrivate \
+--image UbuntuLTS \
+--vnet-name $VNET_NAME \
+--subnet $PRIVATE_SNET \
+--generate-ssh-keys
+</code></pre>
+</li>
+<li>
+<p>SSH to VMs and mount the Share (only succeeds on privateVM)</p>
+<pre><code>ssh &lt;publicIpAddress&gt;
+
+sudo mkdir /mnt/MyAzureFileShare
+sudo mount --types cifs //$STORAGE_NAME.file.core.windows.net/$FILE_SHARE /mnt/MyAzureFileShare --options vers=3.0,username=$STORAGE_NAME,password=$AccountKey,dir_mode=0777,file_mode=0777,serverino
+</code></pre>
+</li>
+<li>
+<p>Try to list share from own device (fails)</p>
+<pre><code>az storage share list \
+--account-name $STORAGE_NAME \
+--account-key $AccountKey
+</code></pre>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2456 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/storage/">
+      
+      
+        <link rel="prev" href="../networking/">
+      
+      
+        <link rel="next" href="../db/postgresql/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Azure Storage - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#azure-storage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Azure Storage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../az104/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#storage-emulators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Emulators
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#replication-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Replication Strategies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-blob-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Blob Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Disks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-data-lake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Data Lake
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-file-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure File Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-queue-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Queue Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-table-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Table Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-importexport-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Import/Export Service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Azure Import/Export Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-import-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Import Job:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-an-export-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Export Job:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-box" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Box
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/git_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#storage-emulators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Emulators
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#replication-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Replication Strategies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-blob-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Blob Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Disks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-data-lake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Data Lake
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-file-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure File Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-queue-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Queue Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-table-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Table Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-importexport-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Import/Export Service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Azure Import/Export Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-import-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Import Job:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-an-export-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Export Job:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-box" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Box
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="azure-storage"><a href="https://learn.microsoft.com/en-us/azure/storage/">Azure Storage</a></h1>
+<p>Azure Storage is a cloud storage solution supporting blobs, files, disks, messages, tables and other
+types of data. Combining data services into a single account allows you to manage them as a 
+group - the settings applied to the Storage Account apply to all services within the 
+account. Deleting a Storage Account also deletes all the data in it. </p>
+<p>For each combination of settings that you require, you will need a corresponding Storage Account. An Azure Storage Account defines the following settings:</p>
+<ul>
+<li>Subscription (for billing)</li>
+<li>Location (where the data is stored)</li>
+<li>Performance (Standard or Premium). Premium is intended for low-latency 
+data access and uses SSDs. You cannot convert between Standard and 
+Premium storage: instead you will need to create a new Storage 
+Account and migrate the data from the original Account. Standard is 
+generally sufficient for most new Storage Accounts. Premium offers three
+specialist flavours: Page Blobs, Block Blobs or File Shares. </li>
+<li>Replication (LRS, ZRS, GRS)</li>
+<li>Access Tier (Hot, Cold, Archive)</li>
+<li>Secure Transfer Required</li>
+<li>Virtual Networks. Use the 'Firewalls and virtual networks' settings on your storage accounts to restrict access to specifici virtual networks or public IPs. Subnets and Virtual networks must exist in the same Azure region or region pair as the storage account. </li>
+</ul>
+<p>The number of Storage Accounts that you will need depends on your data 
+diversity (where it is consumed, how sensitive it is, who pays the bill,
+how business critical is the data, etc). Before creating each Storage 
+you should first analyse the data and understand the appropriate storage
+settings. </p>
+<p>The following limits apply to Storage Accounts:</p>
+<ul>
+<li>Number of storage accounts per region per subscription: <strong>250</strong></li>
+<li>Maximum storage account capacity: <strong>5 PiB</strong></li>
+<li>No limit to number of containers, blobs, files, tables, etc</li>
+<li>Maximum request rate per storage account: <strong>20,000 requests per second</strong></li>
+<li>Maximum ingress per storage account (US/Europe): <strong>10 Gbps</strong></li>
+<li>Maximum ingress per storage account (outside US/Europe): <strong>5 Gbps</strong></li>
+<li>Maximum egress: <strong>50 Gbps</strong></li>
+</ul>
+<p>Ingress rates may be increased by raising a support request with Microsoft. Data is durable, secure, scalable, managed, accessible. </p>
+<p>Azure storage encryption is enabled by default and cannot be disabled. 
+Data is encrypted using 256-bit AES (advanced encryption standard). 
+Encryption keys can be either Microsoft-managed or Customer-managed. 
+Customer-managed keys are stored in Key Vault and can be generated by
+Key Vault or independantly. To manage a Storage Account the Key Vault
+keys need to be in the same region as the SA, but can be in a 
+different subscription. </p>
+<p>Azure storage provides a unique namespace for your data, accessible 
+over HTTP or HTTPS.  Namespaces are formatted: <code>https://$STORAGE_ACCOUNT_NAME.$SERVICE_NAME.core.windows.net</code>. For example:</p>
+<ul>
+<li>Blobs: https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net</li>
+<li>Files: https://$STORAGE_ACCOUNT_NAME.file.core.windows.net</li>
+<li>Queues: https://$STORAGE_ACCOUNT_NAME.queue.core.windows.net</li>
+<li>Table: https://$STORAGE_ACCOUNT_NAME.table.core.windows.net</li>
+<li>Data Lake: https://$STORAGE_ACCOUNT_NAME.dfs.core.windows.net</li>
+</ul>
+<p>You can also configure a custom domain to access blob data in a Storage Account. However, 
+there is no native support for HTTPS access to blobs with custom domains. Custom domains
+can be configured with direct mapping or <a href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-custom-domain-name?tabs=azure-portal">intermediary mapping</a>.</p>
+<p>Four options are available for accessing Blob Storage:</p>
+<ul>
+<li>AAD. A security principal authenticates to AAD and receives an OAuth 2.0 
+token, which is then used to authenticate to the storage. Works well for 
+apps using managed identities or security principals.</li>
+<li>Shared Keys for the Storage Account. Two 512-bit keys are created with every Storage Account. These keys can be used to grant full access to the Storage Account. It is recommended that these keys are regularly rotated.</li>
+<li>Shared Access Signature: SAS keys grant granular-access for a specified period of time. Three types of SAS key:<ul>
+<li>User delegation SAS - secured with AAD credentials - only available for Blob Storage access</li>
+<li>Service SAS - secured with the storage account keys - grants access to one of the four storage services in an account. </li>
+<li>Account SAS - secured with the storage account keys - grants access to the services in the SA and also to service-level operations</li>
+</ul>
+</li>
+<li>Public: read-only anonymous access. To enable public access to containers or blobs, public access must also be enabled for the Storage Account. </li>
+</ul>
+<p>SAS URI parameters:</p>
+<ul>
+<li>restype: indicates service or account-level operations</li>
+<li>sv: storage version</li>
+<li>ss: storage service</li>
+<li>st: start time</li>
+<li>se: expiry time</li>
+<li>sr: resource</li>
+<li>sp: permissions</li>
+<li>sip: ip address ranges</li>
+<li>spr: ip protocols</li>
+<li>sig: signature </li>
+</ul>
+<p>User Delegation SAS tokens are recommended for applications, as you 
+don't have to use the storage account keys in code. </p>
+<p>Stored access policies can be associated to Service SAS keys, to give you 
+the option to revoke permissions without having to regenerate the 
+storage account keys. The only way to revoke permissions on ad-hoc 
+SAS keys is to regenerate the SA Shared Keys.</p>
+<h2 id="storage-emulators">Storage Emulators</h2>
+<p>You can use Storage Emulators during development, to avoid incurring 
+costs associated with using Azure Storage Accounts:</p>
+<ol>
+<li>Azure Storage Emulator - uses MSSQL 2012 Express LocalDB to emulate Azure Table, Queue and Blob Storage</li>
+<li>Azurite - Node.js open-source emulator</li>
+</ol>
+<h2 id="replication-strategies">Replication Strategies</h2>
+<ol>
+<li>LRS - Locally Redundant Storage. Data is replicated to a second copy in the same data centre</li>
+<li>ZRS - Zone Redundant Storage. Data is replicated across three availability zones in the same region.</li>
+<li>GRS - Geo Redundant Storage. Data is replicated to a secondary region. Regional data is also replicated locally with LRS.</li>
+<li>RA-GRS - Read-Access GRS. Provides read-access to data in the secondary region. </li>
+<li>GZRS - Geo-Zone Redundant Storage. Data is replicated across three availability zones in the primary region, and also replicated to a secondary region across three availability zones. </li>
+<li>RA-GZRS - Read-Access GZRS. Provides read-access to data in the secondary region. </li>
+</ol>
+<h2 id="azure-blob-storage">Azure Blob Storage</h2>
+<p>Blob Storage is optimised for massive amounts of unstructured data such as text or binary data.
+Blobs are stored in Containers, which act like folders to organise the blob storage.</p>
+<ul>
+<li>Ideal for:<ul>
+<li>serving images/files to a browser</li>
+<li>storing files for distributed access (eg. to support an installation)</li>
+<li>streaming video/audio</li>
+<li>storing backups</li>
+<li>storing data for analysis</li>
+<li>storing up to 8TB of data for VMs</li>
+</ul>
+</li>
+<li>Access tier can be set at blob level, during or after upload. Lifecycle Management on the Storage Account allows you to configure rules to transition blobs between tiers.</li>
+<li>Blob storage comes in three forms:<ul>
+<li>Page Blob: used to hold random access (unordered) files, such as VM disks (managed disks are stored in Microsoft storage accounts)</li>
+<li>Block Blob: used to hold objects that are ordered, consecutive and non-random, such as backups</li>
+<li>Append Blob: used for information that is added in consecutive order, such as log files</li>
+</ul>
+</li>
+</ul>
+<p>Blob Storage setup has the following configuration:</p>
+<ul>
+<li>Container options<ul>
+<li>Name: must be unique within the Storage Account, 3-63 characters (a-z0-9-) long</li>
+<li>Access Level: <ul>
+<li>Private (default): deny anonymous access to the container and blobs</li>
+<li>Blob: allow anonymous read access to blobs only</li>
+<li>Container: allow anonymous read access to container and blobs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Blob Types and Upload options<ul>
+<li>Block Blob: consists of blocks of data assembled to make a blob</li>
+<li>Append Blob: optimised for append operations. Suitable for log files</li>
+<li>Page Blob: up to 8 TB in size, optimised for frequent read/write operations. Suitable for VM disks. </li>
+<li>Block Blobs are the default. Once a blob is created, you cannot change its type.</li>
+</ul>
+</li>
+<li>Access Tier<ul>
+<li>Hot - optimised for data that is accessed frequently: highest storage costs, lowest access costs</li>
+<li>Cool - accessed infrequently and stored for at least 30 days: higher access costs and lower storage costs than hot tier. Suitable for data that is accessed infrequently but needs to be available immeadiately, e.g. backup and DR files</li>
+<li>Archive - rarely accessed, stored for at least 180 days: lowest storage cost and highest access cost. Data is stored off-line and will take several hours before the first byte is avaiable. If data is removed before 180 days, it will incur early deletion charges. </li>
+<li>Premium Blob Storage: uses SSDs for I/O intensive workloads</li>
+</ul>
+</li>
+<li>Lifecycle rules<ul>
+<li>transition blobs to cooler storage and/or deletion</li>
+<li>define daily rule-based conditions to run at the Storage Account level</li>
+<li>apply rule-based conditions to containers or sets of blobs</li>
+</ul>
+</li>
+<li>Replication<ul>
+<li>define a replication policy from one storage account to another</li>
+<li>both source and destination must be in the Hot or Cool tier - but they don't need to be in the same tier</li>
+<li>requires blob versioning enabled on source and destination</li>
+<li>doesn't support replication for blob snapshots</li>
+<li>replication can be used to reduce access latency, by keeping copies closer to end-users</li>
+<li>can support compute workloads by allowing the same set of blobs to be accessed in different regions</li>
+</ul>
+</li>
+</ul>
+<p>There are several options for uploading Blob Data:</p>
+<ul>
+<li>Storage Explorer</li>
+<li>AzCopy</li>
+<li>Azure Data Factory</li>
+<li>Azure Storage Data Movement library (.Net)</li>
+<li>blobfuse (linux filesytem support)</li>
+<li>Azure Data Box Disk</li>
+<li>Azure Import/Export (using WAImport Tool to copy files to disk)</li>
+</ul>
+<h2 id="azure-disks">Azure Disks</h2>
+<p>Persistent block storage for Azure VMs: data disks have a maximum capacity of around 32 TB</p>
+<h2 id="azure-data-lake">Azure Data Lake</h2>
+<p>Azure Data Lake is the Hadoop Distributed Flie System (HDFS) as a service</p>
+<h2 id="azure-file-storage">Azure File Storage</h2>
+<p>Azure File Storage provides cloud-hosted file shares. Files can be accessed using SMB or NFS from 
+on-prem or VMs in Azure. Scripts to connect a file share to a local machine or VM can be
+downloaded using the 'Connect' link on the file share blade in the Azure Portal. </p>
+<p>Files are encrypted at rest, and SMB ensures encryption in transit. 
+Files can be access using a URL or SAS URL token. </p>
+<ul>
+<li>Ideal for:<ul>
+<li>Applications that use file shares</li>
+<li>Sharing files between VMs or Users</li>
+</ul>
+</li>
+</ul>
+<p>File Shares are accessed on port 445 - so this needs to be enabled in your firewall. When
+creating the file share, the 'enable secure transfer' enforces encryption during data 
+transfers.</p>
+<p>Azure Files provides capablility to take snapshots of file shares to create a point-in-time, 
+read-only copy of the file share. Share snapshots are incremental, recording only changes
+that were made since the last snapshot. Although the snapshots are incremental, you only need
+the save the most recent snapshot to recover a file or share. To delete a share that has 
+snapshots, you must first delete all snapshots. </p>
+<p>Azure File Sync enables you to cache several Azure Files shares on an on-prem Windows server or 
+cloud VM. You can then access the files via the server cache using the protocols supported on 
+the server. Azure File Sync allows you to cache the shares on an many servers as required. 
+Cloud tiering is a feature that allows you to define policies to control which files are
+stored locally and which are kept in Azure Files. Files that are not stored locally are 
+replaced with a pointer (URL to the file in Azure). Tiered files are retrieved on-demand
+from Azure as needed. Azure File Sync can be used to:</p>
+<ul>
+<li>Provide write access to the same data across Windows Servers and Azure Files</li>
+<li>Store backup files</li>
+<li>Provide DR storage</li>
+<li>Archiving files to Azure with Cloud Sync</li>
+</ul>
+<p>Azure File Sync comprises six main components:</p>
+<ol>
+<li>Storage Sync Service: forms sync relationships with Storage Accounts</li>
+<li>Sync Group: defines the endpoints (local:Azure) for the sync</li>
+<li>Registered Server: a local server that is trusted by the Sync Service</li>
+<li>Azure File Sync Agent: Package installed on the local server to enable synchronisation with Azure</li>
+<li>Server Endpoint: represents a particular location on the local server that is to be synchronised with Azure Files</li>
+<li>Cloud Endpoint: an Azure Files share that the server endpoint is to be synchronised to. </li>
+</ol>
+<p>The Azure Files share can be a member of only one Sync Group and only one Cloud Endpoint. A server
+can be registered with only one Cloud Sync Service resource at a time.</p>
+<p>Deploy Azure File Sync</p>
+<ol>
+<li>Deploy the Storage Sync Service on Azure</li>
+<li>Install the Azure File Sync Agent on your local Windows Server</li>
+<li>Register the local server to the Storage Sync Service (establishes the trust relationship)</li>
+</ol>
+<h2 id="azure-queue-storage">Azure Queue Storage</h2>
+<p>Azure Queue Storage is used to store and retrieve messages. Queue messages can be up to 64KB and
+each queue can hold millions of messages. Queues can be used to store lists of messages 
+to be processed asynchronously.</p>
+<p>You can use a queue in conjuction with Azure Functions to respond to a user action. For example, 
+every time a new file is added to a storage container, you can write a message to the queue. 
+An Azure Function can then retrieve the message and run a custom action. </p>
+<h2 id="azure-table-storage">Azure Table Storage</h2>
+<p>Azure Table Storage is now part of Azure Cosmos DB, a fully-managed, NoSQL database service. In 
+addition to the Azure Table Storage service, there's an Azure Cosmos DB Table API offering 
+throughput-optimised tables, global distribution and automatic secondary indexes. </p>
+<p>Table Storage is ideal for storing structured or relational data. </p>
+<h2 id="azure-importexport-service">Azure Import/Export Service</h2>
+<p>Used to securely export data from on-prem to Azure Storage by sending 
+disks to an Azure Data Centre or to import data from Azure Storage to 
+disks which are then sent to on-prem. </p>
+<h3 id="create-an-import-job">Create an Import Job:</h3>
+<ul>
+<li>Create a Storage Account in Azure for the Import Job</li>
+<li>Attach the disks to be used to an on-prem server</li>
+<li>Install the WAImportExport tool on the server</li>
+<li>Run WAImportExport tool to copy the data to the disks</li>
+<li>Create an Import Job in Azure Portal </li>
+<li>Ship the disks to the Azure Data Centre</li>
+</ul>
+<h3 id="create-an-export-job">Create an Export Job:</h3>
+<ul>
+<li>Determine number of disks required to the Export Job</li>
+<li>Create an Export Job in Azure Portal</li>
+<li>Ship the disks to the Data Centre</li>
+<li>Disks are returned with the required data </li>
+</ul>
+<h2 id="data-box">Data Box</h2>
+<ul>
+<li>Data Box is a physical storage device with a maximum capacity of 80TB</li>
+<li>Use device to copy data to or from Azure Storage</li>
+<li>Data Box can be used for: <ul>
+<li>One-time migration - for large (&gt;40TB) datasets</li>
+<li>Initial bulk transfer - followed by incremental loads over the network or with Data Box Gateway</li>
+<li>Periodic Uploads - where network connectivity is limited</li>
+</ul>
+</li>
+</ul>
+<p>Data Box Gateway is a service that allows you to securely transfer large amounts of data to and from Data Box</p>
+<ul>
+<li>Data Box Gateway consists of: <ul>
+<li>a virtual device hosted on-prem</li>
+<li>a gateway resource on Azure</li>
+<li>a local Web UI for management and support</li>
+</ul>
+</li>
+<li>Files can be copied to the gateway using SMB or NFS</li>
+<li>Files written to the Gateway are transferred to Azure Storage</li>
+<li>Data Box Gateway can be used to:<ul>
+<li>Cloud Archival - copy 100s TBs of data to Azure Storage</li>
+<li>Continuous Data Ingestion</li>
+<li>Incremental Transfers following a Bulk Transfer - incremental loads after an initial Data Box load</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2618 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/cli_commands/">
+      
+      
+        <link rel="prev" href="../az104/">
+      
+      
+        <link rel="next" href="../aad/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>CLI Commands - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#azure-cli-commands" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI Commands
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../az104/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jmes-query-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      JMES Query Syntax
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compute
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-arm-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploying ARM Templates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aad" class="md-nav__link">
+    <span class="md-ellipsis">
+      AAD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-vaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Vaults
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Load Balancer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Monitor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Defaults
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/git_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jmes-query-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      JMES Query Syntax
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Login
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compute
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploying-arm-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploying ARM Templates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aad" class="md-nav__link">
+    <span class="md-ellipsis">
+      AAD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-vaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Vaults
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Load Balancer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azure-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Monitor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Defaults
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="azure-cli-commands">Azure CLI Commands</h1>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://techcommunity.microsoft.com/t5/itops-talk-blog/how-to-query-azure-resources-using-the-azure-cli/ba-p/360147">How to query Azure resources using the Azure CLI</a></li>
+<li><a href="http://jmespath.org/tutorial.html">JMES Query Tutorial</a></li>
+</ul>
+<h2 id="jmes-query-syntax">JMES Query Syntax</h2>
+<p>By default, Azure CLI queries return JSON output. You can change the output format
+using the --output switch. Typical values are either 'table' or 'tsv'.</p>
+<p>The query option can be used to filter the fields returned. Where a command 
+returns a single row in table output, you can query by field name</p>
+<pre><code class="language-bash">az account show --query id
+</code></pre>
+<p>For commands returning more than one row or object, you need to use the 'flatten' operator in the query</p>
+<pre><code class="language-bash">az account list --query [].id -o table
+</code></pre>
+<p>To return multiple values in the output, specify these in a comma separated list:</p>
+<pre><code class="language-bash">az account list --query [].[id,name] -o table
+</code></pre>
+<p>You can rename the columns by specifying a dictionary instead of an array: note that the query is now in double-quotes:</p>
+<pre><code class="language-bash">az account list \
+    --query &quot;[].{Subscription:id,Name:name}&quot; \
+    -o table
+</code></pre>
+<p>You can also specify an index value to return a specific row: indexes begin at 0 for the first element:</p>
+<pre><code class="language-bash">az account list \
+    --query &quot;[1].{Subscription:id,Name:name}&quot; \
+    -o table
+</code></pre>
+<p>An array slice can also be used:</p>
+<pre><code class="language-bash">az account list \
+    --query &quot;[1:4].{Subscription:id,Name:name}&quot; \
+    -o table
+</code></pre>
+<p>The slice specification equates to: "return the element at index 1 and all 
+elements up to, but not including, the element at index 4". Three elements (4 - 1) are returned </p>
+<p>In addition to using array indexing, you can filter the results using filter 
+expressions:</p>
+<pre><code class="language-bash">az account list \
+    --query &quot;[?name == 'mySubscription'].{Subscription:id,Name:name}&quot; \
+    -o table`
+
+az account list \
+    --query &quot;[?contains(name, 'sub')].{Subscription:id,Name:name}&quot; \
+    -o table`
+</code></pre>
+<p>So far we've been selecting fields that return a scalar value. However some 
+fields will be dictionaries: use the dot operator to select a single element 
+from each dictionary:</p>
+<pre><code class="language-bash">az account list --query &quot;[].[user.type]&quot; -o table`
+</code></pre>
+<p>If the query returns a single row, you can use the tsv output format to 
+assign the value to a variable or to directly use the value in a command:</p>
+<pre><code class="language-bash">SUB=$(az account list --query &quot;[?contains(name, 'research')].[id]&quot; -o tsv)
+az account set --subscription $SUB
+
+az account set --subscription $(az account list --query &quot;[?contains(name, 'research')].[id]&quot; -o tsv)
+</code></pre>
+<p>For multiple rows of single values, you can pipe the output to xargs, to perform the same 
+command multiple times:</p>
+<pre><code class="language-bash">az group list --query &quot;[?starts_with(name,'az104-03')].[name]&quot; --output tsv | \
+xargs -L1 bash -c 'az group delete --name $0 --no-wait --yes'
+</code></pre>
+<p>You can capture multiple values in an ENV variable and use a foreach loop to iterate:</p>
+<pre><code class="language-bash">VM_NAMES=$(az vm list --query [].[name] -o tsv)
+for n in $VM_NAMES; do echo &quot;on $n now&quot;; done
+</code></pre>
+<p>Or you can capture the output in an array, by enclosing the rvalue in round brackets:</p>
+<pre><code class="language-bash">SUB=($(az account show --query [id, name] -o tsv))
+echo &quot;ID: ${SUB[0]}&quot;
+echo &quot;Name: ${SUB[1]}&quot;
+</code></pre>
+<p>Replace placeholder data in an environment variable:</p>
+<pre><code class="language-bash">JSON_DATA=$(cat somejsonfile.json)
+
+# replace &lt;name&gt; with 'Example Text'
+JSON_DATA=${JSON_DATA//&lt;name&gt;/Example Text}
+</code></pre>
+<h2 id="rest-api">REST API</h2>
+<p>The <code>az rest</code> command can be used to send queries directly to ARM:</p>
+<pre><code class="language-bash">CONF=$(az rest --method GET --url https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/xx-xxxxxxxxxx/providers/Microsoft.Network/virtualNetworks/xxx-xxxxxxxxxxx?api-version=2020-07-01)
+echo $CONF
+az rest --method PUT --body $CONF --url https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/xx-xxxxxxxxxx/providers/Microsoft.Network/virtualNetworks/xxxx-xxxxxxxxxx?api-version=2020-07-01
+</code></pre>
+<p>Whilst the value for the <code>url</code> parameter should be possible to construct manually, you can also 
+find the value in the 'Overview' pane for the resource in the Azure Portal, and switching to 
+'JSON View'. You can also find the value by logging-in to resources.azure.com and browsing to the 
+resource. </p>
+<h2 id="login">Login</h2>
+<p>The <code>az login</code> command can be used to authenticate to Azure. Without any additional
+parameters, the command will attempt to launch a browser to complete an interactive
+logon. If no browser is available, then the command defaults back to the old-style
+device-code logon. Use the <code>--use-device-code</code> logon switch to force old-style 
+device-code logon.</p>
+<p>The <code>--allow-no-subscriptions</code> parameter can be used for tenant-level access. The 
+<code>--tenant</code> option allows you to specify the tenant to logon to. </p>
+<h2 id="compute">Compute</h2>
+<p>The <code>--admin-username</code> parameter of <code>az vm create</code> is used to specify a username for the VM: if 
+not provided, then the username on your local machine is used. The <code>--generate-ssh-keys</code> will 
+create <code>id_rsa</code> key pairs on the local and remote machines. If these already exist on the local 
+machine they will be copied to the remote instead being created.</p>
+<p><code>az vm image list</code> can be used to get a list of VM images available. By default this will display
+the most popular images. Use the <code>--all</code> flag to get a complete list. You can also filter the
+results using <code>--publisher</code>, <code>--sku</code>, <code>--offer</code> flags. Use the <code>--location</code> filter to view offers
+that are available in the region you wish to deploy to. </p>
+<p>Use <code>az vm list-sizes --location $LOCATION -o table</code> to list the available machine sizes 
+for your region. If you don't specify the <code>--size</code> parameter in your <code>az vm create</code> command, 
+Azure will select a default general-purpose size for you. If you wish to resize an existing
+VM, you can use the following command to check available sizes for cluster the VM is deployed
+to: </p>
+<pre><code class="language-bash">az vm list-vm-resize-options \
+    --resource-group learn-6e62a4e5-3f38-4461-aa16-2a0149360363 \
+    --name SampleVM \
+    --output table
+</code></pre>
+<p>Once you have identified the desired VM size, run <code>az vm resize</code> to resize the VM.</p>
+<p>Use <code>az vm list-ip-addresses</code> to list the IP Addresses associated to a VM. </p>
+<p><code>az vm list</code> will return information about all VMs in the current subscription. Use <code>az vm show</code> to
+get more detailed information about a specific VM. </p>
+<p><code>az vm open-port --port $port_number</code> to open a port on a running VM. </p>
+<p>Check the power status of a VM:</p>
+<pre><code class="language-bash">az vm get-instance-view \
+    --name $VM_NAME\
+    --resource-group $RG_NAME \
+    --query &quot;instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus&quot; -o tsv
+</code></pre>
+<h2 id="storage">Storage</h2>
+<p>Create a storage account and container</p>
+<pre><code class="language-bash">RESOURCE_GROUP_NAME={{ page.resgroup }}
+LOCATION=uksouth
+STORAGE_ACCOUNT_NAME={{ page.stgname }}
+CONTAINER_NAME={{ page.containername }}
+
+az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
+
+az storage account create \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS \
+    --encryption-services blob
+
+az storage container create \
+    --name $CONTAINER_NAME \
+    --account-name $STORAGE_ACCOUNT_NAME
+</code></pre>
+<p>Upload a file to blob storage:</p>
+<pre><code class="language-bash">az storage blob upload \
+    --account-name $STORAGE_ACCOUNT_NAME \
+    --container-name $CONTAINER_NAME \
+    --file $FILE_NAME --name $CONTAINER_FILE
+</code></pre>
+<p>Upload a folder to blob storage:</p>
+<pre><code class="language-bash">az storage blob upload-batch \
+    --destination $CONTAINER_NAME \
+    --account-name $STORAGE_ACCOUNT_NAME \
+    --destination-path $CONTAINER_FOLDER \
+    --source $LOCAL_FOLDER
+</code></pre>
+<p>List Storage Account keys:</p>
+<pre><code class="language-bash">az storage account keys list --account-name $STORAGE_ACCOUNT_NAME`
+</code></pre>
+<p>Generate and capture SAS keys to access a storage container:</p>
+<pre><code class="language-bash">ACCOUNT_KEY=$(az storage account keys list \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --account-name $STORAGE_ACCOUNT_NAME 
+    --query '[0].value' -o tsv)
+
+END_DATE=date -u -d &quot;1 year&quot; '+%Y-%m-%dT%H:%MZ'
+
+SAS_KEY=$(az storage container generate-sas \
+    -n $CONTAINER_NAME \
+    --account-key $ACCOUNT_KEY \
+    --account-name $STORAGE_ACCOUNT_NAME \
+    --https-only \
+    --permissions dlrw \
+    --expiry $END_DATE -o tsv)
+</code></pre>
+<p>The 'azcopy' command can also be used to move data quickly into and out of Azure 
+Storage Accounts. Logon to Azure:</p>
+<pre><code class="language-bash">azcopy login
+</code></pre>
+<p>Create a container:</p>
+<pre><code class="language-bash">azcopy make 'https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}'
+</code></pre>
+<p>Copy a folder to the container (creates the <em>data_folder</em> folder in the target container):</p>
+<pre><code class="language-bash">azcopy copy '/data/data_folder' \
+    'https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${CONTAINER_NAME}'
+</code></pre>
+<h2 id="deploying-arm-templates">Deploying ARM Templates</h2>
+<p>Deploy infrastructure from an ARM Template:</p>
+<pre><code class="language-bash">RESOURCE_GROUP=$RESOURCE_GROUP_NAME
+TEMPLATE_FILE=/path/to/template.json
+
+az group deployment create \
+    --name blanktemplate \
+    --resource-group $RESOURCE_GROUP \
+    --template-file $TEMPLATE_FILE
+</code></pre>
+<p>Sample Templates are available from the <a href="https://github.com/Azure/azure-quickstart-templates">Azure Quickstart Repo</a></p>
+<p>You can start with a blank template:</p>
+<pre><code class="language-json">{
+    &quot;$schema&quot;: &quot;https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {},
+    &quot;functions&quot;: [],
+    &quot;variables&quot;: {},
+    &quot;resources&quot;: [],
+    &quot;outputs&quot;: {}
+}
+</code></pre>
+<p>You can then add resources as you expand the deployment. For instance to add a storage account, 
+add a storage account resource to the template:</p>
+<pre><code class="language-json">&quot;resources&quot;: [{
+    &quot;name&quot;: &quot;learn132uksstorage&quot;,
+    &quot;type&quot;: &quot;Microsoft.Storage/storageAccounts&quot;,
+    &quot;apiVersion&quot;: &quot;2021-04-01&quot;,
+    &quot;tags&quot;: {
+        &quot;displayName&quot;: &quot;learn132uksstorage&quot;
+    },
+    &quot;location&quot;: &quot;[resourceGroup().location]&quot;,
+    &quot;kind&quot;: &quot;StorageV2&quot;,
+    &quot;sku&quot;: {
+        &quot;name&quot;: &quot;Standard_LRS&quot;,
+        &quot;tier&quot;: &quot;Standard&quot;
+    }
+    &quot;properties&quot;: {
+        &quot;supportsHttpsTrafficOnly&quot;: true
+    }
+}],
+</code></pre>
+<p>Then you can create a new deployment using:</p>
+<pre><code class="language-bash">templateFile=&quot;azuredeploy.json&quot;
+today=$(date +&quot;%d-%b-%Y&quot;)
+DeploymentName=&quot;addstorage-&quot;$today
+
+az deployment group create \
+    --name $DeploymentName \
+    --resource-group $RESOURCE_GROUP \
+    --template-file $templateFile
+</code></pre>
+<p>You can make your template re-useable by using parameters instead of hard-coded values. For instance,
+to use a parameter to specify the Storage Account type, add the following parameter to the parameters
+section:</p>
+<pre><code class="language-json">&quot;parameters&quot;:{
+    &quot;storageAccountType&quot;: {
+        &quot;type&quot;: &quot;string&quot;,
+        &quot;defaultValue&quot;: &quot;Standard_LRS&quot;,
+        &quot;allowedValues&quot;: [
+            &quot;Standard_LRS&quot;,
+            &quot;Standard_GRS&quot;,
+            &quot;Standard_ZRS&quot;,
+            &quot;Premium_LRS&quot;
+        ],
+        &quot;metadata&quot;: {
+            &quot;description&quot;: &quot;Storage Account type&quot;
+        }
+    },
+},
+</code></pre>
+<p>Then replace the hard-coded value for the Storage Account type:</p>
+<pre><code class="language-json">&quot;resources&quot;: [{
+    &quot;name&quot;: &quot;learn132uksstorage&quot;,
+    &quot;type&quot;: &quot;Microsoft.Storage/storageAccounts&quot;,
+    &quot;apiVersion&quot;: &quot;2021-04-01&quot;,
+    &quot;tags&quot;: {
+        &quot;displayName&quot;: &quot;learn132uksstorage&quot;
+    },
+    &quot;location&quot;: &quot;[resourceGroup().location]&quot;,
+    &quot;kind&quot;: &quot;StorageV2&quot;,
+    &quot;sku&quot;: {
+        &quot;name&quot;: &quot;[parameters('storageAccountType')]&quot;
+    }
+    &quot;properties&quot;: {
+        &quot;supportsHttpsTrafficOnly&quot;: true
+    }
+}],
+</code></pre>
+<p>When you deploy the template, you can give a value for the parameter, otherwise the default value
+is used:</p>
+<pre><code class="language-bash">templateFile=&quot;azuredeploy.json&quot;
+today=$(date +&quot;%d-%b-%Y&quot;)
+DeploymentName=&quot;use-stg-parameter-&quot;$today
+
+az deployment group create \
+    --name $DeploymentName \
+    --resource-group $RESOURCE_GROUP \
+    --template-file $templateFile
+    --parameters storageAccountType=Standard_LRS
+</code></pre>
+<p>Template deployments also allow you to specify outputs that will be returned after a successful 
+deployment. The reference() function can be used to retrieve the runtime state of the resource:</p>
+<pre><code class="language-json">&quot;outputs&quot;: {
+    &quot;storageEndpoint&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;value&quot;: &quot;[reference('learntemplatestorage123').primaryEndpoints]&quot;
+    }
+}
+</code></pre>
+<p>We can also add a parameter for the Storage Account Name, and additionally specify allowed values for
+any of our parameters. A completed ARM template could now look something like this:</p>
+<pre><code class="language-json">{
+    &quot;$schema&quot;: &quot;https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#&quot;,
+    &quot;contentVersion&quot;: &quot;1.0.0.0&quot;,
+    &quot;parameters&quot;: {
+        &quot;storageName&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;minLength&quot;: 3,
+            &quot;maxLength&quot;: 24,
+            &quot;metadata&quot;: {
+            &quot;description&quot;: &quot;The name of the Azure storage resource&quot;
+            }
+        },
+        // This is the allowed values for an Azure Storage account
+        &quot;storageSKU&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;defaultValue&quot;: &quot;Standard_LRS&quot;,
+            &quot;allowedValues&quot;: [
+                &quot;Standard_LRS&quot;,
+                &quot;Standard_GRS&quot;,
+                &quot;Standard_RAGRS&quot;,
+                &quot;Standard_ZRS&quot;,
+                &quot;Premium_LRS&quot;,
+                &quot;Standard_GZRS&quot;,
+                &quot;Standard_RAGZRS&quot;
+            ],
+            &quot;metadata&quot;: {
+                &quot;description&quot;: &quot;Allowed SKUs for Storage Accounts&quot;
+            }
+        }
+    },
+    &quot;functions&quot;: [],
+    &quot;variables&quot;: {},
+    &quot;resources&quot;: [{
+        &quot;name&quot;: &quot;[parameters('storageName')]&quot;,
+        &quot;type&quot;: &quot;Microsoft.Storage/storageAccounts&quot;,
+        &quot;apiVersion&quot;: &quot;2021-04-01&quot;,
+        &quot;tags&quot;: {
+            &quot;displayName&quot;: &quot;[parameters('storageName')]&quot;
+        },
+        &quot;location&quot;: &quot;[resourceGroup().location]&quot;,
+        &quot;kind&quot;: &quot;StorageV2&quot;,
+        &quot;sku&quot;: {
+            &quot;name&quot;: &quot;[parameters('storageSKU')]&quot;,
+            &quot;tier&quot;: &quot;Standard&quot;
+        }
+    }],
+    &quot;outputs&quot;: {
+        &quot;storageEndpoint&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;value&quot;: &quot;[reference(parameters('storageName')).primaryEndpoints]&quot;
+        }
+    }
+}
+</code></pre>
+<h2 id="aad">AAD</h2>
+<p>Get a list of users by Job Title:</p>
+<pre><code class="language-bash">az ad user list \
+    --query &quot;[?jobTitle=='Manager'].{ department: department, name: displayName, jobTitle: jobTitle, pname: userPrincipalName }&quot; \
+    --output table
+</code></pre>
+<p>List AD Groups by displayName:</p>
+<pre><code class="language-bash">az ad group list \
+    --query &quot;[?contains(displayName,'Education')].{ name: displayName }&quot; \
+    --output tsv
+</code></pre>
+<p>List members of the Education Department AD Group:</p>
+<pre><code class="language-bash">az ad group member list \
+    --group &quot;Education Department&quot; \
+    --query &quot;[].{ name: displayName }&quot; \
+    --output tsv
+</code></pre>
+<p>Create a service principal with Contributor role on the specified subscription:</p>
+<pre><code>az ad sp create-for-rbac \
+--scopes /subscriptions/$SUBSCRIPTION_ID \
+--role Contributor --name $SP_NAME
+</code></pre>
+<p>Grant keyvault permissions to a service principal:</p>
+<pre><code>SP_OBJECT_ID=$(az ad sp list --display-name $SERVICE_PRINCIPAL --query [].objectId -o tsv)
+az keyvault set-policy --name $KEYVAULT_NAME \
+--secret-permissions get list --object-id $SP_OBJECT_ID
+</code></pre>
+<h2 id="key-vaults">Key Vaults</h2>
+<p>Create a Key Vault and add a secret:</p>
+<pre><code class="language-bash">az keyvault create --name $KEYVAULT_NAME \
+    --resource-group $RESOURCE_GROUP_NAME \
+    --location $LOCATION --tags $TAG_VALUE
+
+az keyvault secret set \
+    --vault-name $KEYVAULT_NAME \
+    --name client-id --value $SECRET_VALUE
+</code></pre>
+<h2 id="azure-load-balancer">Azure Load Balancer</h2>
+<p>Create a Load Balancer with a static front-end IP:</p>
+<pre><code class="language-bash">RG=my_resource_group
+Public_IP=pip-lb-uksouth
+
+az network public-ip create --resource-group $RG \
+    --allocation-method Static --name $Public_IP
+
+az network lb create --resource-group $RG \
+    --name myLoadBalancer \
+    --public-ip-address $Public_IP \
+    --frontend-ip-name myFrontEndPool \
+    --backend-pool-name myBackEndPool
+</code></pre>
+<p>Add a health probe and a distribution rule for http traffic:</p>
+<pre><code class="language-bash">az network lb probe create \
+    --resource-group $RG \
+    --lb-name myLoadBalancer \
+    --name myHealthProbe \
+    --protocol tcp \
+    --port 80
+
+az network lb rule create \
+    --resource-group $RG \
+    --lb-name myLoadBalancer \
+    --name myHTTPRule \
+    --protocol tcp \
+    --frontend-port 80 \
+    --backend-port 80 \
+    --frontend-ip-name myFrontEndPool \
+    --backend-pool-name myBackEndPool \
+    --probe-name myHealthProbe
+</code></pre>
+<p>Connect two VMs to the Back-End pool:</p>
+<pre><code class="language-bash">az network nic ip-config update \
+    --resource-group $RG \
+    --nic-name webNic1 \
+    --name ipconfig1 \
+    --lb-name myLoadBalancer \
+    --lb-address-pools myBackEndPool
+
+az network nic ip-config update \
+    --resource-group $RG \
+    --nic-name webNic2 \
+    --name ipconfig1 \
+    --lb-name myLoadBalancer \
+    --lb-address-pools myBackEndPool
+</code></pre>
+<h2 id="azure-monitor">Azure Monitor</h2>
+<p>Configure an alert for a VM when the CPU usage exceeds 80%:</p>
+<pre><code class="language-bash">RG=my_resource_group
+VM=my_vm
+
+VMID=$(az vm show \
+        --resource-group $RG \
+        --name $VM \
+        --query id \
+        --output tsv)
+
+az monitor metrics alert create -n &quot;Cpu80PercentAlert&quot; \
+    --resource-group $RG \
+    --scopes $VMID \
+    --condition &quot;max percentage CPU &gt; 80&quot; \
+    --description &quot;Virtual machine is running at or greater than 80% CPU utilization&quot; \
+    --evaluation-frequency 1m \
+    --window-size 10m \
+    --severity 3
+</code></pre>
+<h2 id="configure-defaults">Configure Defaults</h2>
+<p>The <code>az configure</code> command can be used to set and unset default parameter values. To set
+a default resource group for each az command use:</p>
+<p><code>az configure --defaults group=$RESOURCE_GROUP</code></p>
+<p>To unset the default use:</p>
+<p><code>az configure --defaults group=''</code></p>
+<p>To list current defaults use:</p>
+<p><code>az configure --list-defaults</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

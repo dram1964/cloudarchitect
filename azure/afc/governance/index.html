@@ -1,0 +1,2304 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/afc/governance/">
+      
+      
+        <link rel="prev" href="../security/">
+      
+      
+        <link rel="next" href="../costs/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Governance - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#identity-and-governance" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Governance
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../az104/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#azure-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure AD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Governance
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/git_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../devops/terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#azure-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure AD
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Governance
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="identity-and-governance">Identity and Governance</h1>
+<h2 id="azure-ad">Azure AD</h2>
+<p>With Cloud Computing and BYOD, identity is now the primary security boundary. Identity is 
+establish by the exchange of credentials to establish the identity of an agent 
+(authentication). Authorisation is about establishing the levels of access to be granted
+to an authenticated agent.</p>
+<ul>
+<li>Azure AD is a cloud-based identity and access management service (SaaS)</li>
+<li>AAD can be used to grant access to Azure Portal, Microsoft 365 and thousands of other SaaS applications</li>
+<li>A Tenant is a representation of an organisation. Each Microsoft 365, Office 365, Azure and Dynamics CRM tenant is automatically an Azure tenant</li>
+<li>An instance of Azure AD is created for each tenant</li>
+<li>Additional tenants can be created from the AAD Overview page</li>
+<li>Custom domain names can be added in addtion to the default <code>$ORG_NAME.onmicrosoft.com</code>. The custom domain should be registered with a domain name registrar</li>
+<li>
+<p>Azure AD is available with different licences:</p>
+<ul>
+<li>AAD Free<ul>
+<li>user and group management</li>
+<li>on-prem directory synchronisation</li>
+<li>basic reports</li>
+<li>self-service password change for cloud users</li>
+<li>SSO across Azure, M365 and many popular SaaS apps</li>
+<li>Included with any Microsoft Online business service</li>
+</ul>
+</li>
+<li>AAD Premium P1<ul>
+<li>paid licence built on top of existing free directory</li>
+<li>create custom RBAC roles</li>
+<li>grant hybrid users access to both on-prem and cloud resources</li>
+<li>dynamic groups</li>
+<li>self-service group management</li>
+<li>Microsoft Identity Manager</li>
+<li>Cloud write-back capabilities allows self-service password reset for your on-prem users</li>
+</ul>
+</li>
+<li>AAD Premium P2<ul>
+<li>paid licence built on top of AAD P1</li>
+<li>AAD Identity Protection:<ul>
+<li>risk-based Conditional Access</li>
+<li>Privileged Identity Management</li>
+<li>Just-In-Time access</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>"Pay as you go" feature licences. Additional features such as Business-to-Customer (B2C) provide IAM for customer-facing apps</li>
+</ul>
+</li>
+<li>
+<p>The AAD Architecture consists of </p>
+<ul>
+<li>A primary replica that receives all write operations for the partition it belongs to. The write operation is immeadiately replicated to a secondary replica in a different data centre before returning success to the caller</li>
+<li>Secondary replicas are used to service all directory reads. Secondary replicas are distributed across different geographies. Data is replicated asynchronously. Directory reads are serviced from data centres that are closest to the customer</li>
+</ul>
+</li>
+<li>Write scalability is achieved by partitioning the data. Read scalability is achieved by having multiple secondary replicas</li>
+<li>High availability is guaranteed by the services ability to shift traffic across multiple geographically distributed data centres</li>
+<li>If a failure occurs on a primary replica, writes are immeadiately shifted to another replica. This can result in a 1-2 minute loss of write availability.</li>
+<li>
+<p>Azure AD holds objects known as security principles. These can be one of the following types:</p>
+<ul>
+<li>Users: can be a member of the tenants Azure AD or a guest. Guests can be B2B (business-to-business) or B2C (third-party identity provider)</li>
+<li>Application Service Principal: represents the identity of a service or application in Azure</li>
+<li>Managed Identity Service Principal: used by services or applications in place of a user identity. Can be either system-assigned or user-assigned</li>
+<li>Device: a device identity</li>
+</ul>
+</li>
+<li>
+<p>Azure AD provides:</p>
+<ul>
+<li>Authentication: includes self-service password resets, MFA, smart-lockout, password blacklist</li>
+<li>SSO</li>
+<li>Application Management</li>
+<li>Device Management</li>
+</ul>
+</li>
+<li>
+<p>Conditional access allows or denies access to resources based on <i>signals</i>: identity, location, service requested, device, device security status. Conditional Access requires an Azure AD Premium P1 or P2 licence. Signals could result in the logon attempt requiring MFA</p>
+</li>
+<li>
+<p>Azure AD Connect</p>
+<ul>
+<li>Free download tool used to synchronise user identities between on-prem Active Directory and Azure AD</li>
+</ul>
+</li>
+</ul>
+<h2 id="governance">Governance</h2>
+<p>Governance is the process of establishing and enforcing rules and policies</p>
+<ul>
+<li>Azure RBAC<ul>
+<li>Role-Based Access Control</li>
+<li>Pre-defined roles defining access-levels to resources</li>
+<li>Uses an allow model: roles define what is <strong>allowed</strong></li>
+<li>Roles assigned to principals within a scope:<ul>
+<li>management group</li>
+<li>subscription</li>
+<li>resource group</li>
+<li>resource</li>
+</ul>
+</li>
+<li>Enforced against any action on a resource that is initiated through Resource Manager</li>
+<li>Does not apply at the application or data levels</li>
+<li>It is good practice to assign users to groups and then assign RBAC roles to the group, rather than assign roles directly to user accounts</li>
+</ul>
+</li>
+<li>Resource Locks<ul>
+<li>Prevents resources being accidentally deleted or modified</li>
+<li>Accessible from the 'Locks' pane in the Azure Portal</li>
+<li>Resource locks are inherited by child objects if these exist</li>
+<li>Two lock-types available<ul>
+<li>CanNotDelete - prevents deletion</li>
+<li>Read - prevents deletion or modification</li>
+</ul>
+</li>
+<li>Read locks can be used on resource groups to prevent additional resources being deployed</li>
+</ul>
+</li>
+<li>Resource Tags<ul>
+<li>Provide Metadata about a resource</li>
+<li>Up to 15 tags allowed per resource</li>
+<li>Tags can be used for:<ul>
+<li>Resource Management</li>
+<li>Billing and Cost Management</li>
+<li>Operations Management (SLAs)</li>
+<li>Security level</li>
+<li>Governance and Compliance</li>
+<li>Visualise complex workloads</li>
+</ul>
+</li>
+<li>Azure Policy can be used to force resources to inherit tags from their resource group</li>
+</ul>
+</li>
+<li>Azure Policy<ul>
+<li>Used to define policies that control or audit your resources</li>
+<li>Groups of policies are called <strong>initiatives</strong></li>
+<li>Policy definitions are assigned to a scope:<ul>
+<li>management group</li>
+<li>subscription</li>
+<li>resource group</li>
+</ul>
+</li>
+<li>Policy assignments are inherited by all child resources in the assignment scope</li>
+<li>Initiatives can be defined in Azure Portal or via command-line tools</li>
+<li>New policies can be added to an initiative, and these will be applied without the need to re-assign the initiative</li>
+</ul>
+</li>
+<li>Azure Blueprints<ul>
+<li>Azure Blueprints allow for the definition of controls at the organisational level</li>
+<li>Each component in a blueprint is termed an <strong>artifact</strong></li>
+<li>Blueprints ochestrate deployments and can include the following types of artifacts:<ul>
+<li>Role assignments</li>
+<li>Policy assignments</li>
+<li>ARM templates</li>
+<li>Resource groups</li>
+</ul>
+</li>
+<li>Artifacts can have zero or more parameters</li>
+<li>Parameter values can be set in the definition or during assignment</li>
+<li>Several Blueprints exist for ISO 27001</li>
+<li>Blueprints are backed by the globally available Cosmos DB</li>
+<li>Unlike ARM templates, Blueprint definitions exist natively in Azure. The relationship between the definition and the assignment is preserved</li>
+<li>When defining a Blueprint, you will also specify the location to save it to: either a Management Group or Subscription</li>
+<li>Blueprint definitions begin in draft mode. Before they can be assigned they need to be published</li>
+<li>Publishing involves assigning a Version string (up to 20 characters)</li>
+<li>Each version of a single Blueprint can be assigned and different versions of the same Blueprint can be assigned to a subscription</li>
+<li>When a published Blueprint is altered the original version is retained, along with unpublished changes. When the changes are published a new Version is assigned to the Blueprint definition</li>
+<li>Blueprints can be assigned at the Management Group level but this needs to be done using the <a href="https://docs.microsoft.com/en-us/rest/api/blueprints/assignments/create-or-update?tabs=HTTP" target="#">REST API</a></li>
+<li>Blueprint creation requires the following roles:<ul>
+<li>Microsoft.Blueprint/blueprints/write - Create a blueprint definition</li>
+<li>Microsoft.Blueprint/blueprints/artifacts/write - Create artifacts on a blueprint definition</li>
+<li>Microsoft.Blueprint/blueprints/versions/write - Publish a blueprint</li>
+</ul>
+</li>
+<li>Blueprint deletion requires the following roles:<ul>
+<li>Microsoft.Blueprint/blueprints/delete</li>
+<li>Microsoft.Blueprint/blueprints/artifacts/delete</li>
+<li>Microsoft.Blueprint/blueprints/versions/delete</li>
+</ul>
+</li>
+<li>Blueprint assignment requires the following roles:<ul>
+<li>Microsoft.Blueprint/blueprintAssignments/write - Assign a blueprint</li>
+<li>Microsoft.Blueprint/blueprintAssignments/delete - Unassign a blueprint</li>
+</ul>
+</li>
+<li>Built-in Roles also have Blueprint permissions:<ul>
+<li>Owner - all Blueprint related permissions</li>
+<li>Contributor - can create and delete Blueprint defintions. No assignment permissions</li>
+<li>Blueprint Contributor - can manage Blueprint definitions. No assignment permissions</li>
+<li>Blueprint Operator - can assign published blueprints using a user-assigned managed identity. No permissions to create new Blueprint definitions</li>
+</ul>
+</li>
+<li>Rules for Updating Assignments:<ul>
+<li>Role Assignments - if the role or assignee has changed, an new role assignment is created. Previously deployed roles are retained</li>
+<li>Policy Assignments - assignment is updated if the parameters are changed. If the definition is changed a new policy assigment is created and the previous assignment is retained. If the policy assignment is removed from the blueprint, the previous assignment is retained</li>
+<li>ARM Templates are deployed using a PUT request. Different resources will respond differently (update, replace) to this request</li>
+</ul>
+</li>
+<li>Resource Locking in Blueprint Assignments<ul>
+<li>Resource locks applied by a Blueprint assignment are only applied to non-extension resources deployed by the blueprint. Existing resources do not have locks added to them</li>
+<li>There are three locking modes available:<ul>
+<li>Don't Lock</li>
+<li>Read Only</li>
+<li>Do Not Delete</li>
+</ul>
+</li>
+<li>Locking mode is applied during artifact deployment resulting from the assignment. A different locking mode can be set by updating the assignment or removed by deleting the assignment. The locking mode cannot be changed outside of Azure Blueprints</li>
+<li>To prevent a subscription owner from changing the locking mode of a resource deployed during BP assignment, the assigment can be made at the Management Group level. Then only Owners of the management group can change the assignment. Blueprints assigned to a management group must still specify the subscription that the assignment targets and so is still applied at the subscription level</li>
+<li>The locking mode will result in resources having one of four states depending on where the locking mode is assigned:<ul>
+<li>Not Locked - where 'Don't Lock' mode is selected in BP assignment</li>
+<li>Cannot Edit/Delete - where 'Read Only' mode is set on the resource group. The resource group is Read Only, but Not Locked resources can be added, changed or deleted from the resource group</li>
+<li>Read Only - where 'Read Only' mode is set on a resource deployed during the assignment</li>
+<li>Cannot Delete - where 'Do Not Delete' is set on a resource deployed during the assignment. 'Not Locked' resources can be added, moved, changed or deleted from a resource group in 'Cannot Delete' state</li>
+</ul>
+</li>
+<li>Read Only and Delete locks are implemented by Blueprints as RBAC 'deny' assignments. The deny assigments are added by the managed identity of the BP assignment, and can only be removed from the artifact resources by the same managed identity. Therefore the locks can only be removed from within Blueprints. During the assignment, specific principals can be excluded from the 'deny' assignments. Similarly, specific actions (read, write, etc) on specified resources can be excluded from the deny assignment</li>
+</ul>
+</li>
+<li><a href="https://docs.microsoft.com/en-gb/azure/governance/blueprints/samples/caf-foundation/" target="#">CAF Foundation</a><ul>
+<li>Deploys an Azure Key Vault to host secrets for VMs deployed in the shared services environment</li>
+<li>Log Analytics is deployed to ensure all actions and services log to a central location</li>
+<li>Defender Standard deployed</li>
+<li>Policies<ul>
+<li>CostCenter Tag applied to Resource Groups</li>
+<li>Append CostCenter Tag to Resources in Resource Groups</li>
+<li>Allowed Region for Resources and Resource Groups</li>
+<li>Allowed Storage Account and VM SKUs</li>
+<li>Require Network Watcher to be Deployed</li>
+<li>Require secure transfer encryption on Storage Accounts</li>
+<li>Deny Resource Types</li>
+</ul>
+</li>
+<li>Policy Initiatives<ul>
+<li>Enable Monitoring in Microsoft Defender for Cloud (100+ policy definitions)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Cloud Adoption Framework<ul>
+<li>Consists of tools, documentation and proven practice to drive success during adoption of cloud computing on Azure</li>
+<li>The following steps are included:<ul>
+<li>Define Your Strategy<ul>
+<li>Define and Document your Motivations - meet stakeholders and leadership</li>
+<li>Document Business Outcomes - document your goals</li>
+<li>Evaluate Financial Considerations - identify the return expected from the investment</li>
+<li>Understand Technical Considerations</li>
+</ul>
+</li>
+<li>Make a Plan<ul>
+<li>Digital Estate - inventory of existing assets</li>
+<li>Initial Organisational Alignment - involve the right people</li>
+<li>Skills Readiness Plan</li>
+<li>Cloud Adoption Plan - shared cloud adoption goal</li>
+</ul>
+</li>
+<li>Ready your Organisation<ul>
+<li>Azure Setup Guide</li>
+<li>Azure Landing Zone - build subscriptions to support each major area of your business</li>
+<li>Expand the Landing Zone</li>
+<li>Best Practices</li>
+</ul>
+</li>
+<li>Adopt the Cloud<ul>
+<li>Migrate<ul>
+<li>Migrate your First Workload</li>
+<li>Migration Scenarios</li>
+<li>Best Practices</li>
+<li>Process Improvements</li>
+</ul>
+</li>
+<li>Innovate<ul>
+<li>Business Value Consensus - ensure innovations add value</li>
+<li>Azure Innovation Guide - build an MVP (Minimum Viable Product)</li>
+<li>Best Practices</li>
+<li>Feedback Loops</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Govern and Manage your Cloud Environments<ul>
+<li>Govern<ul>
+<li>Methodology - consider end-state solution </li>
+<li>Benchmark</li>
+<li>Initial Governance Foundation - MVP</li>
+<li>Improve the Initial Governance Foundation - iteratively add governance controls</li>
+</ul>
+</li>
+<li>Manage<ul>
+<li>Establish a Managment Baseline - minimum commitment to operations management</li>
+<li>Define Business Commitments - document supported workloads and required management investments for each</li>
+<li>Expand the Management Baseline</li>
+<li>Advanced Operations and Design Principles</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Create a Subscription Governance Strategy<ul>
+<li>Teams often start their governance strategy at the subscription level</li>
+<li>Three main aspects to consider:<ul>
+<li>Billing - take account of billing requirements when planning subscriptions. Use Tags if needed to identify billing department</li>
+<li>Access Control - isolation of environments based on subscriptions</li>
+<li>Subscription Limits - subscriptions have resource limitations: e.g. number of ExpressRoute connections</li>
+<li>Quotas for resources in resource groups are per region rather than per subscription</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Microsoft Trusted Cloud Principles<ul>
+<li>The shared responsibility model means that depending on the service, some responsibilities will transfer to the service provider</li>
+<li>Microsofts Trusted Cloud Principles means that Microsoft will provides contractual agreements to ensure:<ul>
+<li>Data residency</li>
+<li>Data security</li>
+<li>Data privacy</li>
+<li>Data compliance</li>
+</ul>
+</li>
+<li>The <a href="https://www.microsoft.com/trust-center" target="#">Microsoft Trust Center</a> can be used to access detailed statements from Microsoft on their security, privacy and compliance standards<ul>
+<li>The <a href="https://privacy.microsoft.com/privacystatement" target="#">privacy statement</a> details how each Microsoft service interacts with your data</li>
+<li>The <a href="https://www.microsoft.com/licensing/terms" target="#">Product Terms</a> site lists the terms and conditions of Microsoft product licences. The Data Protection Addendum lists the data processing conditions associated with these licences</li>
+<li>Legal and Regulatory compliance documentation can be found at https://docs.microsoft.com/azure/compliance</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

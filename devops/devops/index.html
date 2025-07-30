@@ -1,0 +1,2265 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/devops/devops/">
+      
+      
+        <link rel="prev" href="../../azure/aml/">
+      
+      
+        <link rel="next" href="../git_commands/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Overview - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#devops-defined" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/az104/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/cli_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/afc/costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../azure/aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-metrics-for-devops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Metrics for Devops
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-metrics-for-devops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Metrics for Devops
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p>Notes on DevOps drawn mostly from <cite>Implementing Azure Devops Solutions, Henry Been, Maik van der Gaag, Packt Publishing, 2020</cite><p></p>
+<h1 id="devops-defined">Devops Defined</h1>
+<p>Traditionally development and operations teams were isolated from each other
+and worked towards different goals: developers add value to by delivering new
+features to products, requiring changes to infrastructure; operations teams
+add value by maintaining the stability of deployed infrastructure, requiring 
+strict controls on any changes being implemented to the deployed infrastructure
+DevOps removes this conflict of interest by creating teams that are each 
+responsible for both the development of new features and the delivery of these 
+features. DevOps teams consist of both developers and operations staff working 
+together on a common goal or product, to deliver new features to production 
+in a fast and reliable manner. 
+This closely aligns with Agile metholdology where the focus is on reducing the 
+time to delivery of new business value. The introduction of DevOps is often 
+associated with the adoption of Agile.
+When adopting DevOps teams will attempt to standarise on a common set of tools
+and standards for source control, development and architecture deployment. As the
+pipelines for infrastructure deployment mature, self-service capabilities become
+available where developers become able to create and destroy environments 
+on-demand through a published API. </p>
+<h2 id="key-metrics-for-devops">Key Metrics for Devops</h2>
+<p>The key metrics for measuring the success of your DevOps teams are:</p>
+<dl>
+  <dt>Lead Time</dt>
+  <dd>The time between requesting a feature and starting the implementation of the feature</dd>
+  <dt>Cycle Time</dt>
+  <dd>The time between starting work on a feature and users being able to use the feature</dd>
+  <dt>Time to Market</dt>
+  <dd>The sum of Lead Time and Cycle Time</dd>
+  <dt>Amount of Work in Progress</dt>
+  <dd>DevOps should focus on the flow of value to the user. This implies that instead of switching from one incomplete task to another, each team member should be working on no more than one task at a time</dd>
+  <dt>Mean Time To Recovery</dt>
+  <dd>DevOps shifts the focus from Mean Time Between Failures to Mean Time To Recovery. Mean Time Between Failures encourages resistance to change. Less change means less failures. By focussing on Recovery Time, teams are not dis-incentivised to implement change</dd>
+  <dt>Change Rate</dt>
+  <dd>Increasing the number of implemented changes implies that you are delivering value more rapidly</dd>
+  <dt>Change Failure Rate</dt>
+  <dd>Focussing on the failure rate for changes encourages the implementation of smaller changes: increasing the Change Rate and reducing the likelihood of failure</dd>
+</dl>
+
+<h1 id="seven-pracitices-of-devops">Seven Pracitices of Devops</h1>
+<p>The seven practices of DevOps are:</p>
+<dl>
+  <dt>Configuration Management or Configuration As Code</dt>
+  <dd>Configuration for the applcation and its components is stored as JSON/YAML in a version control repository and serves as input for deployment tools. Configuration describes the desired state of the application and should be applied regularly to ensure that there is no configuration drift. Re-applying configuration will revoke manual changes made outside of configuration management.</dd>
+  <dt>Release Managment</dt>
+  <dd>Release management is about controlling which versions of the software is deployed to which environments. Versions of the software and its configuration are stored as immutable artifacts in a repository and release management tools are used to manage the deployment of versions.</dd>
+  <dt>Continuous Integration</dt>
+  <dd>Continuouse integration requires each developer to integrate their work with that of every other developer at least once a day. A continuous integration build ensures that it compiles and passes unit tests. Frequent integrations ensures that changes are minor and less likely to result in problems. When problems arise they should be easier to fix.</dd>
+  <dt>Continuous Deployment</dt>
+  <dd>Continuous deployment is the automated deployment of each new version to prodution as long as it passes quality tests. The automated deployment pipeline involves deploying each version through a hierarchy of stages where it must pass the tests for that stage before proceeding to deployment to the next stage. If a release fails at any stage it is completely revoked. This ensures that any fixes to a broken release pass through all stages of testing before hitting production.</dd>
+  <dt>Infrastructure As Code</dt>
+  <dd>Infrastructure to run the application is also stored in a source control repository. Infrastructure code describes the desired state and should be idempotent: no matter how many times you deploy it, the result should be the same. To avoid configuration drift, the desired state for infrastructure should be applied regularly to each environment using continuous deployment pipelines and is often done before new software versions are released to the environments.</dd>
+  <dt>Test Automation</dt>
+  <dd>Continuous deployment involves frequent releases and therefore manual testing becomes impractical. Each deployment stage will require different types of tests that are triggered automatically when the release hits that stage. Manual testing should be reduced to the bare minimum, and should occur only at the final stages before deployment to production.</dd>
+  <dt>Application Performance Monitoring</dt>
+  <dd>Involves monitoring performance and usage of the software in production, to gather intelligence about the value of the features in each release.</dd>
+</dl>
+
+<h1 id="seven-habits-of-devops">Seven Habits of Devops</h1>
+<p>The seven habits of DevOps are:</p>
+<dl>
+  <dt>Team Autonomy and Enterprise Alignment</dt>
+  <dd>Each team should be working autonomously towards their current goal, however controls will need to be in place to ensure teams stay aligned to organisational goals.</dd>
+  <dt>Rigourous Management of Technical Debt</dt>
+  <dd>Technical debt is the cost associated with delay in addressing issues that affect the development pipelines. Fixing bugs and architectural issues should be prioritised and kept to a minimum.</dd>
+  <dt>Focus on Flow of Customer Value</dt>
+  <dd>Teams should be focussed on the delivery of features that are used by the customer.</dd>
+  <dt>Hypothesis-driven Development</dt>
+  <dd>Minimal implementations are released to production to determine whether they deliver actual value to the product based on usage patterns. If the hypothesis proves popular, the feature should be completed.</dd>
+  <dt>Evidence Gathered In Production</dt>
+  <dd>Performance measurements should be gathered from the production environment and compared to previous measurements.</dd>
+  <dt>Live-Site Culture</dt>
+  <dd>The production environment is prioritised above all others: issues or changes affecting production or release to production are tackled before all other tasks.</dd>
+  <dt>Manage Infrastructure as a Flexible Resource</dt>
+  <dd>Infrastructure is deployed when needed and discarded when no longer needed.</dd>
+</dl>
+
+<h1 id="source-control">Source Control</h1>
+<p>Source control can either be centralised or decentralised. In a centralised
+system, all changes and branches are stored in a single location. Developers only
+receive the latest version of the code when they checkout the repository. To view
+history or other branches, they have to access the central server. Centralised
+source control reduces the amount of storage that is required locally and can 
+allow for better access control on branches, directories and files.
+In a decentralised source control repository, each developer takes a full copy 
+of the repository by cloning a local copy. This means each developer can view the
+full history of changes on their local copy without being connected to the central
+server.
+Azure DevOps supports Git as a decentralised source control system. Git is 
+optimised for working with text files. If your project also needs to track 
+images or binary files then you will need to use Git LFS (Large File Storage).
+Further information on <a href="https://docs.microsoft.com/en-gb/learn/paths/intro-to-vc-git/" target="#">Git</a> and <a href="https://docs.microsoft.com/en-gb/azure/devops/repos/git/manage-large-files?view=azure-devops" target="#">Git LFS</a>. It 
+is worth noting that Azure Repos do not support ssh in repositories with Git LFS 
+tracked files</p>
+<h2 id="branching-strategies">Branching Strategies</h2>
+<p>There are three popular branching strategies:</p>
+<dl>
+  <dt><a href="https://docs.github.com/en/get-started/quickstart/github-flow" target ="#">GitHub Flow</a></dt>
+  <dd>In GitHub Flow there is one <b>main</b> branch that is always in a deployable state. New features are started in a new branch and are not merged back to the <b>main</b> branch until complete.</dd>
+  <dt><a href="https://datasift.github.io/gitflow/IntroducingGitFlow.html" target ="#">GitFlow</a></dt>
+  <dd>GitFlow involves creating a branch from <b>main</b> called <b>develop</b> whenever you start work on new features. From <b>develop</b>, new branches are created for each new feature being developed. When the new feature is complete it is merged back into <b>develop</b>. When you want to release a new version of the application, you create a <b>release</b> branch from the develop branch. Once testing and bug fixes are applied to the <b>release</b> branch, this branch is then merged into <b>main</b> and tagged with the version number. Changes from testing the release are also merged back to the <b>develop</b> branch for the next round of development. Urgent bug fixes are carried out on a new branch from <b>main</b>, and are merged back to both <b>main</b> and <b>develop</b> branches when ready.</dd>
+  <dt><a href="https://devblogs.microsoft.com/devops/release-flow-how-we-do-branching-on-the-vsts-team/" target="#">Release Flow</a></dt>
+  <dd>Involves working with short-lived topic branches just as with GitFlow. However, the <b>main</b> branch is never released to production. Instead when a new version is to be deployed, a new branch from the <b>main</b> branch is created named <b>release-{version}</b> and this is pushed to production. Urgent bug fixes can be merged from the <b>main</b> branch to the current <b>release</b> branch.</dd>
+</dl>
+
+<h2 id="pull-requests">Pull Requests</h2>
+<p>Pull requests are a way to ensure that a merge only occurs on a branch when the
+appropriate approval processes have been completed. Pull requests allow other team
+members to review the changes in the branch and add comments before the merge
+Once a pull request is approved there are three methods available for the 
+merge commit:
+- Merge Commit - retains full visibility of the changes on both the source and target branch. Commit history will reference both the source and target branches.
+- Squash Commit - all the changes from the source branch are combined into one new commit on the target branch
+- Rebase - changes from the source branch are temporarily stored elsewhere while changes from the master branch are applied to the source. Then the source branch has its own commits re-applied. Once the source is rebased, the commits can then be applied to the master branch. Rebasing retains all the change history on a single branch - the master branch</p>
+<h1 id="continuous-integration">Continuous Integration</h1>
+<p>Continuous integration involves combining your changes with those of other
+developers on your project and testing whether the combined code works as 
+expected. Frequent code merges means that the changes are smaller and less likely
+to result in merge conflicts. Continuous integration adds value by testing the
+resulting integrated work for the team.
+Azure DevOps uses Azure Pipelines to create a continuous integration 
+build, with YAML pipelines being the preferred method. Storing your build 
+definitions in YAML, means that you can include this definition in the source 
+control for your project and it is then available on all branches and will be
+subject to the same policies applied to changing the code.
+After saving a YAML file in the repository, you can create a build definition
+from it.
+The default YAML pipeline file in Azure DevOps is called 'azure-pipelines.yml'. 
+The pipeline definition should begin with trigger actions that can be 
+monitoring either pull requests (<b>pr</b>) or commits (<b>trigger</b>):</p>
+<pre><code>pr:
+  branches:
+    include: [&quot;main&quot;, &quot;release&quot;, &quot;develop&quot;]
+
+trigger:
+- main
+- release
+- develop
+- feature/*
+</code></pre>
+<p>Pipelines are configured to run on an agent using the <b>pool</b> block:</p>
+<pre><code>pool:
+  vmImage: ubuntu-18.04
+</code></pre>
+<p>Variables can be configured for later use in the pipeline:</p>
+<pre><code>variables:
+  folder_context: $(System.DefaultWorkingDirectory)/Terraform/environments
+  terraform_version: 1.1.7
+  is_main: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  is_test: $[eq(variables['Build.SourceBranch'], 'refs/heads/release')]
+  is_dev: $[eq(variables['Build.SourceBranch'], 'refs/heads/develop')]
+  is_feature: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')]
+</code></pre>
+<p>The rest of the pipeline will define the various stages to be executed. 
+Typically this will include:</p>
+<ol>
+- a build stage, where the new code is tested and
+- deployment stages, where the code is deployed to various environments
+</ol>
+<p>Each stage will define a series of jobs, with each job executing one or more
+steps:</p>
+<pre><code>stages:
+- stage: terraform_build
+  jobs:
+  - job: terraform_plan
+    steps:
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: $(subscription_id)
+        KeyVaultName: $(keyvault_name)
+        SecretsFilter: 'state-resource-group, state-storage-container, state-storage-account, state-file-name, state-sas-token, client-id, client-secret, subscription-id, tenant-id'
+      displayName: 'Get key vault secrets as pipeline variables'
+    - bash: |
+        ...
+        ---
+
+</code></pre>
+<p>Combining the above snippets will define a build pipeline that
+will be triggered by commits to <b>main</b>, <b>develop</b>, 
+<b>release</b> and any branch that begins with <b>feature/</b>
+For IaC, the deployment stages should be executed conditionally: deployments
+should only occur to each environment when the corresponding source-code branch
+is updated:</p>
+<pre><code>- stage: development_env
+  condition: eq(variables.is_dev, 'true')
+  jobs:
+  - deployment: development_environment
+    displayName: development_environment
+    pool:
+      vmImage: Ubuntu-18.04
+    environment: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: $(subscription_id)
+              KeyVaultName: $(keyvault_name)
+              SecretsFilter: 'state-resource-group, state-storage-container, state-storage-account, state-file-name, state-sas-token, client-id, client-secret, subscription-id, tenant-id'
+            displayName: 'Get key vault secrets as pipeline variables'
+
+          - bash: |
+            ...
+            ...
+
+</code></pre>
+<p>Adding the above code to our pipeline will mean that any pull
+request to the <b>develop</b> branch will result in both the build 
+stage (Continuous Integration) and the deployment to the development environment (Continuous Delivery) being executed
+Stages can be added for both the testing environment and the production environment to conditionally execute after pull 
+requests to their respective branches: <b>release</b> and <b>main</b>. 
+<a href="https://about.gitlab.com/product/continuous-integration/" target="#">GitLab</a> and <a href="https://jenkins.io" target="#">Jenkins</a> offer tools to build continuous integration pipelines
+See <a href="https://docs.microsoft.com/en-gb/learn/modules/create-a-build-pipeline/" target="#">Create a Build Pipeline with Azure Pipelines</a> and <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/?view=azure-pipelines" target="#">YAML Schema for Azure Pipelines</a></p>
+<h1 id="continuous-deployment">Continuous Deployment</h1>
+<p>Continuous Deployment is not the same as Continuous Delivery. Continuous 
+Delivery is about building artefacts that are tested and ready to be deployed
+to production. Continuous Deployment, takes this one step further and actually
+includes deployment to production.
+In Azure Devops delivery and deployment are realised using releases. Release
+definitions are created from Pipelines and often begin with an artefact that 
+triggers deployment. Then the enviroment (or stage) to deploy to is identified.
+As with CI, YAML pipelines are the recommended means to define your CD 
+pipelines
+Continuous deployment could become challenging to users who have to deal 
+with the challenges of new releases, potential bugs and possible rollbacks. To 
+minimise the impact a suitable deployment strategy should be chosen. Potential
+deployment strategies are:</p>
+<ol>
+- Blue-Green Deployments. Two identical groups of servers are maintained: one to run the production instance and a second to act as the target for new deployments. A load balancer is used to direct users to the production environment. When a new release is deployed to the other group it is tested and when authorised as ready, the load balancer is used to switch users to the new group. The original environment can be used for rollback should problems occur or can be used as the target for the next release if no problems are found
+- Immutable Servers - a variation of blue-green deployments, where new servers are configured for each deployment and the original production environment is discarded after a grace period (in case rollback is required).
+- Canary deployments - initially only a selected group of users are exposed to the new environments, with further groups added if no problems are found
+- Ring-based deployments - several production environments are maintained for different groups of users. New deployments are issued to one group at a time until the release is propogated to all groups in the ring
+- Feature Flags - new versions are deployed but with the new features turned-off. Feature flags are used to slowly enable the new features. If the features passes quality acceptance, then the flag can be removed from the code base, and the feature becomes part of production environment
+- Fail forward - instead of rolling back when issues are encountered in new releases, bug fixes can be applied to fix the issues.
+</ol>
+<p>Further reading: <a href="https://docs.microsoft.com/en-gb/azure/devops/pipelines/?view=azure-devops" target="#">Azure Pipeline Docuemntation</a></p>
+<h1 id="dependancy-management">Dependancy Management</h1>
+<p>To reduce build times, shared libraries can be pre-built for re-use across 
+multiple projects. Azure Artifacts can be used to manage the library of 
+re-usuable components (packages and artifacts) across projects. Further reading: 
+<a href="https://docs.microsoft.com/en-gb/learn/modules/manage-build-dependencies/" target="#">Azure Artifacts</a></p>
+<h1 id="infrastructure-as-code">Infrastructure As Code</h1>
+<p>Infrastructure As Code (IaC) and Configuration As Code (CaC) is one of the seven
+practices for DevOps. Using declarative templates for deploying your 
+infrastructure means that configuration and infrastructure can be managed in the
+same way that application code is managed. Several tools are available for 
+implementing IaC and CaC:</p>
+<ol>
+    <li><a href="https://docs.microsoft.com/en-gb/azure/azure-resource-manager/templates/" target="#">ARM templates</a> - Azure Resource Manager templates are JSON-like templates for declaring the desired state of your infrastructure, and can be deployed using Powershell, Azure CLI or Azure Pipelines
+    <li><a href="https://aws.amazon.com/cloudformation/" target="#">Cloud Formation</a> - the IaC tool for AWS
+    <li><a href="https://www.chef.io/" target="#">Chef</a> - a CaC tool for describing and enforcing server configuration
+    <li><a href="https://puppet.com/" target="#">Puppet</a> - used for deployment and configuration of servers
+    <li><a href="https://www.ansible.com/" target="#">Ansible</a> - IaC and CaC tool that can be used for both Linux and Windows servers
+    <li><a href="https://www.terraform.io/" target="#">Terraform</a> - a multicloud infrastructure management tool
+</ol>
+
+<h1 id="databases">Databases</h1>
+<p>Managing schema changes in a CI/CD enviroment is challenging if downtime is 
+to be minimised. ORMs are used to represent relational schemas as code: there
+are two common approaches to managing schema changes with ORMs: migration-based 
+and state-based.
+Migration-based approaches keep an ordered set of changes that need to be applied
+to the database to match the changes to ORM code. This becomes difficult when 
+code is being changed on multiple branches. Where multiple migrations are needed,
+they need to be applied in order to match the merge sequence
+State-based approaches ignore the individual changes (migrations) that are
+needed on a database and only focus on the changes required to fulfill the 
+desired end-state of the database. However, such an approach may additionally 
+require scripts to migrate the data as the schema is changed, involving data 
+dumps and insert actions.
+Both migrations and end-state approaches present challenges that need to be 
+carefully managed and may result in taking a non-DevOps approach to schema changes
+required by new releases. A Blue-Green approach might work, combined with ETL 
+processes to migrate data from old to new servers
+Using a schemaless database might be a suitable alternative to manage the 
+synchronisation of data and code. As new properties are added/removed from the
+objects in the schemaless database, code can be tweaked to handle objects in 
+both the old and new format, until all old records are migrated to the new
+format
+<a href="https://docs.microsoft.com/nl-nl/ef/" target="#">Entity Framework</a> is the Microsoft ORM for .Net and supports migrations.</p>
+<h1 id="testing-to-maintain-quality">Testing to Maintain Quality</h1>
+<p>Continuous Deployment requires continuous testing to ensure quality is 
+maintained or improved with each release. Common Metrics for measuring quality
+include:</p>
+<ul>
+<li>The percentage of integration builds that fail</li>
+<li>The percentage of code covered by automated tests</li>
+<li>The change failure rate</li>
+<li>The amount of unplanned work</li>
+<li>The number of defects that are being reported by users</li>
+<li>The number of known issues</li>
+<li>The amount of technical debt - the cost of sacrificing code quality for something else. As with financial debt, technical debt should be paid off as quickly as possible.</li>
+</ul>
+<p>Automated Functional Tests fall into one of three categories:</p>
+<ul>
+<li>Unit Tests - used to test the smallest possible scope in an application, e.g. a class or method</li>
+<li>Integration Tests - testing that multiple units that are supposed to work together</li>
+<li>System Tests - run against a fully assembled and running application
+Manual Functional Tests fall into one of two categories</li>
+<li>Scripted Test - formal test cases are prepared to test a new feature and a script is prepared of the actions to carry out the test. This script is then manually executed by the test team</li>
+<li>Exploratory Test - the test team explore the parts of the application they consider most at risk in the upcoming release. Records are kept of the risks that were checked and the issues that were found
+Non-Functional Tests include</li>
+<li>Performance testing - how quickly a particular task can be performed in the fully assembled system. Can be automated and results can be compared to results from previous versions of the system</li>
+<li>Load testing - measuring response times as the number of requests are increased. The breaking point is the moment that response time begins to rise exponentially</li>
+<li>Usability testing - collecting feedback from users regarding their experience using the new release (user stories)</li>
+</ul>
+<p>Different test types are executed at different stages in the CI/CD pipeline. 
+Unit tests should be executed at each commit and before a merge or pull request. 
+Integration tests should be done both before and after a merge or pull request. System tests and other testing will occur after deployment to a staging environment</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

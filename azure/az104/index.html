@@ -1,0 +1,3341 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dram1964.github.com/cloudarchitect/azure/az104/">
+      
+      
+        <link rel="prev" href="../../operations/soar/">
+      
+      
+        <link rel="next" href="../cli_commands/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>AZ104 Reference - Cloud Architecture notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#az104-further-reading" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud Architecture notes" class="md-header__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud Architecture notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AZ104 Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud Architecture notes" class="md-nav__button md-logo" aria-label="Cloud Architecture notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud Architecture notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IT Operations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            IT Operations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Azure
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    AZ104 Reference
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-resources-with-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Resources with Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-resource-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Resource Manager
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-resources-with-arm-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Resources with ARM templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-automation-with-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Automation with Powershell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-azure-services-with-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Azure Services with CLI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-infrastructure-with-json-arm-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy Infrastructure with JSON ARM Templates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-and-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identity and Governance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Identity and Governance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-aad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure AAD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-user-and-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure User and Groups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Subscriptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure RBAC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-users-and-groups-in-aad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Users and Groups in AAD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sspr" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSPR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-and-manage-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement and Manage Storage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement and Manage Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-storage-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Storage Accounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-blob-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Blob Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-storage-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Storage Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-files-and-file-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Files and File Sync
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-storage-with-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Storage with Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-an-azure-storage-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Azure Storage account
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-access-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared Access Signatures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-storage-explorer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Storage Explorer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-and-manage-compute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy and Manage Compute
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy and Manage Compute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machine-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machine Availability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machine-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machine Extensions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-app-service-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure App Service Plans
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-app-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure App Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-container-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Container Instances
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manage-azure-vms-with-azure-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manage Azure VMs with Azure CLI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-a-web-app-in-azure-app-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host a Web App in Azure App Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-virtual-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Networks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure Virtual Networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-networks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Networks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-network-security-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Network Security Groups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-vnet-peering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure VNET Peering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-network-routing-and-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Network Routing and Endpoints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Load Balancer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-application-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Application Gateway
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-ip-address-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Design IP Address Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vnet-peering" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNet Peering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-your-domain-with-azure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host Your Domain with Azure DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Routing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Load Balancer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-and-backup-azure-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor and Backup Azure Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor and Backup Azure Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-file-and-folder-backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure File and Folder Backups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machine-backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machine Backups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Monitor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Alerts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-log-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Log Analytics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-network-watcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Network Watcher
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incident-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Incident Response
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyse-azure-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyse Azure Infrastructure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-vm-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor VM Performance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLI Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure AD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Compute
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keyvault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Key Vault
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Azure Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Azure Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/core_management_tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Management Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc/costs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Costs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    App Service
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            App Service
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/app_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../app_service/flask_app_service_part_one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Service Deplyment: Part 1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kusto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Monitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Networking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Databases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PostgreSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db/cosmosdb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CosmosDB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Devops
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/git_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Github Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/porter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/cloudinit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Init
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Terraform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            Terraform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/blocks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blocks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Meta-Arguments
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/provisioner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Provisioners
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/terraform/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remote State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/bash_scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bash Scripting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/awk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Awk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Databricks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Databricks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../databricks/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databbricks Lakehouse Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/venv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    venv
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Pandas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_frame_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataFrame Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_wrangling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_aggregation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Aggregation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/data_visualisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visualisation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/pandas/statistics_101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Statistics 101
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jupyter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Questions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-resources-with-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Resources with Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-resource-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Resource Manager
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-resources-with-arm-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Resources with ARM templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-automation-with-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Automation with Powershell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-azure-services-with-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control Azure Services with CLI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-infrastructure-with-json-arm-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy Infrastructure with JSON ARM Templates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-and-governance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identity and Governance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Identity and Governance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-aad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure AAD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-user-and-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure User and Groups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Subscriptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure RBAC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-users-and-groups-in-aad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Users and Groups in AAD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sspr" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSPR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-and-manage-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implement and Manage Storage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implement and Manage Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-storage-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Storage Accounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-blob-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Blob Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-storage-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Storage Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-files-and-file-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Files and File Sync
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-storage-with-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Storage with Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-an-azure-storage-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create an Azure Storage account
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-access-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared Access Signatures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-storage-explorer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Storage Explorer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-and-manage-compute" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy and Manage Compute
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy and Manage Compute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machine-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machine Availability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machine-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machine Extensions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-app-service-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure App Service Plans
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-app-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure App Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-container-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Container Instances
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manage-azure-vms-with-azure-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manage Azure VMs with Azure CLI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-a-web-app-in-azure-app-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host a Web App in Azure App Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-virtual-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Networks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure Virtual Networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-networks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Networks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-network-security-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Network Security Groups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-vnet-peering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure VNET Peering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-network-routing-and-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Network Routing and Endpoints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Load Balancer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-application-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Application Gateway
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#design-ip-address-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Design IP Address Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vnet-peering" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNet Peering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-your-domain-with-azure-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Host Your Domain with Azure DNS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Routing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#azure-load-balancer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Azure Load Balancer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-and-backup-azure-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor and Backup Azure Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor and Backup Azure Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-file-and-folder-backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure File and Folder Backups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-virtual-machine-backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Virtual Machine Backups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Monitor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-azure-alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Azure Alerts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-log-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Log Analytics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-network-watcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Network Watcher
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incident-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      Incident Response
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyse-azure-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analyse Azure Infrastructure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-vm-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor VM Performance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="az104-further-reading">AZ104 - Further Reading</h1>
+<h2 id="questions">Questions</h2>
+<ul>
+<li>How to use Managed Identities to connect to Azure Key Vault</li>
+<li>How to use Stored Access Policies for Storage Account SAS tokens</li>
+</ul>
+<h2 id="prerequisites"><a href="https://learn.microsoft.com/en-us/training/paths/az-104-administrator-prerequisites/">Prerequisites</a></h2>
+<h3 id="configure-azure-resources-with-tools"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-resources-tools/">Configure Azure Resources with Tools</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-portal/">Azure Portal Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/cloud-shell/overview">Azure Cloudshell Overview</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/azure">Azure Powershell Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest">Azure CLI Reference</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/control-and-organize-with-azure-resource-manager/">Azure Resource Manager</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview">Bicep Overview</a></li>
+</ul>
+<h3 id="azure-resource-manager"><a href="https://learn.microsoft.com/en-us/training/modules/use-azure-resource-manager/">Azure Resource Manager</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview">Azure Resource Manager Documentation</a></li>
+</ul>
+<h3 id="configure-resources-with-arm-templates"><a href="https://learn.microsoft.com/en-us/training/modules/configure-resources-arm-templates/">Configure Resources with ARM templates</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/">ARM Template Documentation</a></li>
+<li><a href="https://azure.microsoft.com/resources/templates/">Azure Quickstart Templates</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/create-azure-resources-using-azure-resource-manager-templates/">Create Resources using ARM templates</a></li>
+</ul>
+<h3 id="azure-automation-with-powershell"><a href="https://learn.microsoft.com/en-us/training/modules/automate-azure-tasks-with-powershell/?ns-enrollment-type=learningpath&amp;ns-enrollment-id=learn.az104-admin-prerequisites">Azure Automation with Powershell</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/training/paths/powershell/">Automate Administrative Tasks with Powershell</a></li>
+</ul>
+<h3 id="control-azure-services-with-cli"><a href="https://learn.microsoft.com/en-us/training/modules/control-azure-services-with-cli/">Control Azure Services with CLI</a></h3>
+<h3 id="deploy-infrastructure-with-json-arm-templates"><a href="https://learn.microsoft.com/en-us/training/modules/create-azure-resource-manager-template-vs-code/">Deploy Infrastructure with JSON ARM Templates</a></h3>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools">ARM Tools for VS Code</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-syntax">ARM Template Syntax</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview">ARM overview</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers">Resource Providers</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/templates">ARM Templates</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-outputs?tabs=azure-powershell">ARM Template Outputs</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/template-parameters">ARM Template Parameters</a></li>
+</ul>
+<h2 id="identity-and-governance"><a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-identities-governance/">Identity and Governance</a></h2>
+<h3 id="configure-aad"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-active-directory/">Configure AAD</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-active-directory/">AAD Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/devices/">AAD Device Identity</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-sspr-howitworks">AAD Self-Service Password Reset</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/manage-device-identity-ad-join/">AAD Join</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/implement-manage-hybrid-identity/">Hybrid Identity</a></li>
+</ul>
+<h3 id="configure-user-and-groups"><a href="https://learn.microsoft.com/en-us/training/modules/configure-user-group-accounts/">Configure User and Groups</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles">Azure Built-In Roles</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles">Azure Custom Roles</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/create-users-and-groups-in-azure-active-directory/">Create User and Groups</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/">AAD Fundamentals</a></li>
+</ul>
+<h3 id="configure-subscriptions"><a href="https://learn.microsoft.com/en-us/training/modules/configure-subscriptions/">Configure Subscriptions</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview">Cost Management and Billing</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription">Create Subscriptions</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/analyze-costs-create-budgets-azure-cost-management/">Analyse Costs and Create Budgets</a></li>
+</ul>
+<h3 id="configure-azure-policy"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-policy/">Configure Azure Policy</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-policy/">Azure Policy Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/samples/built-in-policies">Built-in Policy Definitions</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/samples/built-in-initiatives">Built-in Policy Initiatives</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/concepts/recommended-policies">Recommended Policies</a></li>
+<li><a href="https://azure.microsoft.com/pricing/details/azure-policy/">Pricing Details</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/samples/">Policy Samples</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/tutorials/create-custom-policy-definition">Create a Custom Policy</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/how-to/programmatically-create#create-and-assign-a-policy-definition">Create and Assign a Policy Programatically</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/assign-policy-portal">Create a Policy for Non-Compliant Resources</a></li>
+</ul>
+<h3 id="configure-rbac"><a href="https://learn.microsoft.com/en-us/training/modules/configure-role-based-access-control/">Configure RBAC</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/">RBAC Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/role-definitions">RBAC Role Definitions</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles">RBAC Built-in Role Definitions</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/custom-roles">RBAC Custom Roles</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference">AAD Administrator Roles</a></li>
+</ul>
+<h3 id="create-users-and-groups-in-aad"><a href="https://learn.microsoft.com/en-us/training/modules/create-users-and-groups-in-azure-active-directory/">Create Users and Groups in AAD</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/">AAD Documentation</a></li>
+</ul>
+<h3 id="sspr"><a href="https://learn.microsoft.com/en-us/training/modules/allow-users-reset-their-password/">SSPR</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/authentication/quickstart-sspr">Quickstart</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-sspr-howitworks">How it Works</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/active-directory/authentication/howto-sspr-deployment">Deploy SSPR</a></li>
+</ul>
+<h2 id="implement-and-manage-storage"><a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-storage/">Implement and Manage Storage</a></h2>
+<h3 id="configure-storage-accounts"><a href="https://learn.microsoft.com/en-us/training/modules/configure-storage-accounts/">Configure Storage Accounts</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/">Azure Storage</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/provide-disaster-recovery-replicate-storage-data/">Configure Storage Disaster Recovery</a></li>
+</ul>
+<h3 id="configure-blob-storage"><a href="https://learn.microsoft.com/en-us/training/modules/configure-blob-storage/">Configure Blob Storage</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs">Blob Storage</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers">Blob Storage Access Tiers</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-overview">Blob Replication</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/lifecycle-management-policy-configure">Blob Lifecycle Management</a></li>
+</ul>
+<h3 id="configure-azure-storage-security"><a href="https://learn.microsoft.com/en-us/training/modules/configure-storage-security/">Configure Azure Storage Security</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas">Create an Account SAS</a></li>
+<li><a href="https://learn.microsoft.com/en-us/rest/api/storageservices/create-service-sas">Create a Service Level SAS</a></li>
+<li><a href="https://learn.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas#construct-a-user-delegation-sas">Create a User Delegation SAS</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/common/customer-managed-keys-overview">Customer-Managed Keys</a></li>
+</ul>
+<h3 id="configure-azure-files-and-file-sync"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-files-file-sync/">Configure Azure Files and File Sync</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/files/">Azure Files Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/files/storage-files-planning">Azure Files Deployment</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/files/storage-sync-files-planning">Azure File Sync Deployment</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/file-sync/file-sync-cloud-tiering-overview">Cloud Tiering Overview</a></li>
+</ul>
+<h3 id="configure-azure-storage-with-tools"><a href="https://learn.microsoft.com/en-us/training/modules/configure-storage-tools/">Configure Azure Storage with Tools</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/vs-azure-tools-storage-manage-with-storage-explorer?tabs=windows">Azure Storage Explorer</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy">AzCopy</a></li>
+<li><a href="https://azure.microsoft.com/documentation/articles/storage-import-export-service/">Azure Import/Export Service</a></li>
+</ul>
+<h3 id="create-an-azure-storage-account"><a href="https://learn.microsoft.com/en-us/training/modules/create-azure-storage-account/">Create an Azure Storage account</a></h3>
+<h3 id="shared-access-signatures"><a href="https://learn.microsoft.com/en-us/training/modules/control-access-to-azure-storage-with-sas/">Shared Access Signatures</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview">SAS Overview</a></li>
+</ul>
+<h3 id="azure-storage-explorer"><a href="https://learn.microsoft.com/en-us/training/modules/upload-download-and-manage-data-with-azure-storage-explorer/">Azure Storage Explorer</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-explorer">Storage Explorer with ADLS Gen2</a></li>
+</ul>
+<h2 id="deploy-and-manage-compute"><a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-compute-resources/">Deploy and Manage Compute</a></h2>
+<h3 id="configure-virtual-machines"><a href="https://learn.microsoft.com/en-us/training/modules/configure-virtual-machines/">Configure Virtual Machines</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/">VM Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/choose-the-right-disk-storage-for-vm-workload/">Disk Storage for VMs</a></li>
+<li><a href="https://learn.microsoft.com/en-us/samples/browse/?expanded=azure&amp;products=azure-resource-manager">Azure Quickstart Templates</a></li>
+</ul>
+<h3 id="configure-virtual-machine-availability"><a href="https://learn.microsoft.com/en-us/training/modules/configure-virtual-machine-availability/">Configure Virtual Machine Availability</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/availability">VM Availability</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-autoscale-overview">VMSS Autoscale</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-deploy-app">Deploy Application on VMSS</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-manage-fault-domains">Fault Domains</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-windows">Windows Custom Script Extension</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-linux">Linux Custom Script Extension</a></li>
+</ul>
+<h3 id="configure-virtual-machine-extensions"><a href="https://learn.microsoft.com/en-us/training/modules/configure-virtual-machine-extensions/">Configure Virtual Machine Extensions</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/automation/automation-dsc-getting-started">Azure Automation State Configuration</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/dsc/overview">DSC 2.0</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-machines/windows/tutorial-automate-vm-deployment">Deploy Windows apps</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/protect-vm-settings-with-dsc/">Azure Automation State Configuration Sandbox</a></li>
+</ul>
+<h3 id="configure-azure-app-service-plans"><a href="https://learn.microsoft.com/en-us/training/modules/configure-app-service-plans/">Configure Azure App Service Plans</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans">App Service Plans</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/app-service-scale-up-scale-out/">App Service Tutorial</a></li>
+</ul>
+<h3 id="configure-azure-app-service"><a href="https://learn.microsoft.com/en-gb/training/modules/configure-azure-app-services/">Configure Azure App Service</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/app-service/">App Service Docs</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/host-a-web-app-with-azure-app-service/">Web App Sandbox</a></li>
+</ul>
+<h3 id="configure-azure-container-instances"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-container-instances/">Configure Azure Container Instances</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/container-instances/">Azure Container Instances Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/intro-to-containers/">Build a Containerised Web App</a></li>
+</ul>
+<h3 id="manage-azure-vms-with-azure-cli"><a href="https://learn.microsoft.com/en-us/training/modules/manage-virtual-machines-with-azure-cli/">Manage Azure VMs with Azure CLI</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/training/paths/architect-compute-infrastructure/">Architect Compute in Azure</a></li>
+</ul>
+<h3 id="host-a-web-app-in-azure-app-service"><a href="https://learn.microsoft.com/en-us/training/modules/host-a-web-app-with-azure-app-service/">Host a Web App in Azure App Service</a></h3>
+<h2 id="configure-virtual-networks"><a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-virtual-networks/">Configure Virtual Networks</a></h2>
+<h3 id="configure-virtual-networks_1"><a href="https://learn.microsoft.com/en-us/training/modules/configure-virtual-networks/">Configure Virtual Networks</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/">Virtual Network Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/networking/">Azure Networking Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/design-ip-addressing-for-azure/">IP Address Sandbox</a></li>
+</ul>
+<h3 id="configure-network-security-groups"><a href="https://learn.microsoft.com/en-us/training/modules/configure-network-security-groups/">Configure Network Security Groups</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/security-overview">NSG Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/application-security-groups">ASG Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/secure-and-isolate-with-nsg-and-service-endpoints/">NSG and Service Endpoints Sandbox</a></li>
+</ul>
+<h3 id="configure-azure-dns"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-dns/">Configure Azure DNS</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/dns/">Azure DNS Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/dns/private-dns-overview">Azure Private DNS Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/dns/dns-zones-records">DNS Zones and Records</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/host-domain-azure-dns/">DNS Sandbox</a></li>
+</ul>
+<h3 id="configure-azure-vnet-peering"><a href="https://learn.microsoft.com/en-us/training/modules/configure-vnet-peering/">Configure Azure VNET Peering</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-peering-overview">VNet Peering Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-peering-gateway-transit">VPN Gateway Transit</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-network-troubleshoot-peering-issues">Troubleshoot VNet Peering</a></li>
+</ul>
+<h3 id="configure-network-routing-and-endpoints"><a href="https://learn.microsoft.com/en-us/training/modules/configure-network-routing-endpoints/">Configure Network Routing and Endpoints</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview">VNet Routing</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/introduction-azure-private-link/">Private Link Introduction</a></li>
+</ul>
+<h3 id="configure-azure-load-balancer"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-load-balancer/">Configure Azure Load Balancer</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/load-balancer/">Load Balancer Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-public-portal">Create a Public Load Balancer</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-internal-portal">Create an Internal Load Balancer</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/load-balancer/gateway-overview">Gateway Load Balancer</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/improve-app-scalability-resiliency-with-load-balancer/">Load Balancer Sandbox</a></li>
+</ul>
+<h3 id="configure-azure-application-gateway"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-application-gateway/">Configure Azure Application Gateway</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/application-gateway/overview">Azure Application Gateway Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/ag-overview">WAF on AGW</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/application-gateway/create-multiple-sites-portal">Multi-Site Routing</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/load-balancing-https-traffic-azure/">Hands-On HTTPS traffic</a></li>
+</ul>
+<h3 id="design-ip-address-schema"><a href="https://learn.microsoft.com/en-us/training/modules/design-ip-addressing-for-azure/">Design IP Address Schema</a></h3>
+<h3 id="vnet-peering"><a href="https://learn.microsoft.com/en-us/training/modules/integrate-vnets-with-vnet-peering/">VNet Peering</a></h3>
+<h3 id="host-your-domain-with-azure-dns"><a href="https://learn.microsoft.com/en-us/training/modules/host-domain-azure-dns/">Host Your Domain with Azure DNS</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/dns/dns-zones-records">DNS Zones and Records</a></li>
+</ul>
+<h3 id="custom-routing"><a href="https://learn.microsoft.com/en-us/training/modules/control-network-traffic-flow-with-routes/">Custom Routing</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/dmz/nva-ha">High-Availability NVAs</a></li>
+</ul>
+<h3 id="azure-load-balancer"><a href="https://learn.microsoft.com/en-us/training/modules/improve-app-scalability-resiliency-with-load-balancer/">Azure Load Balancer</a></h3>
+<h2 id="monitor-and-backup-azure-resources"><a href="https://learn.microsoft.com/en-us/training/paths/az-104-monitor-backup-resources/">Monitor and Backup Azure Resources</a></h2>
+<h3 id="configure-file-and-folder-backups"><a href="https://learn.microsoft.com/en-us/training/modules/configure-file-folder-backups/">Configure File and Folder Backups</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/backup/backup-overview">Azure Backup</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/backup/azure-file-share-backup-overview">Azure File Share Backup</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/backup/backup-azure-recovery-services-vault-overview">Azure Recovery Services Vault</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/backup/backup-center-overview">Backup Center</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/backup/install-mars-agent">MARS Agent</a></li>
+</ul>
+<h3 id="configure-virtual-machine-backups"><a href="https://learn.microsoft.com/en-us/training/modules/configure-virtual-machine-backups/">Configure Virtual Machine Backups</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/site-recovery/site-recovery-overview">Azure Site Recovery</a></li>
+<li><a href="https://learn.microsoft.com/en-us/system-center/dpm/dpm-overview">System Center Data Protection Manager</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/backup/backup-mabs-whats-new-mabs">Microsoft Azure Backup Server</a></li>
+<li><a href="https://learn.microsoft.com/en-us/system-center/dpm/deploy-dpm-protection-agent">DPM and MABS protection agent</a></li>
+</ul>
+<h3 id="configure-azure-monitor"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-monitor/">Configure Azure Monitor</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/">Azure Monitor Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/data-platform-metrics">Azure Monitor Metrics</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-platform-logs">Azure Monitor Logs</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/get-started-queries">Log Queries</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types">Azure Monitor Alerts</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/design-monitoring-strategy-on-azure/">Design a Monitoring Strategy</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/monitor-report-aad-security-events/">Security Events in Entra ID</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/monitor-diagnose-and-troubleshoot-azure-storage/">Monitor Azure Storage</a></li>
+</ul>
+<h3 id="configure-azure-alerts"><a href="https://learn.microsoft.com/en-us/training/modules/configure-azure-alerts/">Configure Azure Alerts</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts">Azure Monitor Alerts</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types">Alert Types</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-new-alert-rule">Alert Rules</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-create-new-alert-rule">Azure Monitor Best Practice</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/incident-response-with-alerting-on-azure/">Alerting Sandbox</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/monitor-azure-vm-using-diagnostic-data">Monitor VMs with Metrics and Alerts</a></li>
+</ul>
+<h3 id="configure-log-analytics"><a href="https://learn.microsoft.com/en-us/training/modules/configure-log-analytics/">Configure Log Analytics</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview">Log Analytics Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/">KQL</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace">Create a Log Analytics Workspace</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/best-practices-analysis">Analysis Best Practice</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/data-explorer/kql-quick-reference">KQL Reference</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/tables-category">Azure Monitor Logs Table Reference</a></li>
+<li><a href="https://learn.microsoft.com/en-us/rest/api/loganalytics/">Log Analytics REST API</a></li>
+</ul>
+<h3 id="configure-network-watcher"><a href="https://learn.microsoft.com/en-us/training/modules/configure-network-watcher/">Configure Network Watcher</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/network-watcher/">Network Watcher Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/network-watcher/diagnose-vm-network-routing-problem">VM Routing troubleshooting tutorial</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/network-watcher/diagnose-communication-problem-between-networks">VPN routing troubleshooting tutorial</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/troubleshoot-azure-network-infrastructure/">Network Infrastructure troubleshooting tutorial</a></li>
+<li><a href="https://learn.microsoft.com/en-us/training/modules/configure-monitoring-virtual-networks">Configure Monitoring for Virtual Networks</a></li>
+</ul>
+<h3 id="incident-response"><a href="https://learn.microsoft.com/en-us/training/modules/incident-response-with-alerting-on-azure/">Incident Response</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types#metric-alerts">Metric Alerts</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types#log-alerts">Log Alerts</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types#activity-log-alerts">Activity Log Alerts</a></li>
+</ul>
+<h3 id="analyse-azure-infrastructure"><a href="https://learn.microsoft.com/en-us/training/modules/analyze-infrastructure-with-azure-monitor-logs/">Analyse Azure Infrastructure</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/log-query/get-started-queries">Log Query Starters</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/log-query/log-query-performance">Optimise Log Queries</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/visualize/tutorial-logs-dashboards">Create Dashboards</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/best-practices-analysis">Analysis Best Practice</a></li>
+</ul>
+<h3 id="monitor-vm-performance"><a href="https://learn.microsoft.com/en-us/training/modules/monitor-performance-using-azure-monitor-for-vms/">Monitor VM Performance</a></h3>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor">Azure Monitor Documentation</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/agents/azure-monitor-agent-overview">Azure Monitor Agents</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>
