@@ -29,7 +29,6 @@ nav:
     - 'Databases':
       - 'PostgreSQL': 'azure/db/postgresql.md'
       - 'CosmosDB': 'azure/db/cosmosdb.md'
-    - 'Machine Learning': 'azure/aml.md'
   - 'Devops':
     - 'Overview': 'devops/devops.md'
     - 'Git Client': 'devops/git_commands.md'
@@ -62,4 +61,12 @@ nav:
       - 'Visualisation': 'python/pandas/data_visualisation.md'
       - 'Statistics 101': 'python/pandas/statistics_101.md'
     - 'Jupyter': 'python/jupyter.md'
+  - 'Machine Learning': 
+    - 'Machine Learning': 'ml/aml.md'
+    - 'Large Language Models': 
+      - 'Intro': 'ml/llm/intro.md'
+      - 'Transformers': 'ml/llm/transformers.md'
+      - 'GPT': 'ml/llm/gpt.md'
+      - 'LangChain': 'ml/llm/langchain.md'
+
 

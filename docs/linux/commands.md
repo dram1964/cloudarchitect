@@ -59,6 +59,15 @@ This will show:
 
 You can also use `ip link show` to check the state of your interfaces.
 
+If you want to find your public IP address, one of the following should work: 
+
+```bash
+curl -4 ifconfig.me
+curl icanhazip.com
+curl https://ipinfo.io/ip
+curl ipecho.net
+```
+
 Use the *route* command to show the routing table on a computer:
 ```bash
 route
