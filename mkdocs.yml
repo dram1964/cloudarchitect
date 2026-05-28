@@ -49,6 +49,7 @@ nav:
     - 'Bash Scripting': 'linux/bash_scripting.md'
     - 'Awk': 'linux/awk.md'
     - 'Performance': 'linux/performance.md'
+    - 'Backups': 'linux/backups.md'
   - 'Databricks':
     - 'Overview': 'databricks/overview.md'
     - 'Databbricks Lakehouse Fundamentals': 'databricks/fundamentals.md'
