@@ -55,6 +55,7 @@ nav:
     - 'Databbricks Lakehouse Fundamentals': 'databricks/fundamentals.md'
   - 'Python': 
     - 'venv': 'python/venv.md'
+    - 'uv': 'python/uv.md'
     - 'Pandas': 
       - 'DataFrame Basics': 'python/pandas/data_frame_basics.md'
       - 'Data Wrangling': 'python/pandas/data_wrangling.md'
@@ -69,5 +70,6 @@ nav:
       - 'Transformers': 'ml/llm/transformers.md'
       - 'GPT': 'ml/llm/gpt.md'
       - 'LangChain': 'ml/llm/langchain.md'
+      - 'Ollama': 'ml/llm/readme.md'
 
 
