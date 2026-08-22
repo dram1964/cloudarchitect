@@ -57,5 +57,31 @@ The `uv init my-project` creates a `src` directory for application or
 library style projects (using `uv init --lib my-project`). To keep the 
 project layout flat use: `uv init --no-package my-project`. 
 
+## Migrate an Existing pip project to uv
+
+First generate a `requirements.txt` from the existing project: 
+
+```bash
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip freeze > requirements.txt
+deactivate
+```
+
+Initialise the project with uv and re-create the virtual environment: 
+
+```bash
+uv init --no-readme
+rm -rf .venv
+uv venv
+```
+
+Add your dependancies to to uv: 
+
+```bash
+uv add -r requirements.txt
+```
+
+Once complete, uv will manage the project dependancies using `pyproject.toml`
+and `uv.lock`, so the original `requirements.txt` can be safely deleted. 
 
 [Continue Here](https://pydevtools.com/handbook/explanation/uv-complete-guide/#creating-and-managing-projects)
