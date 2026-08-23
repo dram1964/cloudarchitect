@@ -57,7 +57,7 @@ The `uv init my-project` creates a `src` directory for application or
 library style projects (using `uv init --lib my-project`). To keep the 
 project layout flat use: `uv init --no-package my-project`. 
 
-## Migrate an Existing pip project to uv
+## Migrate an Existing venv project to uv
 
 First generate a `requirements.txt` from the existing project: 
 
