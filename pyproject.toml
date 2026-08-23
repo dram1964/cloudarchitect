@@ -40,9 +40,6 @@ dependencies = [
     "watchdog==4.0.1",
 ]
 
-[project.scripts]
-cloudarchitect = "cloudarchitect:main"
-
 [build-system]
 requires = ["uv_build>=0.12.4,<0.13.0"]
 build-backend = "uv_build"

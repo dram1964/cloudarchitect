@@ -114,4 +114,3 @@ Launch Jupyter:
 uv run jupyter lab
 ```
 
-[Continue Here](https://pydevtools.com/handbook/explanation/uv-complete-guide/#creating-and-managing-projects)

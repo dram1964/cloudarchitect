@@ -16,6 +16,43 @@ OpenAI provide an API to interact with these models
 [OpenAI Playground](https://platform.openai.com/playground) to test out different models and
 settings. 
 
+## Using OpenAI Models
+
+To interact with the models available on OpenAI with python use the openai module: 
+
+```python
+import os
+import dotenv
+import openai
+
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
+
+model = 'gpt-5.6-sol'
+
+system_prompt="""
+# Instructions for the model go here
+"""
+
+user_prompt="""
+# Questions from the user go here
+"""
+
+messages = [
+    {"role": system, "content": system_prompt},
+    {"role": user, "content": user_prompt},
+]
+
+response = openai.chat.completions.create(
+    model = model
+    messages = messages
+
+print(response.choices[0].message.content
+```
+
+Message content can be constructed using functions, e.g. to scrape a website or read a document. 
+
+
 ## Using OpenAI API for Text Completion
 
 Get an API key from https://platform.openai.com. Create and account and then 'view api keys'.
