@@ -70,10 +70,17 @@ deactivate
 Initialise the project with uv and re-create the virtual environment: 
 
 ```bash
-uv init --no-readme
+uv init --bare
 rm -rf .venv
 uv venv
 ```
+
+> [!NOTE]
+> The `uv init` command by default creates an **application** project 
+> layout, with a `src` directory. Use the `--bare` option to just add
+> a `pyproject.toml` file to your project. The `--no-package` option 
+> can also be used to create a flat project structure with both a 
+> `pyproject.toml` and a `main.py`. 
 
 Add your dependancies to to uv: 
 
