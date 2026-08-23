@@ -1,7 +1,7 @@
 [project]
 name = "cloudarchitect"
 version = "0.1.0"
-description = "Add your description here"
+description = "A collection of documents around technologies useful for development of solutions in the cloud"
 authors = [
     { name = "David Ramlakhan", email = "dram1964@gmail.com" }
 ]
