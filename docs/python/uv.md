@@ -75,7 +75,7 @@ rm -rf .venv
 uv venv
 ```
 
-> [!NOTE]
+> [!TIP]
 > The `uv init` command by default creates an **application** project 
 > layout, with a `src` directory. Use the `--bare` option to just add
 > a `pyproject.toml` file to your project. The `--no-package` option 
@@ -90,5 +90,29 @@ uv add -r requirements.txt
 
 Once complete, uv will manage the project dependancies using `pyproject.toml`
 and `uv.lock`, so the original `requirements.txt` can be safely deleted. 
+
+## Run Jupyter with uv
+
+From [How to run a Jupyter Notebook with uv](https://pydevtools.com/handbook/how-to/jupyter-notebook-with-uv/)
+
+Setup the environment: 
+
+```bash
+# Create a new project directory
+mkdir jupyter-project
+cd jupyter-project
+
+# Initialize a project
+uv init --bare
+
+# Add Jupyter and other dependencies
+uv add --dev jupyter matplotlib pandas numpy
+```
+
+Launch Jupyter: 
+
+```bash
+uv run jupyter lab
+```
 
 [Continue Here](https://pydevtools.com/handbook/explanation/uv-complete-guide/#creating-and-managing-projects)
