@@ -34,4 +34,10 @@ Instructions to [configure ollama as a system service](https://docs.ollama.com/l
 
 ## Glossary
 
-Frontier Model: current, state-of-the-art Model.
+Frontier Model: current, state-of-the-art Models create by large companies. 
+Tend to be closed-source. 
+Open-Source Model: really open-weight model, because the weights are publicly
+exposed, but the training data and methodologies are not. 
+GPT : Generative Pre-Trained Transformer
+Distillation: using one LLM to create data for training another smaller LLM
+Inference: sending inputs to a model and getting outputs

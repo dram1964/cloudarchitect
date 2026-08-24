@@ -1,6 +1,7 @@
 # ChatGPT
 
-GPT - Generative Pre-Trained Transformer
+Published by OpenAI. 
+
 
 - GPT-1. Released 2018, 117 million parameters, 40GB of training text from internet
 - GPT-2. Released 2019, 1.5 billion parameters
@@ -51,6 +52,81 @@ print(response.choices[0].message.content
 ```
 
 Message content can be constructed using functions, e.g. to scrape a website or read a document. 
+
+The openai Python library is a light-weight wrapper to generate the http
+POST requests to the API endpoint: 
+
+```python
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+api_key = os.getenv('OPENAI_API_KEY')
+
+headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+payload = {
+    "model": "gpt-5-nano",
+    "messages": [
+        {"role": "user", 
+        "content": "Tell me a fun fact"}
+    ]
+}
+
+response = requests.post(
+    "https://api.openai.com/v1/chat/completions",
+    headers=headers,
+    json=payload
+)
+
+response.json()["choices"][0]["message"]["content"]
+```
+
+OpenAI Chat Completions API is now the *de facto standard* API and is used
+with models from other vendors who provide an OpenAI-compatible API. 
+
+Although the openai client, was developed by OpenAI, because other vendors
+adopted this standard, the openai client now accepts a Endpoint URL and 
+api_key from other vendors: 
+
+```python
+GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+load_dotenv(override=True)
+google_api_key = os.getenv("GOOGLE_API_KEY")
+
+gemini = OpenAI(base_url=GEMINI_BASE_URL, api_key=google_api_key)
+
+response = gemini.chat.completions.create(
+    model="gemini-3.1-flash-lite", 
+    messages=[
+        { "role": "user", 
+        "content": "Tell me a fun fact" 
+        }
+    ]
+)
+
+response.choices[0].message.content
+```
+
+And you can use the same method to connect to Ollama running locally on 
+your device: 
+
+```python
+OLLAMA_BASE_URL = "http://localhost:11434/v1"
+ollama = OpenAI(base_url=OLLAMA_BASE_URL, api_key='ollama')
+
+response = ollama.chat.completions.create(
+    model="llama3.2", 
+    messages=[
+        {"role": "user", 
+        "content": "Tell me a fun fact"
+        }
+    ]
+)
+
+response.choices[0].message.content
+```
 
 
 ## Using OpenAI API for Text Completion
