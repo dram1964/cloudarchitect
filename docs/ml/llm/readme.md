@@ -41,3 +41,4 @@ exposed, but the training data and methodologies are not.
 GPT : Generative Pre-Trained Transformer
 Distillation: using one LLM to create data for training another smaller LLM
 Inference: sending inputs to a model and getting outputs
+Agentic AI: works like a digital assistant to perform tasks. 

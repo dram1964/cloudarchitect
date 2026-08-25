@@ -9,6 +9,8 @@ Published by OpenAI.
 - GPT-3.5. Released 2022. Three variants 1.3B, 6B and 175B parameters. Designed to elimate 
     toxic outputs using reinforcement learning with human feedback (RLHF).  
 - GPT-4. Released 2023, 1 trillion parameters
+- GPT-5. Released 2025. The first reasoninig model. Because of the overhead
+of 'reasoning', GPT-4 can often out-perform GPT-5 in chat-based scenarios. 
 
 Optimised for conversational interactions. 
 

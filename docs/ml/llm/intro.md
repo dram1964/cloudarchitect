@@ -22,7 +22,7 @@ specific tasks by using domain-specific datasets.
 ## Frontier Models
 
 1. GPT - OpenAI
-2. Claude - Anthropic
+2. Claude - Anthropic. Comes in three sizes from smaller to larger: Haiku, Sonnet and Opus.
 3. Gemini - Google (closed-source version of Gemma)
 4. Grok - x.ai
 
@@ -35,6 +35,27 @@ specific tasks by using domain-specific datasets.
 5. Phi - Microsoft
 6. Deepseek - Deepseek AI
 7. GPT-OSS - OpenAI
+
+## Types of Model
+
+Three main types of models: 
+
+1. Base: takes a sequence of inputs and predicts what will come next (e.g. predictive text). 
+2. Chat (Instruct): works with prompts, to provide outputs. Derived from base models by training it with questions and answers, so that eventually it would predict an answer. 
+3. Reasoning: derived from Chat models by instructing the model to 'think step-by-step' and training it with reasoning steps. 
+
+A fourth type is 'Hybrid' models, which vary the balance between 'reasoning' 
+and 'chat' mode, depending on the question. The amount of reasoning can also
+be changed by 'budget forcing', which involves inserting the word 'wait' into 
+a reasoning sequence, and this makes the model think more because it prompts 
+the model to think: 'Wait, have I thought this through properly'. 
+
+Chat models, have less 'reasoning' overhead and therefore tend to respond 
+faster and therefore are better for interactive use cases. They also 
+appear to be better at producing creative content: perhaps because they
+apply less reasoning. 
+
+Base models are best for re-training with a new skill. 
 
 ## Neural Networks
 
