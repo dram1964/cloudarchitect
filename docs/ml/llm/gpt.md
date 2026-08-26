@@ -1,7 +1,6 @@
 # ChatGPT
 
-Published by OpenAI. 
-
+GPT stands for 'Generative Pre-Trained Transformer'. ChatGPT Published by OpenAI: 
 
 - GPT-1. Released 2018, 117 million parameters, 40GB of training text from internet
 - GPT-2. Released 2019, 1.5 billion parameters
@@ -21,7 +20,8 @@ settings.
 
 ## Using OpenAI Models
 
-To interact with the models available on OpenAI with python use the openai module: 
+To interact with the models available on OpenAI with Python use the `openai` 
+module: 
 
 ```python
 import os
@@ -55,8 +55,10 @@ print(response.choices[0].message.content
 
 Message content can be constructed using functions, e.g. to scrape a website or read a document. 
 
-The openai Python library is a light-weight wrapper to generate the http
-POST requests to the API endpoint: 
+## OpenAI API
+
+The `openai` Python library is a light-weight wrapper to generate the http
+POST requests to the OpenAI API endpoint: 
 
 ```python
 import requests
@@ -85,12 +87,12 @@ response = requests.post(
 response.json()["choices"][0]["message"]["content"]
 ```
 
-OpenAI Chat Completions API is now the *de facto standard* API and is used
-with models from other vendors who provide an OpenAI-compatible API. 
+OpenAI Chat Completions API is now the *de facto standard* API and was adopted
+by other vendors to provide an OpenAI-compatible API. 
 
-Although the openai client, was developed by OpenAI, because other vendors
-adopted this standard, the openai client now accepts a Endpoint URL and 
-api_key from other vendors: 
+Because other vendors adopted this API standard, OpenAI developed the 
+`openai` library to accept an Endpoint URL and api_key parameter to 
+allow usage on compatible APIs from other vendors: 
 
 ```python
 GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
@@ -129,7 +131,6 @@ response = ollama.chat.completions.create(
 
 response.choices[0].message.content
 ```
-
 
 ## Using OpenAI API for Text Completion
 

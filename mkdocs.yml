@@ -65,7 +65,6 @@ nav:
     - 'Machine Learning': 'ml/aml.md'
     - 'Large Language Models': 
       - 'Intro': 'ml/llm/intro.md'
-      - 'Transformers': 'ml/llm/transformers.md'
       - 'GPT': 'ml/llm/gpt.md'
       - 'LangChain': 'ml/llm/langchain.md'
       - 'Ollama': 'ml/llm/readme.md'
