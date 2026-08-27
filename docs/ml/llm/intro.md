@@ -20,6 +20,12 @@ the next sequence of words, 'wait' makes the model think something like:
 'Wait, have I thought this through properly' and thus generate additional
 reasoning steps. 
 
+Chat models still work by predicting the next word: then the new output is
+fed back to the model to predicting the next word, and so on until it produces
+the final answer. Emergent intelligence is really just a by-product of 
+next token prediction: the models are so good at predicting the next token
+that they can solve problems at PhD level. 
+
 Chat models, have less 'reasoning' overhead and therefore tend to respond 
 faster and are better for interactive use cases. They also 
 appear to be better at producing creative content: perhaps because they
@@ -28,12 +34,12 @@ apply less reasoning.
 Base models are best for re-training with a new skill. 
 
 LLMs are large - their size is measured by the number of parameters 
-it has. In traditional data science models, parameters
-are all the data that is used to train the model. Traditional models 
-use this data to compare to a new dataset and predict an output 
-for the new dataset based on the training data it has. 
-For LLMs, parameters act like 
+it has. For LLMs, parameters act like 
 instructions and rules that tell the model how to perform a task. 
+The more parameters a model has, the more data it can be fed during training:
+this is ofter referred to as training-time scaling. Inference-time scaling
+refers to techniques used during inference to improve the performance of 
+the model, such as response-augmented generation (RAG). 
 
 LLMs are general purpose - they are pre-trained on a wide variety of text data 
 rather than a specific topic. We can then fine-tune the model to perform 
@@ -67,7 +73,11 @@ to mimic the functioning of the human brain.
 The network structure
 consists of nodes (neurons) that each implement a mathematical operation 
 or model on its input to produce an output. In effect, the neural network
-is a network of smaller models working together to produce an output. 
+is a network of smaller models working together to produce an output. The
+outputs from each neuron can be distorted by a 'non-linearity' or 'activation'
+function to ensure that they are each making a unique contribution to the 
+overall result. These results are then blended through several layers, to 
+produce the final output. 
 
 Transformers are type of neural network, originally developed
 by Google Research: see research paper 'Attention is all you need' published
@@ -101,9 +111,13 @@ Responsible for creating a contextualised representation of the input.
 The first step is to create the input embeddings (numerical representation of the 
 input tokens): 
 
-1. Break down the input into tokens (using a tokenisation strategy) 
+1. Break down the input into tokens (using a tokenisation strategy). 
+See https://platform.openai.com/tokeniser for a working example. Typically, 
+for English language inputs, a token is about 4-characters or 0.75 words. So 750 tokens would become 1000 tokens. Numbers are broken-down into 3-digit sections, with a corresponding token for each 3-digit combination.
+    - See [Tokenising](#tokenising) for an example in Python.  
 2. Create input embeddings 
     - using a pre-defined vocabulary to map tokens to a numeric representation 
+    - The mapping between tokens and the numeric representation is referred to as the encoders vocabulary. 
 3. Retrieve the Embedding Model
     - maps the tokens to a vector representation
     - vectors encode semantic and syntactic information for each token 
@@ -178,17 +192,50 @@ Embeddings are created from the desired output that we want the model to learn u
     - can pay attention to the most important words in the text to retain context
     - Transformer architecture is key to the operation of LLMs. 
 
-## Use Cases
+## The Illusion of Memory
 
-- Content Creation
-- Translation
-- Answering questions
-- Chatbots
-- Sentiment Analysis
-- Summarisation
-- Content Recommendations
-- Generating Code
-- Medical Diagnosis
-- Legal Document Review
-- Personalised Marketing
+When using an API to interact with a LLM, each call is stateless: it has no
+relation to previous calls that were made. However, you can inform the LLM of
+previous responses using an `assistant` role in your message, to represent 
+a previous response from the LLM: 
+
+```python
+messages = [
+    {'role': 'system', 'content': 'You are a helpful assistant'},
+    {'role': 'user', 'content': 'Hi, my name is David'},
+    {'role': 'assistant', 'content': 'Hi, David. How can I help you today?'},
+    {'role': 'user', 'content': 'What is my name?'},
+]
+```
+
+This is how the on-line models create the 'illusion of memory' - each question 
+you send the model in a conversation is pre-pended to any subsequent questions. 
+As the conversation develops, each question in a conversation is charged for 
+tokens in the current question, plus the tokens from the previous questions:
+the 'illusion of memory' comes with a cost. 
+
+## Tokenising
+
+Tokenising involves mapping chunks of input data to numeric codes representing
+each chunk. Different models have different 'vocabularies' or encodings for 
+these chunks. You can run the tokenising process in Python using the 
+`tiktoken` module: 
+
+```python
+import tiktoken
+
+encoding = tiktoken.encoding_for_model("gpt-4.1-mini")
+tokens = encoding.encode("Henry VIII had six wives")
+
+tokens
+```
+You can also use `tiktoken` to decode the tokens: 
+
+```python
+for token_id in tokens:
+    token_text = encoding.decode([token_id])
+    print(f"[{token_id}] = [{token_text}]")
+```
+
+Notice how whole words after the first word, have a leading space character. 
 

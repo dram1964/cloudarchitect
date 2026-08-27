@@ -9,9 +9,17 @@ are four main components to the learning process:
 - Optimiser: used to improve the performance of the model
 
 Models consist of logic and parameters that are used to transform the 
-input into an estimate. Models are chosen based on their logic 
-rather than the parameter values. Parameters are discovered during 
-the training process. Training is achieved using a cost (objective)
+input into an estimate. Models are chosen based on their logic rather than the parameter values. 
+
+In traditional data science models,  a model is trained on data. 
+The model is given an hypothesis (logic) of 
+how to produce an output based on input data. 
+Parameters are the weights given to each factor in the hypothesis used to 
+determine the output. Training is the process of adjusting the parameters
+to produce the best match for the training data: parameters are discovered 
+during the training process. 
+
+Training is achieved using a cost (objective)
 function and an optimiser function. The cost function is used
 to calculate how well a model performed. The optimiser function is
 used to change the models parameters to improve the cost performance. 
@@ -25,6 +33,10 @@ the optimiser can settle for a local minimal cost. If the step-size is
 too large, the minimal cost can be missed entirely. Finding the optimal 
 step-size requires experimentation. 
 
+Once a Model has been trained, it can be saved and deployed. Inference 
+is the process of running the trained model against data 
+that it hasn't seen to produce outputs.
+
 Machine Learning training can be either supervised or unsupervised. 
 Supervised learning assesses a model's performance by comparing its 
 estimates to the correct answer (labels). Unsupervised training only uses 
@@ -32,7 +44,6 @@ features. Because unsupervised training does not have access to
 expected output, it is often used in circumstances where no single 
 correct answer exists. 
 
-Once a Model has been trained, it can be saved and deployed. 
 
 Model training is dependant on the data used in training. Ideally, this 
 should be representative, free from errors and missing data points. A 
