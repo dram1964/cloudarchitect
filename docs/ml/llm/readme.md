@@ -54,3 +54,5 @@ produce better responses
 - Context Engineering: as prompt engineering skills become more widespread, 
 context engineering became the next key-skill for optimising LLMs. Involves
 providing the correct domain-specific tokens for optimising responses. 
+- Context Window: the maximum number of tokens an LLM can consider when generating the next token
+- Multi-shot prompting: where you provide multiple inputs including example prompts and responses

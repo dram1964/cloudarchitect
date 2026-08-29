@@ -132,6 +132,55 @@ response = ollama.chat.completions.create(
 response.choices[0].message.content
 ```
 
+## Streaming the Response
+
+You can also stream the response from `openai`: 
+
+```python
+# imports
+import os
+from dotenv import load_dotenv
+import openai
+from IPython.display import Markdown, display, update_display
+
+# set up environment
+load_dotenv(override=True)
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+# set up prompts
+question = """
+Please explain what this code does and why:
+yield from {book.get("author") for book in books if book.get("author")}
+"""
+
+system_prompt = """
+You are an expert in all fields related to information technology. 
+You are able to interpret complicated code and provide clear and concise
+analysis in plain English. If the question is about a block of code, 
+provide one or more worked examples of how you would use this code. 
+"""
+
+# add streaming function
+def stream_response(system_prompt, user_prompt):
+    stream = openai.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+          ],
+        stream=True
+    )    
+    response = ""
+    display_handle = display(Markdown(""), display_id=True)
+    for chunk in stream:
+        response += chunk.choices[0].delta.content or ''
+        update_display(Markdown(response), display_id=display_handle.display_id)
+
+# stream response
+stream_response(system_prompt, question)
+
+```
+
 ## Using OpenAI API for Text Completion
 
 Get an API key from https://platform.openai.com. Create and account and then 'view api keys'.
