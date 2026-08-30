@@ -181,6 +181,56 @@ stream_response(system_prompt, question)
 
 ```
 
+## Getting a JSON Response
+
+You can prompt the LLM to return JSON: 
+
+```python
+# imports
+...
+import json
+
+system_prompt = """
+You will be provided with a list of Books in CSV format. You should respond
+with a list of book authors and titles in JSON format as in this example:
+
+{
+    "books": [
+        {"author": "Charles Dickens", "title": "A Tale of Two Cities"},
+        {"author": "J.D. Salinger", "title": "Catcher in the Rye"}
+    ]
+}
+"""
+
+def get_csv_rows(file):
+    user_prompt = """
+Here is the list of Books with Authors and Titles included:
+
+"""
+
+    csv_list = """
+# csv data goes here
+"""
+
+    user_prompt += csv_list
+    return user_prompt
+
+def select_book_authors(file):
+    response = openai.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": link_system_prompt},
+            {"role": "user", "content": get_csv_rows(file)}
+        ],
+        response_format={"type": "json_object"}
+    )
+    result = response.choices[0].message.content
+    books = json.loads(result)
+    return result
+
+select_book_authors('./data/books.csv')
+```
+
 ## Using OpenAI API for Text Completion
 
 Get an API key from https://platform.openai.com. Create and account and then 'view api keys'.
