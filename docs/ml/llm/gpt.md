@@ -132,6 +132,82 @@ response = ollama.chat.completions.create(
 response.choices[0].message.content
 ```
 
+## API Keys and Base URLs
+
+API Keys for each platform typically come with an upfront cost-commitment. 
+You can sign-up for the various plaforms using the URLs below: 
+
+1. OpenAI at https://openai.com/api/  
+2. Anthropic at https://console.anthropic.com/  
+3. Google at https://aistudio.google.com/   
+4. DeepSeek at  https://platform.deepseek.com/  
+5. Groq at https://console.groq.com/  
+6. Grok at https://console.x.ai/  
+
+OpenRouter is an alternative, unified interface to other providers models at
+https://openrouter.ai/. 
+
+Setup clients for each API by specifying the API Key to use and the Base URL 
+for each platform: 
+
+```python
+openai = OpenAI()
+
+anthropic_url = "https://api.anthropic.com/v1/"
+gemini_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
+deepseek_url = "https://api.deepseek.com"
+groq_url = "https://api.groq.com/openai/v1"
+grok_url = "https://api.x.ai/v1"
+openrouter_url = "https://openrouter.ai/api/v1"
+ollama_url = "http://localhost:11434/v1"
+
+anthropic = OpenAI(api_key=anthropic_api_key, base_url=anthropic_url)
+gemini = OpenAI(api_key=google_api_key, base_url=gemini_url)
+deepseek = OpenAI(api_key=deepseek_api_key, base_url=deepseek_url)
+groq = OpenAI(api_key=groq_api_key, base_url=groq_url)
+grok = OpenAI(api_key=grok_api_key, base_url=grok_url)
+openrouter = OpenAI(base_url=openrouter_url, api_key=openrouter_api_key)
+ollama = OpenAI(base_url=ollama_url, api_key="ollama")
+```
+
+## Platform Specific APIs
+
+Although, most platforms provide OpenAI-compatible APIs, they still 
+retain their vendor specific APIs. These are documented on their platform
+pages. 
+
+To use the anthropic API, try: 
+
+```python
+import anthropic
+
+# uses ANTHROPIC_API_KEY or credentials from `ant auth login`
+client = anthropic.Anthropic()
+
+with client.messages.stream(
+    model="claude-sonnet-5",
+    max_tokens=20000,
+    messages=[],
+) as stream:
+    for text in stream.text_stream:
+        print(text, end="", flush=True)
+```
+
+For Gemini, try: 
+
+```python
+from google import genai
+
+# Uses GEMINI_API_KEY
+client = genai.Client()
+
+interaction = client.interactions.create(
+    model="gemini-3.7-flash",
+    input="Explain how AI works in a few words"
+)
+print(interaction.output_text)
+```
+
 ## Streaming the Response
 
 You can also stream the response from `openai`: 
