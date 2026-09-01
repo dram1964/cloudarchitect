@@ -39,7 +39,19 @@ instructions and rules that tell the model how to perform a task.
 The more parameters a model has, the more data it can be fed during training:
 this is ofter referred to as training-time scaling. Inference-time scaling
 refers to techniques used during inference to improve the performance of 
-the model, such as response-augmented generation (RAG). 
+the model, such as response-augmented generation (RAG). Options provided
+to the chat completion call can also be used, such as `reasoning_effort`:
+
+```python
+response = openai.chat.completions.create(
+    model="gpt-5-nano", 
+    messages=user_prompt, 
+    reasoning_effort="minimal"
+)
+```
+
+Setting the `reasoning_effort` to minimal, will make a reasoning model 
+behave more like a chat model. 
 
 LLMs are general purpose - they are pre-trained on a wide variety of text data 
 rather than a specific topic. We can then fine-tune the model to perform 

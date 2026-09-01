@@ -27,3 +27,17 @@ for author in get_unique_authors(books):
 The generator uses a set comprehension to return unique values from the 
 book object. The set is not saved into a variable, but each value is accessed
 one by one in the `for` loop.
+
+## Zip Iterator
+
+Zip can be used to iterate over corresponding values from two or more lists 
+to avoid indexing issues:
+
+```python
+authors = ['Charles Dickens', 'J.D. Salinger', 'Ernest Hemmingway']
+books = ['A Tale of Two Cities', 'Catcher in the Rye', 'The Grapes of Wrath']
+years = ['1859', '1940', '1938']
+
+for author, book, year in zip(authors, books, years):
+    print(f"{author} wrote '{book}' in {year}")
+```

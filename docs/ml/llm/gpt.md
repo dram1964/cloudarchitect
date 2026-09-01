@@ -208,6 +208,57 @@ interaction = client.interactions.create(
 print(interaction.output_text)
 ```
 
+## LangChain and LiteLLM
+
+Both LangChain and LiteLLM can be used to make API calls. For LangChain try:
+
+```python
+import os
+from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+from IPython.display import Markdown, display
+
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
+
+
+llm = ChatOpenAI(model="gpt-5-mini")
+
+prompt = [{
+    'role': 'user', 'content': 'Explain how AI works in a few words'
+}]
+
+response = llm.invoke(prompt)
+
+display(Markdown(response.content))
+```
+
+For LiteLLM try: 
+
+```python
+from litellm import completion
+from IPython.display import Markdown, display
+
+prompt = [{
+    'role': 'user', 'content': 'Explain how Machine Learning works'
+}]
+
+# uses OPENAI_API_KEY in the environment
+response = completion(model="openai/gpt-4.1", messages=prompt)
+reply = response.choices[0].message.content
+display(Markdown(reply))
+```
+
+LiteLLM also provides access to data about Token usage and Costs for each
+call: 
+
+```python
+print(f"Input tokens: {response.usage.prompt_tokens}")
+print(f"Output tokens: {response.usage.completion_tokens}")
+print(f"Total tokens: {response.usage.total_tokens}")
+print(f"Total cost: {response._hidden_params["response_cost"]*100:.4f} cents")
+```
+
 ## Streaming the Response
 
 You can also stream the response from `openai`: 
