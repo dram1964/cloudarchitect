@@ -56,3 +56,4 @@ context engineering became the next key-skill for optimising LLMs. Involves
 providing the correct domain-specific tokens for optimising responses. 
 - Context Window: the maximum number of tokens an LLM can consider when generating the next token
 - Multi-shot prompting: where you provide multiple inputs including example prompts and responses
+- Prompt Caching: can be used to reduce spend by caching some of the prompt tokens
