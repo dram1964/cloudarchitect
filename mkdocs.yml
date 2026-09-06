@@ -69,5 +69,6 @@ nav:
       - 'GPT': 'ml/llm/gpt.md'
       - 'LangChain': 'ml/llm/langchain.md'
       - 'Ollama': 'ml/llm/readme.md'
+      - 'Tools': 'ml/llm/tools.md'
 
 

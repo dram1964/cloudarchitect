@@ -51,6 +51,7 @@ how it will complete the task and generates its own plan.
 producing plausible answers, but also accurate answers. 
 - Prompt Engineering: the skill to know how to best provide prompts to LLMs to 
 produce better responses
+    - 'If you don't know the answer, say so.' Used to avoid hallucinations. 
 - Context Engineering: as prompt engineering skills become more widespread, 
 context engineering became the next key-skill for optimising LLMs. Involves
 providing the correct domain-specific tokens for optimising responses. 
