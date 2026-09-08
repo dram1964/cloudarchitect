@@ -73,6 +73,14 @@ gr.Interface(
 ).launch(inbrowser=True)
 ```
 
+Gradio basically does three things: 
+
+1. Creates a frontend app
+2. Starts a Web Server
+3. Creates backend routes mapped to our callback functions, which are triggered by the 'submit' button
+
+Gradio is useful for creating a user-interface quickly for demonstation purposes. 
+
 Gradio also comes with a `ChatInterface` which expects a `chat function`. The
 chat function should take two inputs: message and history. The message is the
 current prompt, and history is a list of openai-style dictionaries with 

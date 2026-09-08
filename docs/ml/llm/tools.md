@@ -42,23 +42,25 @@ Setup the system message using the phrase 'If you don't know the answer, then sa
 
 ```python
 system_message = """
-You are a helpful assistant for an Airline called FlightAI.
-Give short, courteous answers, no more than 1 sentence.
+You are a helpful assistant for an Car Parts Dealership called AIAutoParts.
+Give short, courteous answers. Encourage customers to sign-up for an 
+AIAutoParts Loyalty Card, by informing them that there's is a 20% discount 
+for Loyalty Card holders on any products bought today. 
 Always be accurate. If you don't know the answer, say so.
 """
 ```
 
-Now create a function that will act as the tool to lookup ticket prices: 
+Now create a function that will act as the tool to lookup car-part prices: 
 
 ```python
-# A ticket price tool
+# A car part price tool
 
-ticket_prices = {"london": "$799", "paris": "$899", "tokyo": "$1400", "berlin": "$499"}
+car_part_prices = {"big end": "£99.99", "gasket": "£240.99", "tyres": "£14.00", "steering wheel": "£49.97"}
 
-def get_ticket_price(destination_city):
-    print(f"Tool called for city {destination_city}")
-    price = ticket_prices.get(destination_city.lower(), "Unknown ticket price")
-    return f"The price of a ticket to {destination_city} is {price}"
+def get_part_price(part):
+    print(f"Tool called for part: {part}")
+    price = car_part_prices.get(part.lower(), "Unknown Part")
+    return f"The price of a new {part} is {price}"
 
 ```
 
@@ -69,43 +71,42 @@ then add this to a list object to be used in the `chat.completions` call:
 # Use JSON to define the tool
 
 price_function = {
-    "name": "get_ticket_price",
-    "description": "Get the price of a return ticket to the destination city.",
+    "name": "get_part_price",
+    "description": "Get the price of a Car Part",
     "parameters": {
         "type": "object",
         "properties": {
-            "destination_city": {
+            "part": {
                 "type": "string",
-                "description": "The city that the customer wants to travel to",
+                "description": "The Car Part that the customer wants to buy",
             },
         },
-        "required": ["destination_city"],
+        "required": ["part"],
         "additionalProperties": False
     }
 }
 
-# Add to the JSON object to the list of tools
-
-tools = [{"type": "function", "function": price_function}]
-```
+# Add to the tool to the list of tools
+tools = [{"type": "function", "function": price_function}]```
 
 Before calling chat completions, create a function to handle the tool call:
 
 ```python
 # Write a function to handle a tool call from the LLM
 
-def handle_tool_call(message):
-    tool_call = message.tool_calls[0]
-    if tool_call.function.name == "get_ticket_price":
-        arguments = json.loads(tool_call.function.arguments)
-        city = arguments.get('destination_city')
-        price_details = get_ticket_price(city)
-        response = {
-            "role": "tool",
-            "content": price_details,
-            "tool_call_id": tool_call.id
-        }
-    return response
+def handle_tool_calls(message):
+    responses = []
+    for tool_call in message.tool_calls:
+        if tool_call.function.name == "get_part_price":
+            arguments = json.loads(tool_call.function.arguments)
+            part = arguments.get('part')
+            price_details = get_part_price(part)
+            responses.append({
+                "role": "tool",
+                "content": price_details,
+                "tool_call_id": tool_call.id
+            })
+    return responses
 ```
 
 Now create the chat function and include the `tools` option, adding logic 
@@ -116,7 +117,9 @@ to an additional call to the model:
 # Add functionality to the chat.completion to handle the tool call
 
 def chat(message, history):
-    messages = [{"role": "system", "content": system_message}] + history + [{"role": "user", "content": message}]
+    messages = [{"role": "system", "content": system_message}]
+    messages.extend(history)
+    messages.append({"role": "user", "content": message})
     print(f"Debug: {messages}")
     response = openai.chat.completions.create(
         model=MODEL, 
@@ -124,11 +127,11 @@ def chat(message, history):
         tools=tools
     )
 
-    if response.choices[0].finish_reason=="tool_calls":
+    while response.choices[0].finish_reason=="tool_calls":
         message = response.choices[0].message
-        response = handle_tool_call(message)
+        responses = handle_tool_calls(message)
         messages.append(message)
-        messages.append(response)
+        messages.extend(responses)
         response = openai.chat.completions.create(model=MODEL, messages=messages)
     
     return response.choices[0].message.content
@@ -139,3 +142,7 @@ Test the tool call in Gradio:
 ```python
 gr.ChatInterface(fn=chat).launch(inbrowser=True)
 ```
+
+You can add additional tools to place an order, or to sign-up for a Loyalty Card, or check for an existing loyalty card 
+member. The tool functions can be configured to use a back-end database to retrieve prices, loyalty members or other
+details. 

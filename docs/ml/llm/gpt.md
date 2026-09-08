@@ -358,6 +358,107 @@ def select_book_authors(file):
 select_book_authors('./data/books.csv')
 ```
 
+## Image Generation
+
+You can use `openai.images.generate` to create a new image:
+
+```python
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+import base64
+from io import BytesIO
+from PIL import Image
+
+load_dotenv(override=True)
+openai_api_key = os.getenv('OPENAI_API_KEY') 
+openai = OpenAI()
+
+MODEL = "gpt-image-1-mini"
+
+def artist(prompt):
+    image_response = openai.images.generate(
+            model=MODEL,
+            prompt=prompt,
+            size="1024x768",
+            n=1,
+        )
+    image_base64 = image_response.data[0].b64_json
+    image_data = base64.b64decode(image_base64)
+    return Image.open(BytesIO(image_data))
+
+artist_prompt="An image representing Christmas 2026, showing typical symbols of Christmas in the style of Edvard Munch"
+filename="munch_christmas_2026.png"
+
+image = artist(artist_prompt)
+display(image)
+
+image.save(f"./images/{filename}")
+```
+
+You can also use the `openai.images.edit` to create a new image from 
+one or more existing input images: 
+
+```python
+import os
+import base64
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+openai_api_key = os.getenv('OPENAI_API_KEY') 
+client = OpenAI()
+
+prompt = """
+Generate an artistic version of the input image in the style of Gaughin
+"""
+
+result = client.images.edit(
+    model="gpt-image-2",
+    image=[
+        open("input/stratford_tapas.jpg", "rb"),
+    ],
+    prompt=prompt,
+)
+
+image_base64 = result.data[0].b64_json
+image_bytes = base64.b64decode(image_base64)
+
+# Save the image to a file
+with open("output/gaughin_stratford.png", "wb") as f:
+    f.write(image_bytes)
+```
+
+See [Image Generation](https://developers.openai.com/api/docs/guides/image-generation?mask-edit-api=image#overview) for more information on using 
+`chat.images` or `chat.responses` to create or edit images. 
+
+## Using OpenAI for Speech Generation
+
+Use `openai.audio.speech` to generate audio from input text:
+
+
+```python
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv(override=True)
+openai_api_key = os.getenv('OPENAI_API_KEY') 
+
+client = OpenAI()
+speech_file_path = "audio/speech.mp3"
+
+with client.audio.speech.with_streaming_response.create(
+    model="gpt-4o-mini-tts",
+    voice="coral",
+    input="Now is the winter of our discontent made glorious summer by this noble son of York.",
+    instructions="Speak in a cheerful and positive tone.",
+) as response:
+    response.stream_to_file(speech_file_path)
+```
+
+See [Text to Speech](https://developers.openai.com/api/docs/guides/text-to-speech) for more info. 
+
 ## Using OpenAI API for Text Completion
 
 Get an API key from https://platform.openai.com. Create and account and then 'view api keys'.
