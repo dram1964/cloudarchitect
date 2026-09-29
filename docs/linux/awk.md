@@ -44,6 +44,14 @@ Variables can be used without prior declaration:
 
     awk 'length($0) > 82' <filename>    # using default action of {print}
 
+You can combine awk with `gsub` to count the number of times a particular character appears on a given line: 
+
+```bash
+awk 'NR==5 {print gsub(/\|/, "&")}' filename.csv
+```
+
+The above command uses the `NR` built-in variable to target line number 5. `gsub` is the global substitution function in awk, and returns the number of times the substitution ("&" for "|") is made. 
+
 Awk comes with a number of built-in variables:
 
 | Variable | Meaning |
